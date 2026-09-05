@@ -1,0 +1,83 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Profilio redagavimas</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="profile-edit-container">
+    <h2>Draugų nustatymai</h2>
+    {% if user_form.errors %}
+      {% for field, errors in user_form.errors.items %}
+        {% for error in errors %}
+          <p class="error-message">{{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+    {% if time_form.errors %}
+      {% for field, errors in time_form.errors.items %}
+        {% for error in errors %}
+          <p class="error-message">{{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+    <form action="" class="profile-edit-form" method="POST">
+      {% csrf_token %}
+      <div class="form-field-checkbox">
+        <input type="checkbox" name="is_accepting_meetings" id="" value="true" {% if user_form.instance.is_accepting_meetings %}checked{% endif %}>
+        <label for="is_accepting_meetings">Tapti draugu</label>
+        <p class="note">(Galėsite gauti pasiūlymus susitikti ir jūsų profilis taps matomu draugų puslapyje.)</p>
+      </div>
+
+      {% include "components/friend-time-form.html" %}
+
+      <p class="section-descriptor"><strong>Uždarbis</strong></p>
+      <div class="friend-price-per-hour">
+        <div class="form-field-input">
+            <label for="profit_per_hour">Uždarbis val.</label>
+            <input id="profitPerHour" type="number" name="profit_per_hour" step="1" min="5" max="99999" id="" value="{{user_form.instance.profit_per_hour}}">
+            <span class="euro-symbol">€</span>
+            <p class="note">(min. 5 eur)</p>
+        </div>
+        <div class="form-field-input">
+            <label for="revenue_per_hour">Kaina val.</label>
+            <input id="revenuePerHour" type="number" name="revenue_per_hour" step="1" min="0" max="99999" id="" value="0" readonly>
+            <span class="euro-symbol eur-sym-revenue">€</span>
+            <p class="note">(rodoma klientams)</p>
+        </div>
+      </div>
+      <p class="note">UŽDARBIS yra tai kas atitenka jums už valandą. Susitikimo metu, klientas jums sumokės tai kas nurodyta KAINOJE (uždarbis + platformos mokestis). Po sėkmingo susitikimo, gausite platformos mokesčio sąskaitą, kurią įsipareigojate apmokėti.</p>
+
+      <button type="submit" class="save-edit-btn">Išsaugoti pakeitimus</button>
+    </form>
+  </div>
+  {% include "components/footer.html" %}
+
+ <script>
+    const profitInput = document.getElementById('profitPerHour');
+    const revenueInput = document.getElementById('revenuePerHour');
+    let profit = parseInt(profitInput.value, 10);
+    const revenue = Math.ceil(profit * 1.20);
+    revenueInput.value = revenue;
+
+    profitInput.addEventListener('input', () => {
+      let profit = parseInt(profitInput.value, 10);
+
+      if (isNaN(profit)) {
+        revenueInput.value = 0;
+        return;
+      }
+
+      // Calculate and round up
+      const revenue = Math.ceil(profit * 1.20);
+
+      revenueInput.value = revenue;
+    });
+  </script>
+</body>
+{% endblock content %}

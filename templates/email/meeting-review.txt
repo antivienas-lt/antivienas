@@ -1,0 +1,15 @@
+Kaip sekėsi susitikime?
+
+Skirk minutę ir palik atsiliepimą apie savo patirtį.
+
+Ačiū, kad padedi mums kurti saugesnę ir kokybiškesnę bendruomenę. :)
+
+Nuoroda atsiliepimui palikti:
+{{ review_link }}
+
+Jeigu turi klausimų: {{ support_email }}
+
+---
+
+© 2026 antivienas.lt
+Šis laiškas išsiųstas automatiškai. Prašome į jį neatsakyti.

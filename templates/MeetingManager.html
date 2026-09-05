@@ -1,0 +1,24 @@
+{% extends "components/base.html"%}
+{% load static %}
+{% block meta %}
+<title>Susitikimai</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="meeting-manager">
+      <h1>Susitikimai</h1>
+      {% if not meetings %}
+        <p>Šiuo metu neturite aktyvių susitikimų.</p>
+      {% endif %}
+    </div>
+    <div class="meetings-container">
+      {% for meeting in meetings %}
+        {% include "components/meeting-card.html" %}
+      {% endfor %}
+    </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

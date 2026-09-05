@@ -1,0 +1,13 @@
+Vienas iš pasiūlymų susitikti buvo atšauktas automatiškai, nes baigėsi patvirtinimo laikas.
+
+Nieko daryti nereikia.
+
+Peržiūrėti susitikimus:
+{{meeting_manager_link}}
+
+Jeigu turi klausimų: {{support_email}}
+
+---
+
+© 2026 antivienas.lt
+Šis laiškas išsiųstas automatiškai. Prašome į jį neatsakyti.

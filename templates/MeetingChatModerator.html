@@ -1,0 +1,66 @@
+{% extends "components/base.html"%}
+{% load static %}
+{% load dict_extras %}
+{% block meta %}
+<title>Pokalbis</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="chat-container" id="chat-messages">
+      <div class="chat-rules">
+        <div class="message-container">
+          <div class="left-side">
+            <span class="timestamp"></span>
+          </div>
+          <div class="right-side">
+            <div class="msg-author">
+              <img class="msg-avatar" src="{% static 'assets/antivienas-logo.svg' %}" alt="">
+              <p class="username-wrapper"><strong class="username">antivienas.lt</strong></p>
+            </div>
+            <div class="msg-content">
+              <p style="color:gray;">Susipažinkite ir aptarkite susitikimą (turite 200 žinučių limitą).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% for message in chat %}
+      <div class="message-container">
+
+        <div class="left-side">
+          <span class="timestamp">
+            {{ message.timestamp|date:"H:i" }}
+          </span>
+          <span class="timestamp">
+            {{ message.timestamp|date:"d-m" }}
+          </span>
+        </div>
+
+        <div class="right-side">
+          <div class="msg-author">
+            <img class="msg-avatar"
+                src="{{ avatar_map|get_item:message.sender.id }}"
+                alt="">
+
+            <p class="username-wrapper">
+              <strong class="username">
+                {{ message.sender.username }}
+              </strong>
+            </p>
+          </div>
+
+          <div class="msg-content">
+            <p>{{ message.content }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

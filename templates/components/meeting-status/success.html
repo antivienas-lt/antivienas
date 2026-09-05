@@ -1,0 +1,23 @@
+<div class="user-actions">
+  <div class="info-block status-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: lightgreen;">SĖKMINGAS</strong>
+  </div>
+  {% if request.user == meeting.user %}
+    {% if not meeting.review %}
+    <div class="info-block">
+      <p><span>Jūs susitikote su draugų! Po susitikimo, galite jiems palikti anonimišką atsiliepimą. :)</span></p>
+    </div>
+    <div class="action-block">
+      <a href="{% url 'review-meeting' meeting.pk %}" class="btn-link">⭐ Įvertinti</a>
+    </div>
+    {% else %}
+    <div class="info-block">
+      <p><span>Susitikimas įvyko sėkmingai!</span></p>
+    </div>
+    {% endif %}
+  {% else %}
+  <div class="info-block">
+    <p><span>Susitikimas buvo sėkmingai patvirtintas. Ačiū, kad padedate žmonėms kovoti su vienatvę. :)</span></p>
+  </div>
+  {% endif %}
+</div>

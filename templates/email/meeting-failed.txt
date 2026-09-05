@@ -1,0 +1,10 @@
+Neįvyko susitikimas?
+
+Atsiprašome, jeigu susitikimo metu asmuo nepasirodė.
+
+Kadangi nežinome situacijos, papasakok mums kas atsitiko: {{support_email}}
+
+---
+
+© 2026 antivienas.lt
+Šis laiškas buvo išsiųstas automatiškai.

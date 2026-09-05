@@ -1,0 +1,10 @@
+<div class="user-actions">
+  <div class="info-block status-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: gainsboro;">ATŠAUKTAS</strong>
+    {% if request.user == meeting.user %}
+    <p><span>Deja, bet draugas negali susisitikti, todėl atmetė jūsų kvietimą.</span></p>
+    {% else %}
+    <p><span>Jūs atšaukėte susitikimą.</span></p>
+    {% endif %}
+  </div>
+</div>

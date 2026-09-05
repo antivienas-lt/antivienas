@@ -1,0 +1,73 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Samdomi Draugai Lietuvoje</title>
+<meta name="description" content="Samdomi draugai susitikimams Vilniuje, Kaune, Klaipėdoje ir visoje Lietuvoje.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Samdomi Draugai Lietuvoje - antivienas.lt">
+<meta property="og:description" content="Samdomi draugai susitikimams Vilniuje, Kaune, Klaipėdoje ir visoje Lietuvoje.">
+<meta property="og:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<meta property="og:url" content="https://antivienas.lt/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Samdomi Draugai Lietuvoje - antivienas.lt">
+<meta name="twitter:description" content="Samdomi draugai susitikimams Vilniuje, Kaune, Klaipėdoje ir visoje Lietuvoje.">
+<meta name="twitter:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<link rel="canonical" href="https://antivienas.lt/">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+<div class="friend-search-component">
+        {% if friend_count > 0 %}
+        <p class="friend-filter-result">Rodoma draugų: {{ friend_count }}</p>
+      {% endif %}
+      <form action="{% url "index" %}" method="get" class="friend-search-form">
+        <div class="friend-filter-container">
+          <p>Filtruoti:</p>
+          <select name="city" id="cityFilter" class="friend-select-search-field" onchange="this.form.submit()">
+            <option value="">Miestas</option>
+            <option value="" disabled>——————</option>
+            {% for c in cities %}
+              <option value="{{ c.value }}" {% if request.GET.city == c.value %}selected{% endif %}>{{ c.label }}</option>
+            {% endfor %}
+          </select>
+          <select name="gender" id="genderFilter" class="friend-select-search-field" onchange="this.form.submit()">
+            <option value="">Lytis</option>
+            <option value="" disabled>——————</option>
+            {% for c in genders %}
+              <option value="{{ c.value }}" {% if request.GET.gender == c.value %}selected{% endif %}>{{ c.label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </form>
+</div>
+  <div class="content" id="friendList">
+    {% if friends %}
+      {% for friend in friends %}
+        {% include "components/friend-card.html" with friend=friend %}
+      {% endfor %}
+      {% if page_obj.has_other_pages %}
+        <nav class="pagination">
+          {% if page_obj.has_previous %}
+              <a href="?{% if request.GET.city %}city={{ request.GET.city }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}page={{ page_obj.previous_page_number }}">←</a>
+          {% endif %}
+          <p>{{ page_obj.number }}/{{ page_obj.paginator.num_pages }}</p>
+          {% if page_obj.has_next %}
+              <a href="?{% if request.GET.city %}city={{ request.GET.city }}&{% endif %}{% if request.GET.gender %}gender={{ request.GET.gender }}&{% endif %}page={{ page_obj.next_page_number }}">→</a>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+    {% else %}
+    <div class="friends-not-found">
+      <p>Draugų neradome. Jeigu norite anuliuoti paieškos kriterijus, <a class="login-link" href="{% url 'index' %}">spauskite čia</a></p>
+    </div>
+    {% endif %}
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

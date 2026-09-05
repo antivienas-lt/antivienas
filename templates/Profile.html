@@ -1,0 +1,151 @@
+{% extends "components/base.html"%} 
+{% load static %} 
+{% block meta %}
+<title>{{ profile.username }} | antivienas.lt</title>
+<meta name="description" content="{{ profile.about_description|truncatechars:180}}">
+<meta name="robots" content="index, nofollow">
+<meta property="og:title" content="{{ profile.username }} | antivienas.lt">
+<meta property="og:description" content="{{ profile.about_description|truncatechars:180}}">
+<meta property="og:image" content="https://antivienas.lt{{ profile.avatar_url }}">
+<meta property="og:url" content="https://antivienas.lt{% url 'profile' profile.username %}">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ profile.username }} | antivienas.lt">
+<meta name="twitter:description" content="{{ profile.about_description|truncatechars:180}}">
+<meta name="twitter:image" content="https://antivienas.lt{{ profile.avatar_url }}">
+<link rel="canonical" href="https://antivienas.lt{% url 'profile' profile.username %}">
+{% endblock meta %} 
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="profile-card">
+          {% if profile == request.user %}
+          <div class="profile-menu">
+            <button id="avatarMenuButton">⚬⚬⚬</button>
+            <div id="avatarDropdown">
+              <div>
+                <a href="{% url 'edit-profile' %}" class="btn-link">Redaguoti profilį</a>
+              </div>
+              <div>
+                <a href="{% url 'manage-photos' %}" class="btn-link">Įkelti nuotraukas</a>
+              </div>
+              <div>
+                <a href="{% url 'friend-settings' %}" class="btn-link">Draugų nustatymai</a>
+              </div>
+            </div>
+          </div>
+          <script src="{% static 'js/user-profile-dropdown.js' %}"></script>
+          {% endif %}
+      <div class="upper-part">
+        <div class="avatar-part">
+          <img class="user-avatar" src="{{ profile.avatar_url }}" alt="user avatar">
+        </div>
+        <div class="info-part">
+          <span class="quick-fax">{{profile.age|add:"m. "}}
+            {% if profile.gender %}
+              <span>{{ profile.gender|slice:"3"|add:". "}}</span>
+            {% endif %}
+            {{ profile.get_city_display }}</span>
+          <h2 class="full-name">{{profile.username}}</h2>
+          {% if profile.is_accepting_meetings %}
+          <div class="price-part">
+            <p class="price"><strong>{{profile.revenue_per_hour}}</strong></p>
+            <span class="price-fax">€/val.</span>
+          </div>
+          <div class="meetup-btn">
+          <a href="{% url 'new-meeting' profile.username %}">
+            <button type="submit">Susitikti</button>
+          </a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="bottom-part">
+        {% if images %}
+        <div id="modal" class="img-edit-modal">
+          <span class="close">&times;</span>
+          <img class="modal-content" id="modalImage" />
+        </div>
+        <div class="profile-images">
+          {% for pic in images %}
+            <div class="image-shell">
+              <img src="{{ pic.image.url }}" class="miniature-img" alt="">
+            </div>
+          {% endfor %}
+        </div>
+        <script src="{% static 'js/img-view-modal.js' %}"></script>
+        {% endif %}
+        {% if profile.interests %}
+          <div class="likes-part">
+            <p class="likes-fax">Pomėgiai:</p>
+            <div class="likes-list">
+              {% for interest in profile.interests %}
+              <span class="like-item">{{interest}}</span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {% if profile.about_description %}
+        <h3>Apie mane</h3>
+        <p class="description multiline">{{ profile.about_description }}</p>
+        {% endif %}
+
+  {% if profile.is_accepting_meetings %}
+  <div class="meetup-time-description">
+    <h3>Susitikimo laikas</h3>
+    {% if meeting_data %}
+      <div class="profile-meeting-times">
+        <table class="profile-meeting-table">
+          <thead>
+            <tr>
+              <th>Diena</th>
+              <th>Nuo</th>
+              <th>Iki</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in meeting_data %}
+              <tr>
+                <td class="profile-day-label">
+                  {{ item.day }}
+                </td>
+                <td>
+                  {{ item.from|stringformat:"02d" }}:00
+                </td>
+                <td>
+                  {{ item.to|stringformat:"02d" }}:00
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p>Nenurodyta.</p>
+    {% endif %}   
+  </div>
+  {% endif %}
+
+        {% if profile.is_accepting_meetings and reviews %}
+        <h3>Atsiliepimai ({{ reviews.count }})</h3>
+        <div class="friend-reviews">
+          {% for review in reviews %}
+          <div class="review-card">
+            <p class="review-user"><span>{{review.created|date:"d-m-Y"}} Anonimas {% if review.liked_meeting %}🙂{%else%}☹️{%endif%}</span></p>
+            {% if review.comment %}
+            <p class="review-comment">{{ review.comment }}</p>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

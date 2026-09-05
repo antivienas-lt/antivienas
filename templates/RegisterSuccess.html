@@ -1,0 +1,25 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Paskyros aktyvavimas</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock%}
+
+{% block content %}
+<body>
+  {% include "components/nav.html" %}
+
+  <div class="login-container">
+    <h1>Registracija sėkminga!</h1>
+      <p>Jums buvo išsiųstas patvirtinimo laiškas elektroniniu paštu {{ email }}</p>
+      <br>
+      <p>Prieš prisijungiant prie platformos, prašome aktyvuoti savo paskyrą, kitaip negalėsite prisijungti. </p>
+      <br>
+      <p>Jeigu negavote patvirtinimo laiško, susisiekite el. paštu av@antivienas.lt</p>
+      <br>
+  </div>
+
+  {% include "components/footer.html" %}
+</body>
+{% endblock %}

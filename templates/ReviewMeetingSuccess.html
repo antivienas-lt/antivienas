@@ -1,0 +1,20 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Atsiliepimas sukurtas sėkmingai</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock%}
+
+{% block content %}
+<body>
+  {% include "components/nav.html" %}
+
+  <div class="login-container">
+    <h1>Atsiliepimas sėkmingai sukurtas!</h1>
+      <p>Dabar jis yra matomas draugo profilyje. Ačiū, kad padedate mums tobulėti :)</p> 
+  </div>
+
+  {% include "components/footer.html" %}
+</body>
+{% endblock %}

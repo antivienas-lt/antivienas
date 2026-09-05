@@ -1,0 +1,71 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Profilio nuotraukos</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+{% block content %}
+<body>
+  <div id="modal" class="img-edit-modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage" />
+  </div>
+  {% include "components/nav.html"%}
+  <div class="profile-edit-container">
+    <h1>Profilio nuotraukos</h1>
+    {% for field in form %}
+      {% for error in field.errors %}
+        <p class="error">{{ error }}</p>
+      {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <p class="error">{{ error }}</p>
+    {% endfor %}
+    {% if images %}
+    <div class="user-images-edit">
+      {% for pic in images %}
+        <div class="image-shell">
+          <form class="delete-img-form" action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="delete">
+            <input type="hidden" name="img-id" value="{{ pic.pk }}">
+            <button type="submit">❌</button>
+          </form>
+          {% if not pic.is_avatar %}
+          <form class="set-avatar-form" action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="set-avatar">
+            <input type="hidden" name="img-id" value="{{ pic.pk }}">
+            <button type="submit">⭐</button>
+          </form>
+          {% endif %}
+          <img src="{{ pic.image.url }}" class="{% if pic.is_avatar %}selected-avatar{% endif %} miniature-img" alt="">
+        </div>
+      {% endfor %}
+    </div>
+    <script src='{% static "js/img-view-modal.js" %}'></script>
+    {% else %}
+    <p>Neturite įkeltų nuotraukų.</p>
+    {% endif %}
+
+    {% if images.count < 6 %}
+    <form id="upload-form" action="" enctype="multipart/form-data" class="profile-edit-form" method="POST">
+      {% csrf_token %}
+      <div>
+        <input type="hidden" name="action" value="upload">
+        <input id="img-uploader" type="file" hidden name="image" accept="image/*">
+      </div>
+      <button id="upload-btn" type="button" class="save-edit-btn">Įkelti nuotrauką</button>
+    </form>
+    <script src='{% static "js/upload-photo.js" %}'></script>
+    {% endif %}
+    <span class="img-edit-legend">Paaiškinimai:</span>
+    <ul class="edit-img-ul">
+      <li>⭐ - padaryti nuotrauką kaip pagrindinę.</li>
+      <li>❌ - ištrinti nuotrauką.</li>
+    </ul>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

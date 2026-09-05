@@ -1,0 +1,25 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>Privatumo politika</title>
+<meta name="robots" content="index, nofollow">
+<meta property="og:title" content="Privatumo politika | antivienas.lt">
+<meta property="og:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<meta property="og:url" content="https://antivienas.lt{% url 'privacy-policy' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privatumo politika | antivienas.lt">
+<meta name="twitter:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<link rel="canonical" href="https://antivienas.lt{% url 'privacy-policy' %}">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="privacy-policy-container">{{ privacy_policy_html }}</div>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

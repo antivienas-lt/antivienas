@@ -1,0 +1,38 @@
+{% load static %}
+<div class="friend-card">
+  <div class="avatar-part">
+    <a href="{% url 'profile' friend.username %}">
+    <img class="user-avatar" src="{% if friend.avatar %}{{ friend.avatar.0.image.url }}{% else %}{% static "assets/default_avatar.webp" %}{% endif %}" alt="user avatar">
+    </a>
+  <div class="info-part">
+    <span class="quick-fax">{{friend.age|add:"m. "}}
+      {% if friend.gender %}
+        <span>{{ friend.gender|slice:"3"|add:". "}}</span>
+      {% endif %}
+      {{ friend.get_city_display }}</span>
+    <h2 class="full-name"><a href="{% url 'profile' friend.username %}">{{friend.username}}</a><span class="review-count-fax"> {% if friend.review_count > 0 %}({{ friend.review_count }}){% endif %}</span></h2>
+      <div class="likes-part">
+    </div>
+    <div class="price-part">
+      <p class="price"><strong>{{friend.revenue_per_hour}}</strong></p>
+      <span class="price-fax">€/val.</span>
+    </div>
+    <div class="meetup-btn">
+    <a href="{% url 'new-meeting' friend.username%}">
+      <button type="submit">Susitikti</button>
+    </a>
+    </div>
+  </div>
+  </div>
+  <div class="likes-desc-container">
+    {% if friend.interests %}
+      <p class="likes-fax">Pomėgiai:</p>
+      <div class="likes-list">
+        {% for interest in friend.interests|slice:":3" %}
+        <span class="like-item">{{interest}}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <p class="description">{{ friend.about_description|truncatechars:220 }}</p>
+  </div>
+</div>

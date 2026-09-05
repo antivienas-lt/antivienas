@@ -1,0 +1,33 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>Užblokuota paskyra</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="ban-page-container">
+      <h1>Jūsų paskyra užblokuota 🚫</h1>
+      <h2>Priežąstis:</h2>
+      {% if request.user.banned == banEnum.UNPAID_MEETING %}
+      <p>Nesumokėjote draugo mokesčio už sėkmingai įvykūsį susitikimą, per nurodytą laikotarpį.</p>
+      <h2>Ką daryti?</h2>
+      <p>Norėdami atblokuoti paskyrą, turite sumokėti mokesčius. Dėl apmokėjimo, susisiekite el. paštu <strong>av@antivienas.lt</strong> (nurodykite būtinai savo el. paštą, arba slapyvardį)</p>
+      {% elif request.user.banned == banEnum.BAD_BEHAVIOR %}
+      <p>Susitikimo metu, pažeidėte elgesio taisykles arba kėlėte grėsmę kito asmens saugumui.</p>
+      <h2>Ką daryti?</h2>
+      <p>Jeigu manote, kad esate užblokuoti neteisingai, susisiekite el. paštu <strong>av@antivienas.lt</strong> (nurodykite būtinai savo el. paštą, arba slapyvardį) ir papasakoti viską iš savo pusės.</p>
+      {% elif request.user.banned == banEnum.BAD_PROFILE %}
+      <p>Informacija, kurią pateikėte savo profilio puslapyje, pažeidžia naudojimosi taisykles.</p>
+      <h2>Ką daryti?</h2>
+      <p>Jeigu esate pasiruošę sutvarkyti savo profilį, susisiekite el. paštu <strong>av@antivienas.lt</strong> (nurodykite būtinai savo el. paštą, arba slapyvardį) ir papasakoti viską iš savo pusės.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

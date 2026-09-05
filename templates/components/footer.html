@@ -1,0 +1,137 @@
+<footer><p>antivienas.lt</p></footer>
+
+<div id="cookie-banner" class="cookie-banner" aria-live="polite" aria-label="Slapukų pasirinkimas">
+  <div class="cookie-banner__content" role="dialog" aria-modal="false" aria-labelledby="cookie-banner-title">
+    <div class="cookie-banner__body">
+      <h3 id="cookie-banner-title" class="cookie-banner__title">Slapukų nustatymai</h3>
+
+      <p class="cookie-banner__text cookie-banner__text--small">
+        Naudojame <strong>Google Analytics</strong> analitinius slapukus, kad suprastume,
+        kaip lankytojai naudojasi svetaine ir galėtume ją tobulinti. Galite sutikti arba atsisakyti analitinių slapukų. Savo pasirinkimą bet kada galėsite pakeisti.
+      </p>
+
+      <div class="cookie-banner__actions">
+        <button type="button" id="cookie-accept" class="cookie-btn cookie-btn--primary">Sutinku</button>
+        <button type="button" id="cookie-deny" class="cookie-btn cookie-btn--secondary">Nesutinku</button>
+      </div>
+
+      <p class="cookie-banner__footer">
+        <a href="{% url 'privacy-policy' %}" class="cookie-banner__link">Privatumo politika</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cookie-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9999; display: none; justify-content: center; pointer-events: none; }
+  .cookie-banner__content { pointer-events: auto; width: 100%; max-width: 1000px; background: #111827; color: #fff; border-radius: 16px; padding: 18px; box-shadow: 0 14px 40px rgba(0,0,0,0.28); border: 1px solid rgba(255,255,255,0.08); }
+  .cookie-banner__body { display: flex; flex-direction: column; gap: 10px; }
+  .cookie-banner__title { margin: 0; font-size: 18px; font-weight: 700; }
+  .cookie-banner__text { margin: 0; font-size: 13px; line-height: 1.55; color: rgba(255,255,255,0.95); }
+  .cookie-banner__actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+  .cookie-btn { border: 0; border-radius: 10px; padding: 10px 16px; font-size: 14px; cursor: pointer; transition: transform 0.05s ease, opacity 0.15s ease; }
+  .cookie-btn:hover { opacity: 0.95; } .cookie-btn:active { transform: translateY(1px); }
+  .cookie-btn--primary { background: #fff; color: #111827; font-weight: 700; }
+  .cookie-btn--secondary { background: #374151; color: #fff; font-weight: 600; }
+  .cookie-banner__footer { margin: 2px 0 0 0; font-size: 13px; }
+  .cookie-banner__link { color: var(--pink); text-decoration: underline; }
+  .cookie-banner__link:hover { text-decoration:none; }
+  @media (max-width:480px){ .cookie-banner__content{padding:16px;border-radius:14px;} .cookie-btn{width:100%;justify-content:center;} .cookie-banner__actions{flex-direction:column;} }
+</style>
+
+<script>
+(function() {
+  const CONSENT_KEY = 'cookie_consent_choice';
+  const GA_ID = '';
+  let gaLoaded = false;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+
+  // Default: deny all until explicit consent
+  gtag('consent', 'default', {
+    analytics_storage: 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied'
+  });
+
+  function getBanner() { return document.getElementById('cookie-banner'); }
+  function showBanner() { const b = getBanner(); if(b) b.style.display = 'flex'; }
+  function hideBanner() { const b = getBanner(); if(b) b.style.display = 'none'; }
+
+  function saveConsent(value){ try{ localStorage.setItem(CONSENT_KEY, value); }catch(e){} }
+  function getConsent(){ try{ return localStorage.getItem(CONSENT_KEY); }catch(e){ return null; } }
+
+  function deleteCookie(name){
+    const hostname = window.location.hostname;
+    document.cookie = name+'=; Max-Age=0; path=/; SameSite=Lax';
+    const isLocalhost = hostname==='localhost'||hostname==='127.0.0.1'||hostname==='::1';
+    const isIPv4 = /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
+    if(isLocalhost||isIPv4) return;
+    document.cookie = name+'=; Max-Age=0; path=/; domain='+hostname+'; SameSite=Lax';
+    const parts = hostname.split('.');
+    if(parts.length>=3){ const rootDomain='.'+parts.slice(-2).join('.'); document.cookie=name+'=; Max-Age=0; path=/; domain='+rootDomain+'; SameSite=Lax'; }
+  }
+
+  function deleteGoogleAnalyticsCookies(){
+    deleteCookie('_ga'); deleteCookie('_gid');
+    const cookies = document.cookie?document.cookie.split(';'):[]; 
+    cookies.forEach(c=>{ const name=c.split('=')[0].trim(); if(name.startsWith('_ga_')) deleteCookie(name); });
+  }
+
+  function loadGoogleAnalytics() {
+    if (!GA_ID || gaLoaded) return;
+    gaLoaded = true;
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
+
+    script.onload = function () {
+      gtag('js', new Date());
+
+      // Detect if we're on localhost
+      const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname);
+
+      gtag('config', GA_ID, {
+        anonymize_ip: true,
+        cookie_expires: 395 * 24 * 60 * 60,  // 13 months
+        cookie_domain: isLocalhost ? 'auto' : undefined  // force host-only cookie on localhost
+      });
+
+      console.log('GA4 initialized', GA_ID, 'localhost mode:', isLocalhost);
+    };
+
+    document.head.appendChild(script);
+  }
+
+  function grantAnalytics(){
+    gtag('consent','update',{ analytics_storage:'granted', ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied' });
+    loadGoogleAnalytics();
+  }
+
+  function denyAnalytics(){
+    gtag('consent','update',{ analytics_storage:'denied', ad_storage:'denied', ad_user_data:'denied', ad_personalization:'denied' });
+    if(getConsent()==='accepted') deleteGoogleAnalyticsCookies();
+  }
+
+  function initCookieBanner(){
+    const acceptBtn=document.getElementById('cookie-accept');
+    const denyBtn=document.getElementById('cookie-deny');
+    const existing=getConsent();
+
+    if(existing==='accepted'){ grantAnalytics(); }
+    else if(existing==='denied'){ denyAnalytics(); }
+    else{ showBanner(); }
+
+    if(acceptBtn) acceptBtn.addEventListener('click',()=>{ saveConsent('accepted'); grantAnalytics(); hideBanner(); });
+    if(denyBtn) denyBtn.addEventListener('click',()=>{ saveConsent('denied'); denyAnalytics(); hideBanner(); });
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initCookieBanner);
+  else initCookieBanner();
+
+  window.openCookieSettings=function(){ showBanner(); };
+})();
+</script>

@@ -1,0 +1,40 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Atsiliepimas</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock%}
+
+{% block content %}
+<body>
+  {% include "components/nav.html" %}
+
+  <div class="login-container">
+    <h1>Atsiliepimas</h1>
+    {% if form.errors %}
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <p class="error-message">{{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="form-field-radio">
+        <p><strong>Susitikimas:</strong></p>
+        <input type="radio" name="liked_meeting" value="True" checked>
+        <label>👍Patiko</label><br>
+        <input type="radio" name="liked_meeting" value="False">
+        <label>👎Nepatiko</label>
+      </div>
+      <div class="form-field-input">
+        <label for="">Komentaras (iki 500 simbolių)</label>
+        <textarea name="comment" id="ReviewComment">{% if form.comment.value %}{{ form.comment.value }}{% endif %}</textarea>
+      </div>
+      <button type="submit" class="login-btn">Išsaugoti</button>
+    </form>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock %}

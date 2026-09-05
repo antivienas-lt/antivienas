@@ -1,0 +1,14 @@
+Draugas negali šiuo metu susitikti su jumis, todėl atšaukė pasiūlymą susitikti.
+
+Nieko daryti nereikia.
+
+Peržiūrėti susitikimus:
+{{ meeting_manager_link }}
+
+Jeigu turi klausimų, susisiek su mumis:
+{{ support_email }}
+
+---
+
+© 2026 antivienas.lt
+Šis laiškas išsiųstas automatiškai. Prašome į jį neatsakyti.

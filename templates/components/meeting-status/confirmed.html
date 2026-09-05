@@ -1,0 +1,26 @@
+<div class="user-actions">
+  {% if request.user == meeting.user %}
+  <div class="info-block status-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
+    <p><span>Draugas priėmė jūsų kvietimą susitikti, sėkmės! Nepamirškite, pradžioje susitikimo, pasakyti draugui susitikimo kodą ir susimokėti.</span></p>
+    <div class="meeting-conf-code-shell"><p>susitikimo kodas: <strong class="meeting-conf-code">{{meeting.confirmation_code}}</strong></p></div>
+  </div>
+  {% elif request.user == meeting.friend %}
+  <div class="info-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
+    <p><span>Susitikimas buvo sėkmingai priimtas. Susitikimo metu paprašykite patvirtinimo kodo, ir mokesčio už jūsų paslaugas.</span></p>
+  </div>
+  <div class="complete-action-block">
+    <form action="" method="post" class="meeting-manager-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="complete">
+      <input type="hidden" name="meeting-id" value="{{meeting.pk}}">
+      <div class="form-field-input form-field-tight">
+        <label for="">Patvirtinimo kodas</label>
+        <input type="text" name="confirmation-code">
+      </div>
+      <button type="submit" class="btn-link">✅ PATVIRTINTI</button>
+    </form>
+  </div>
+  {% endif %}
+</div>

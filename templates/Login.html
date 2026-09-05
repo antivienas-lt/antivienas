@@ -1,0 +1,41 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Prisijungimas</title>
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Login | antivienas.lt">
+<meta property="og:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<meta property="og:url" content="https://antivienas.lt{% url 'login' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Login | antivienas.lt">
+<meta name="twitter:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<link rel="canonical" href="https://antivienas.lt{% url 'login' %}">
+{% endblock%}
+
+{% block content %}
+<body>
+  {% include "components/nav.html" %}
+
+  <div class="login-container">
+    <h1>Prisijungimas</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      <div class="form-field-input">
+        <label for="email">El. paštas</label>
+        <input type="email" name="email" id="" value="{{email}}">
+      </div>
+      <div class="form-field-input">
+        <label for="password">Slaptažodis</label>
+        <input type="password" name="password" id="">
+        <p class="note">Pamiršote slaptažodį? <a href="{% url 'reset-password-link' %}" class="login-link">Spauskite čia</a></p>
+      </div>
+      <button type="submit" class="login-btn">Prisijungti</button>
+      <p class="note">Norite registruotis? <a href="{% url 'register' %}" class="login-link">Spauskite čia</a></p>
+    </form>
+  </div>
+
+  {% include "components/footer.html" %}
+</body>
+{% endblock %}

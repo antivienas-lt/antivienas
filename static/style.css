@@ -1,0 +1,1274 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+*, *::before, *::after{
+  box-sizing: border-box;
+  margin: 0;
+}
+:root{
+  --black: #1c1e21;
+  --web-wash: #F2F4F7;
+  --media-hover: rgb(228, 228, 228);
+  --pink: #f20085;
+  --text-blue: #00a3f2;
+  --status-yellow: #ffe300;
+  --red: #f22;
+}
+body{
+  color: var(--black);
+  background-color: var(--web-wash);
+  font-family: 'Poppins', 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a{
+  text-decoration: none;
+  color: var(--pink);
+}
+textarea {
+   font-family: inherit;
+   font-size: inherit;
+}
+.navigation{
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  min-height: 50px;
+  align-items: center;
+  padding: 10px;
+  gap: 30px;
+  box-shadow: 0px 0px 1px 1px gray;
+}
+.nav-link-container{
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 30px;
+}
+.nav-link{
+  text-decoration: none;
+  transition-property: color;
+  transition-duration: 350ms;
+  color: var(--black);
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.nav-link:hover{
+  transition-property: color;
+  transition-duration: 350ms;
+  color: var(--pink);
+  text-decoration: underline;
+}
+.login-link{
+  color: var(--pink);
+  text-decoration: none;
+}
+.active, .login-link:hover{
+  color: var(--pink);
+  text-decoration: underline;
+}
+.web-title-container{
+  display: flex;
+  gap: 5px;
+}
+.title-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center
+}
+.website-logo{
+  max-width: 40px;
+  display: block;
+}
+.web-title{
+  text-transform: uppercase;
+  font-size: 14px;
+}
+.web-title-pretext{
+  font-size: 11px;
+  color: gray;
+}
+.friends-not-found{
+  text-align: center;
+}
+
+.friend-filter-result{
+  margin-bottom: 5px;
+}
+
+.friend-search-component{
+  margin: 10px auto;
+  padding: 0 20px;
+  border-radius: 7px;
+  max-width: 1000px;
+  width: 100%;
+}
+.friend-search-form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.friend-search-container{
+  min-height: 40px;
+  display: flex;
+  gap: 10px;
+}
+.friend-search-query{
+  flex-grow: 1;
+  border: none;
+  box-shadow: 0px 0px 1px 0px gray;
+  border-radius: 20px;
+  font-size: 1rem;
+  padding-left: 10px;
+}
+.friend-search-query:hover{
+  box-shadow: 0px 0px 3px 0px gray;
+}
+.friend-search-btn{
+  max-width: 120px;
+  width: 100%;
+  background: white;
+  color: var(--pink);
+  border: none;
+  box-shadow: 0px 0px 1px 0px var(--pink);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.friend-search-btn:hover{
+  box-shadow: 0px 0px 3px 0px var(--pink);
+}
+.friend-filter-container{
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.friend-select-search-field{
+  background: white;
+  border: none;
+  height: 30px; 
+  border-radius: 10px;
+  box-shadow: 0px 0px 1px 0px gray;
+  padding-left: 10px;
+  cursor: pointer;
+}
+.friend-select-search-field:hover{
+  box-shadow: 0px 0px 3px 0px gray;
+}
+#friendList{
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.friend-card{
+  display: flex;
+  gap: 15px;
+  margin: 10px;
+  box-shadow: 0px 0px 1px 0px gray;
+  border-radius: 15px;
+  background-color: white;
+  padding: 10px;
+  max-width: 1000px;
+  position: relative;
+  margin: 0 15px;
+  min-height: 150px;
+}
+.friend-card .avatar-part{
+  align-content: center;
+  text-align: left;
+  display: flex;
+  gap: 15px;
+}
+.friend-card .info-part{
+  flex-grow: 1;
+  min-width: 180px;
+}
+.friend-card .full-name{
+  font-size: 1.2rem;
+}
+
+.friend-card .full-name, .profile-card .full-name{
+  font-weight: 500;
+}
+.friend-card .description{
+  text-align: justify;
+}
+
+.friend-card .avatar-part .user-avatar{
+  max-width: 120px;
+  border-radius: 50%;
+}
+
+.friend-card .price-fax{
+  padding-bottom: 1px;
+}
+
+.quick-fax, .price-fax, .likes-fax{
+  color: gray;
+  font-size: 0.9rem;
+}
+.review-count-fax{
+  color: gray;
+  font-size: 0.9rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.friend-card .description, .profile-card .description, .profile-card .meetup-time-description{
+  font-size: 0.9rem;
+}
+
+.meetup-btn{
+  width: fit-content;
+}
+
+.meetup-btn:hover,
+.profile-card .profile-meetup-btn:hover,
+.btn-link:hover{
+  box-shadow: 0px 0px 3px 0px var(--pink);
+  border-radius: 10px;
+}
+
+.friend-card .meetup-btn button, 
+.profile-card .meetup-btn button, 
+.btn-link{
+  padding: 5px 20px;
+  border: none;
+  background-color: white;
+  box-shadow: 0px 0px 2px 0px var(--pink);
+  border-radius: 10px;
+  color: var(--pink);
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  display: block;
+}
+
+.friend-card .price-part, .profile-card .price-part{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  color: dimgray;
+}
+.friend-card .price-part, .profile-card .price-part .price{
+  font-size: 1.2rem;
+}
+
+.profile-card .full-name, .meeting-card .full-name{
+  font-size: 1.3rem;
+}
+
+.profile-card .likes-part{
+  margin: 10px 0px 15px 0px;
+}
+
+.friend-card .like-item, .profile-card .like-item{
+  background-color: rgb(227, 227, 227); 
+  padding: 0px 5px; 
+  border-radius: 5px; 
+  font-size:0.9rem;
+}
+
+.profile-card{
+  max-width: 800px;
+}
+
+.meeting-manager, .active-meeting-container{
+  max-width: 1000px;
+}
+
+.profile-card, .meeting-manager, .active-meeting-container{
+  margin: 10px auto;
+  box-shadow: 0px 0px 1px 0px gray;
+  border-radius: 15px;
+  background-color: white;
+  padding: 10px;
+  position: relative;
+}
+
+.active-meeting-container{
+  margin: 20px;
+}
+
+.profile-card .upper-part{
+  display: flex;
+  gap: 15px;
+}
+.profile-card .bottom-part{
+  padding: 0px 10px;
+  margin-top: 10px;
+}
+
+.profile-card .profile-meetup-btn{
+  width: fit-content;
+  margin-top: 5px;
+}
+
+.profile-card .edit-profile-link{
+  display: block;
+  width: fit-content;
+  text-decoration: none;
+}
+
+.profile-card .meetup-time-description{
+  margin: 20px 0;
+}
+
+.profile-card .avatar-part{
+  text-align: center;
+}
+
+.profile-card .avatar-part .user-avatar{
+  max-width: 120px;
+  width: 100%;
+  border-radius: 100%;
+}
+
+#avatarMenuButton{
+  border: none;
+  background-color: white;
+  box-shadow: 0px 0px 1px 0px var(--pink);
+  border-radius: 100%;
+  color: var(--pink);
+  font-size: 1rem;
+  cursor: pointer;
+  height: 40px;
+  width: 40px;
+  padding-bottom: 3px;
+  position: absolute;
+  right: 10px;
+}
+
+#avatarMenuButton:hover{
+    box-shadow: 0px 0px 3px 0px var(--pink);
+}
+
+#avatarDropdown{
+  display:none; 
+  position: absolute;
+  background: white;
+  border-radius: 8px;
+  margin-top: 5px;
+  padding: 10px;
+  flex-direction: column;
+  gap: 8px;
+  right: 10px;
+  top: 50px;
+  text-align: center;
+  box-shadow: 0px 0px 1px 0px var(--pink);
+  z-index: 1;
+}
+
+.text-blue{
+  color: var(--text-blue)
+}
+
+.text-pink{
+    color: var(--pink);
+}
+
+.likes-list{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+footer{
+  margin: auto auto 0 auto;
+  padding: 20px 0px;
+
+}
+footer p{
+  font-size: 0.8rem;
+  color: gray;
+  width: fit-content;
+  margin: auto;
+}
+
+.login-container, .profile-edit-container{
+  background: white;
+  padding: 20px;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0px 0px 1px 0px gray;
+  max-width: 550px;
+  width: 100%;
+}
+.register-container .form-field-checkbox{
+  margin: 10px auto;
+  font-size: 0.8rem;
+}
+.register-container .form-field-checkbox input[type="checkbox"]{
+  width: 14px;
+  height: 14px;
+}
+
+.register-container .form-field-checkbox a{
+  text-decoration: underline;
+}
+.register-container .form-field-checkbox a:hover{
+  text-decoration: none;
+}
+.profile-edit-container{
+  margin-top: 20px;
+}
+.birthdate-shell{
+  margin-top: 30px;
+}
+.birthdate-fields, 
+.create-meeting-time{
+  display: flex;
+  gap: 15px;
+}
+.birthdate-fields .form-field-input,
+.create-meeting-time .form-field-input{
+  width: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.create-meeting-time{
+  margin: 30px auto;
+}
+
+#meetingDescription{
+  height: 200px;
+}
+
+.form-field-input, .form-field-checkbox{
+  position: relative;
+  margin: 30px auto;
+  accent-color: var(--pink);
+}
+.form-field-tight {
+  margin: 0;
+}
+.form-field-input label{
+  font-size: 0.8rem;
+  color: gray;
+  position: absolute;
+  left: 10px;
+  background-color: white;
+}
+.form-field-input input,
+.form-field-input select,
+.table-field-input select {
+  height: 45px;
+  padding-top: 15px;
+  padding-left: 10px;
+  font-size: 1rem;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 1px gray;
+  background-color: white;
+}
+.table-field-input select{
+  padding-top: 0;
+  padding-left: 5px;
+}
+.form-field-input textarea{
+  height: 300px;
+  padding: 20px 10px;
+  font-size: 1rem;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0px 0px 0px 1px gray;
+  background-color: white;
+  resize: none;
+}
+
+.meetup-time-table {
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid gray;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.meetup-time-table th,
+.meetup-time-table td {
+  border-top: 1px solid gray;
+  padding: 10px;
+}
+
+.meetup-time-table tr:first-child th,
+.meetup-time-table tr:first-child td {
+  border-top: none;
+}
+
+.meetup-time-table th{
+  font-size: 0.8rem;
+  color: gray;
+  font-weight: 500;
+}
+
+.meetup-time-table .form-field-input{
+  margin: 0px;
+}
+
+.meetup-time-table input[type=checkbox]{
+  accent-color: var(--pink);
+  height: initial;
+}
+
+.friend-price-per-hour{
+  display: flex;
+  gap: 20px;
+  margin: 0px auto 30px auto;
+}
+.friend-price-per-hour>div{
+  width: 100%;
+  margin: 0;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+#revenuePerHour, #profitPerHour{
+  padding-left: 25px;
+}
+
+#revenuePerHour{
+  color: gray;
+  box-shadow: 0px 0px 0px 1px #b5b5b5;
+  cursor:not-allowed;
+}
+
+
+.friend-price-per-hour .euro-symbol{
+  position: absolute;
+  bottom: 23px;
+  left: 10px;
+}
+
+.eur-sym-revenue{
+  color: gray;
+}
+
+.section-descriptor{
+  margin-bottom: 10px;
+}
+
+.form-field-checkbox input[type=checkbox]{
+  height: 15px;
+  width: 15px;
+  border: 1px black;
+}
+
+.note{
+  font-size: 0.8rem;
+  color: gray;
+}
+.form-field-checkbox .note{
+  display: inline;
+}
+
+.login-container .register-note{
+  width: fit-content;
+  margin: auto;
+}
+
+.login-container .login-btn, .save-edit-btn{
+  margin: 10px auto;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  box-shadow: 0px 0px 1px 0px var(--pink);
+  padding: 10px;
+  border-radius: 10px;
+  width: 100%;
+  color: var(--pink);
+  cursor: pointer;
+}
+
+.login-container .login-btn:hover{
+    box-shadow: 0px 0px 3px 0px var(--pink);
+}
+
+.error-message{
+  color:red;
+  font-size: 0.8rem;
+}
+.success-message{
+  color: rgb(4, 235, 4);
+  font-size: 0.8rem;
+}
+.time-error{
+  box-shadow: 0px 0px 0px 2px red !important;
+}
+.multiline{
+  white-space: pre-wrap;
+}
+
+.create-meeting-avatar{
+  max-width: 20px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+}
+
+#CreateMeetingFriend{
+  padding-left: 35px;
+}
+#selectedDate{
+  cursor: default;
+}
+
+.meeting-calendar-icon{
+  width: 17px;
+  height: 17px;
+  fill: gray;
+  position: absolute;
+  right: 5px;
+  bottom: 13px;
+}
+.meeting-calendar-icon:hover{
+  fill: var(--black);
+  cursor: default;
+}
+
+.calendar {
+  position: absolute;
+  top: 40px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  z-index: 20;
+}
+
+.hidden { display: none; }
+.cal-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-day {
+  padding: 6px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.cal-weekdays{
+  justify-items: center;
+}
+
+.cal-day.allowed:hover {
+  background: #eee;
+}
+
+.cal-day.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.cal-day.allowed {
+  background: #f8f8f8;
+}
+
+.cal-day.today {
+  border: 1px solid #007bff;
+}
+
+.profile-day-label{
+  font-style: italic;
+}
+
+.profile-meeting-table{
+  font-family: sans-serif;
+  border-collapse: collapse;
+  margin: 10px 0px;
+}
+.profile-meeting-table td{
+  padding: 5px;
+}
+
+.profile-meeting-table tr:nth-child(even), .profile-meeting-table thead{
+  background-color: whitesmoke;
+}
+.saved-indicator {
+  margin-left: 10px;
+  color: #28a745;
+  font-size: 0.9em;
+  opacity: 0;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.create-meeting-pricing-statement{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 1.1rem;
+}
+
+#finalPriceDisplay{
+  justify-self: end;
+}
+
+#map { 
+  height: 360px; 
+  z-index: 19;
+}
+
+.password-eye{
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  fill: gray;
+}
+.password-eye:hover{
+  fill: black;
+}
+.pagination{
+  display: flex;
+  gap: 15px;
+  margin: auto;
+  width: fit-content;
+}
+.pagination a{
+  color: var(--pink);
+  box-shadow: 0px 0px 1px 0px var(--pink);
+  padding: 1px;
+  width: 26px;
+  text-align: center;
+  height: 26px;
+}
+
+.meetings-container{
+  width: fit-content;
+  margin: auto;
+}
+
+.meeting-card img{
+  border-radius: 50%;
+  max-width: 150px;
+}
+
+.meeting-card{
+  display: flex;
+  align-items: flex-start;
+  gap: 25px;
+  align-items:start;
+}
+
+.meeting-card .info-block span{
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.meeting-card .status-block{
+  margin-top: 20px;
+}
+
+.google-maps-link{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+  padding: 5px;
+  width: fit-content;
+}
+
+.google-maps-link svg{
+  width: 15px;
+  height: 15px;
+  fill: var(--pink);
+}
+
+.meeting-card .info-table {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-column-gap: 10px;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.meeting-card .info-table .info-block span{
+  text-align: right;
+}
+
+.meeting-card .price-part{
+  font-size: 1.2rem;
+}
+
+.meeting-card .table-shell{
+  display: flex;
+  gap: 15px;
+}
+
+.meeting-card .description{
+  flex-shrink: 6;
+}
+
+.meeting-card .action-block{
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  text-align: center;
+}
+.meeting-card .complete-action-block{
+  margin-top: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  text-align: center;
+}
+.meeting-card .user-actions{
+  margin-bottom: 15px;
+}
+
+.meeting-card .meeting-status{
+  border-radius: 20px;
+  padding: 0px 5px;
+}
+
+.meeting-card .info-link{
+  color: var(--pink);
+  text-decoration: underline;
+}
+
+.meeting-card .info-link:hover{
+  text-decoration: none;
+}
+
+.meeting-avatar-container .btn-link{
+  width: fit-content;
+  margin: 15px auto;
+}
+
+.selected-avatar{
+  box-shadow: 0px 0px 2px 1px var(--pink);
+}
+
+.user-images-edit{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 40px;
+  justify-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-images{
+  display: flex;
+  gap: 20px;
+  overflow-y: scroll;
+  vertical-align: middle;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+.miniature-img{
+  cursor: pointer;
+}
+
+.user-images-edit img{
+  max-width: 100px;
+  border-radius: 100%;
+}
+.profile-images img{
+  max-width: 50px;
+  border-radius: 100%;
+}
+
+.user-images-edit .image-shell, .profile-images .image-shell{
+  position: relative;
+}
+
+.user-images-edit .delete-img-form{
+  position: absolute;
+  bottom: 0px;
+  right: -15px;
+}
+
+.user-images-edit .set-avatar-form{
+  position: absolute;
+  bottom: 0px;
+  left: -15px;
+}
+
+.set-avatar-form button, 
+.delete-img-form button, 
+.user-images-edit .zoom-in-btn,
+.profile-images .zoom-in-btn{
+  cursor: pointer;
+  background: whitesmoke;
+  border-radius: 100%;
+  border: none;
+  font-size: 16px;
+  width: 30px;
+  height: 30px;
+  box-shadow: 0px 0px 2px 0px black;
+}
+
+.img-edit-modal{
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+.img-edit-modal .modal-content {
+  display: block;
+  max-width: 100%;
+}
+
+.img-edit-modal .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-img-ul{
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+  color: gray;
+}
+
+.img-edit-legend{
+  color: gray;
+  font-size: 14px;
+}
+
+.meeting-manager-form{
+  display: contents;
+}
+
+#ReviewComment{
+  height: 200px;
+}
+
+.form-field-radio{
+  position: relative;
+  margin: 30px auto;
+  accent-color: var(--pink);
+}
+
+.form-field-radio input{
+  width: 15px;
+  height: 15px;
+}
+
+.friend-reviews .review-card{
+  margin: 10px;
+}
+.friend-reviews{
+  font-size: 0.9rem;
+}
+
+.review-card .review-user{
+  color: gray;
+}
+
+.chat-container{
+  background: white;
+  margin: 10px auto 5px auto;
+  max-width: 1000px;
+  height: 75vh;
+  overflow-y: scroll;
+  padding: 15px;
+  width: 90%;
+  border-radius: 15px;
+  box-shadow: 0px 0px 1px 0px gray;
+}
+
+.chat-container .message-container{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.chat-container .left-side{
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  color: gray;
+  min-width: 35px;
+}
+
+.chat-container .msg-author{
+  display: flex;
+  gap: 5px;
+  color: gray;
+  font-size: 0.8rem;
+}
+
+.chat-container .msg-avatar{
+  max-width: 23px;
+  max-height: 23px;
+  border-radius: 50%;
+}
+
+.msg-input-container{
+  display: flex;
+  max-width: 1000px;
+  width: 90%;
+  margin: auto;
+  gap: 5px;
+}
+
+.msg-input-container input{
+  height: 40px;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0px 0px 1px 0px var(--pink) inset;
+  flex-grow: 1;
+  padding-left: 10px;
+}
+
+.mobile-nav-btn{
+  height: 40px;
+  width: 40px;
+  display: none;
+  cursor: pointer;
+}
+
+.burger-hidden{
+  display: none;
+}
+
+.ban-page-container{
+  padding: 10px;
+  max-width: 500px;
+  margin: auto;
+}
+.ban-page-container h2{
+  margin-top: 15px;
+}
+
+.flash-messages-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.flash-message {
+    opacity: 0;
+    transform: translateY(-10px);
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background-color: white;
+    
+    /* Animation */
+    animation: fadeInOut 5s linear;
+}
+
+/* Color variants based on Django tags */
+.flash-message.success { color: rgb(0, 199, 0); box-shadow: 0px 0px 3px 0px rgb(0, 199, 0);}
+.flash-message.error   { color: red; box-shadow: 0px 0px 3px 0px red;}
+.flash-message.warning { color: #7c6f06; box-shadow: 0px 0px 3px 0px var(--status-yellow);}
+.flash-message.info    { color: var(--text-blue); box-shadow: 0px 0px 3px 0px var(--text-blue);}
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    10% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    90% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-10px);
+        visibility: hidden;
+    }
+}
+
+.confirmation-success-container{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+}
+.confirmation-success-container h1{
+  text-align: center;
+}
+
+.info-container{
+  width: fit-content;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin: auto;
+  justify-content: center;
+}
+
+.info-container .link-item{
+  color: var(--pink);
+  border-radius: 15px;
+  box-shadow: 0px 0px 1px 0px gray;
+  padding: 10px;
+  text-align: center;
+  background: white;
+  width: 130px;
+  height: 130px;
+}
+
+.info-container .link-item:hover{
+  box-shadow: 0px 0px 3px 0px var(--pink);
+}
+.info-container svg{
+  max-width: 80px;
+  height: fit-content;
+  width: 100%;
+  fill: var(--pink);
+}
+
+.privacy-policy-container, .faq-container, .rules-container, .about-us-container{
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 15px;
+}
+
+.about-us-container h1, 
+.rules-container h1, 
+.faq-container h1, 
+.privacy-policy-container h1{
+  text-align: center;
+}
+
+.faq-container summary{
+  cursor: pointer;
+}
+.faq-container details{
+  margin-top: 15px;
+}
+
+.faq-container h2{
+  color: var(--pink);
+  font-weight: 400;
+  display: inline;
+  font-size: 1.2rem;
+}
+
+.faq-container summary{
+  color: var(--pink);
+}
+
+.rules-container ol{
+  line-height: 2rem;
+}
+
+.privacy-policy-container :is(p, h2, h3), 
+.faq-container :is(p, h2, h3),
+.rules-container :is(p, h2, h3),
+.about-us-container :is(p, h2, h3){
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 1000px){
+  .meeting-manager{
+    margin: 10px 20px;
+  }
+}
+
+@media screen and (max-width: 650px){
+  .friend-card{
+    display: block;
+  }
+  .friend-card .likes-desc-container{
+    margin-top: 15px;
+  }
+  .nav-link-container{
+    position: absolute;
+    flex-direction: column;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    display: none;
+    background: white;
+    border-radius: 8px;
+    margin-top: 5px;
+    padding: 10px;
+    gap: 8px;
+    text-align: center;
+    box-shadow: 0px 3px 1px 0px var(--pink);
+    width: 100%;
+  }
+  .nav-link-container .nav-link{
+    padding: 5px 20px;
+    border: none;
+    background-color: white;
+    box-shadow: 0px 0px 2px 0px var(--pink);
+    border-radius: 10px;
+    color: var(--pink);
+    text-decoration: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+  }
+  .mobile-nav-btn{
+    display: block;
+  }
+  .meeting-card{
+    display: block;
+  }
+  .meeting-card img{
+    margin: auto;
+    display: block;
+  }
+  .meeting-card .table-shell{
+    display: block;
+  }
+  .user-images-edit{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+  }
+  .meeting-card img{
+    max-width: 120px;
+    margin-bottom: 10px;
+  }
+
+  .meeting-card .complete-action-block{
+    display: flex;
+    gap: 15px;
+    text-align: center;
+    flex-direction: column;
+    max-width: 300px;
+    margin: 15px auto;
+  }
+  .meeting-card .complete-action-block .btn-link{
+    height: 45px;
+  }
+
+}

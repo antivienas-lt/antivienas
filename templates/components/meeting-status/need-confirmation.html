@@ -1,0 +1,29 @@
+{% if request.user == meeting.friend %}
+<div class="user-actions">
+  <div class="info-block status-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: var(--status-yellow);">PATVIRTINKITE</strong>
+    <p><span>Gavote naują pasiūlymą susitikti. Patvirtinti savo dalyvavimą šiame susitikime galite iki {{meeting.time_left_to_confirm}} val.</span></p>
+  </div>
+  <div class="action-block">
+    <form action="" method="post" class="meeting-manager-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="confirm">
+      <input type="hidden" name="meeting-id" value="{{meeting.pk}}">
+      <button type="submit" class="btn-link">✅ PATVIRTINTI</button>
+    </form>
+    <form action="" method="post" class="meeting-manager-form">
+      {% csrf_token %}
+      <input type="hidden" name="action" value="decline">
+      <input type="hidden" name="meeting-id" value="{{meeting.pk}}">
+      <button type="submit" class="btn-link">❌ ATŠAUKTI</button>
+    </form>
+  </div>
+</div>
+{% elif request.user == meeting.user %}
+<div class="user-actions">
+  <div class="info-block">
+    <span>Statusas: </span><strong class="meeting-status" style="background-color: darkturquoise;">LAUKITE</strong>
+    <p><span>Patvirtinti susitikimą, draugas gali iki {{meeting.time_left_to_confirm}} val. Į susitikimą neikite, kol draugas nepatvirtino, kad dalyvaus. Jums nieko daryti nereikia.</span></p>
+  </div>
+</div>
+{% endif %}

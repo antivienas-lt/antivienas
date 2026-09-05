@@ -1,0 +1,204 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Profilio redagavimas</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="profile-edit-container">
+    <h1>Profilio redagavimas</h1>
+    <form action="" class="profile-edit-form" method="POST">
+      {% csrf_token %}
+      <div class="form-field-input">
+        <label for="city">Miestas</label>
+        <select name="city" id="">
+              {% for city in cities %}
+                <option value="{{ city.value }}" {% if city.value == request.user.city %}selected{% endif %}>{{ city.label }}</option>
+              {% endfor %}
+        </select>
+      </div>
+      <div class="form-field-input">
+        <label for="gender">Lytis</label>
+        <select name="gender" id="">
+              <option value="">Nenurodyta</option>
+              {% for gender in genders %}
+                <option value="{{ gender.value }}" {% if gender.value == request.user.gender %}selected{% endif %}>{{ gender.label }}</option>
+              {% endfor %}
+        </select>
+      </div>
+      <div class="birthdate-shell">
+        <p class="section-descriptor"><strong>Gimimo data</strong></p>
+        <div class="birthdate-fields">
+          <div class="form-field-input">
+            <label for="birth_day">Diena</label>
+            <select name="birth_day" id="birth_day">
+              <option value=""></option>
+              {% for day in days %}
+                <option value="{{ day }}"
+                  {% if request.user.birthdate and request.user.birthdate.day == day %}selected{% endif %}>
+                  {{ day }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+        <div class="form-field-input">
+          <label for="birth_month">Mėnuo</label>
+          <select name="birth_month" id="birth_month">
+            <option value=""></option>
+            {% for month in months %}
+              <option value="{{ month.value }}"
+                {% if request.user.birthdate and request.user.birthdate.month == month.value %}selected{% endif %}>
+                {{ month.label }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-field-input">
+          <label for="birth_year">Metai</label>
+          <select name="birth_year" id="birth_year">
+            <option value=""></option>
+            {% for year in years %}
+              <option value="{{ year }}"
+                {% if request.user.birthdate and request.user.birthdate.year == year %}selected{% endif %}>
+                {{ year }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        </div>
+      </div>
+      <div class="form-field-input">
+        <p class="section-descriptor"><strong>Pomėgiai</strong></p>
+        <label for="interest1">Nr. 1</label>
+        <input type="text" name="interest1" id="" value="{{ request.user.interest1 }}">
+      </div>
+      <div class="form-field-input">
+        <label for="interest2">Nr. 2</label>
+        <input type="text" name="interest2" id="" value="{{ request.user.interest2 }}">
+      </div>
+      <div class="form-field-input">
+        <label for="interest3">Nr. 3</label>
+        <input type="text" name="interest3" id="" value="{{ request.user.interest3 }}">
+      </div>
+      <div class="form-field-input">
+        <label for="interest4">Nr. 4</label>
+        <input type="text" name="interest4" id="" value="{{ request.user.interest4 }}">
+      </div>
+      <div class="form-field-input">
+        <p class="section-descriptor"><strong>Apie mane</strong></p>
+        <label for="about_description">Trumpas aprašymas (iki 1000 simbolių)</label>
+        <textarea name="about_description" id="" maxlength="1000">{{request.user.about_description}}</textarea>
+      </div>
+      <button type="submit" class="save-edit-btn">Išsaugoti pakeitimus</button>
+    </form>
+  </div>
+  {% include "components/footer.html" %}
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]')?.value;
+  const form = document.querySelector('.profile-edit-form');
+  if (!form) return;
+
+  // Debounce utility
+  function debounce(fn, delay) {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => fn(...args), delay);
+    };
+  }
+
+  // Show status indicator (✓ or ❌)
+  function showIndicator(el, success = true) {
+    let indicator = el.parentNode.querySelector('.saved-indicator');
+    if (!indicator) {
+      indicator = document.createElement('span');
+      indicator.className = 'saved-indicator';
+      el.parentNode.appendChild(indicator);
+    }
+    indicator.textContent = success ? '✓ Išsaugota' : '❌ Nepavyko išsaugoti';
+    indicator.style.color = success ? '#28a745' : '#dc3545';
+    indicator.style.opacity = '1';
+    indicator.style.display = 'block';
+    setTimeout(() => indicator.style.opacity = '0', 1800);
+    setTimeout(() => indicator.style.display = 'none', 2000);
+  }
+
+  // Save single field
+  const saveField = debounce(async (field, value, el) => {
+    console.log(field);
+    console.log(value);
+    try {
+      const response = await fetch("{% url 'autosave-profile' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({ field, value }),
+      });
+      const data = await response.json();
+      if (!response.ok || data.error) throw new Error(data.error);
+      console.log(`✅ Saved ${field}`);
+      showIndicator(el, true);
+    } catch (err) {
+      console.error(`❌ Failed to save ${field}:`, err);
+      showIndicator(el, false);
+    }
+  }, 800);
+
+  // Save birthdate (only when all fields filled)
+  const saveBirthdate = debounce(async () => {
+    const day = form.querySelector('[name=birth_day]')?.value;
+    const month = form.querySelector('[name=birth_month]')?.value;
+    const year = form.querySelector('[name=birth_year]')?.value;
+
+    if (day && month && year) {
+      try {
+        const response = await fetch("{% url 'autosave-profile' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+          },
+          body: JSON.stringify({
+            field: 'birthdate',
+            value: { day, month, year },
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok || data.error) throw new Error(data.error);
+        console.log(`✅ Saved birthdate: ${day}-${month}-${year}`);
+        showIndicator(form.querySelector('[name=birth_year]'), true);
+      } catch (err) {
+        console.error('❌ Failed to save birthdate:', err);
+        showIndicator(form.querySelector('[name=birth_year]'), false);
+      }
+    }
+  }, 500);
+
+  // Attach listeners
+  form.querySelectorAll('input, textarea, select').forEach(el => {
+    const name = el.name;
+
+    // Special handling for birthdate parts
+    if (['birth_day', 'birth_month', 'birth_year'].includes(name)) {
+      el.addEventListener('change', saveBirthdate);
+    } else if (['city', 'gender'].includes(name)){
+      el.addEventListener('change', e => saveField(name, e.target.value, el));
+    }
+    else {
+      el.addEventListener('input', e => saveField(name, e.target.value, el));
+    }
+  });
+});
+</script>
+
+</body>
+{% endblock content %}

@@ -1,0 +1,206 @@
+{% extends "components/base.html"%}
+{% load static %}
+{% load dict_extras %}
+{% block meta %}
+<title>Pokalbis</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="chat-container" id="chat-messages">
+      <div class="chat-rules">
+        <div class="message-container">
+          <div class="left-side">
+            <span class="timestamp"></span>
+          </div>
+          <div class="right-side">
+            <div class="msg-author">
+              <img class="msg-avatar" src="{% static 'assets/antivienas-logo.svg' %}" alt="">
+              <p class="username-wrapper"><strong class="username">antivienas.lt</strong></p>
+            </div>
+            <div class="msg-content">
+              <p style="color:gray;">Susipažinkite ir aptarkite susitikimą (turite 200 žinučių limitą).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% for message in chat_messages %}
+      <div class="message-container">
+
+        <div class="left-side">
+          <span class="timestamp">
+            {{ message.timestamp|date:"H:i" }}
+          </span>
+          <span class="timestamp">
+            {{ message.timestamp|date:"d-m" }}
+          </span>
+        </div>
+
+        <div class="right-side">
+          <div class="msg-author">
+            <img class="msg-avatar"
+                src="{{ avatar_map|get_item:message.sender.id }}"
+                alt="">
+
+            <p class="username-wrapper">
+              <strong class="username">
+                {{ message.sender.username }}
+              </strong>
+            </p>
+          </div>
+
+          <div class="msg-content">
+            <p>{{ message.content }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% if meeting.status == meetingStatusEnum.CONFIRMED %}
+    <div class="msg-input-container">
+      <input type="text" name="" id="msg" placeholder="rašyti žinutę...">
+      <button class="btn-link" id="SendMsg" onclick="sendMessage();">Siųsti</button>
+    </div>
+    {% endif %}
+  </div>
+  {% include "components/footer.html" %}
+
+{% if meeting.status == meetingStatusEnum.CONFIRMED %}
+<script>
+
+const meetingId = {{ meeting.pk }};
+const chatContainer = document.getElementById("chat-messages");
+const chatMessageInput = document.getElementById("msg");
+const chatSendBtn = document.getElementById("SendMsg");
+
+const meetingClientUsername = "{{ meeting.user.username }}";
+const meetingFriendUsername = "{{ meeting.friend.username}}";
+
+const meetingClientImageUrl = "{{avatar_map|get_item:meeting.user.id}}";
+const meetingFriendImageUrl = "{{avatar_map|get_item:meeting.friend.id}}";
+
+window.addEventListener('load', () => {chatContainer.scrollTop = chatContainer.scrollHeight;});
+
+function addMessage({ sender, message, timestamp, avatar }) {
+
+  const dateObj = new Date(timestamp);
+  const time = dateObj.toLocaleTimeString("en-GB", {hour: "2-digit", minute: "2-digit", hour12: false});
+
+  const date = dateObj.toLocaleDateString("en-GB", {day: "2-digit",month: "2-digit"}).replace(/\//g, "-");
+
+  const messageEl = document.createElement("div");
+  messageEl.classList.add("message-container");
+
+  const leftSide = document.createElement("div");
+  leftSide.classList.add("left-side");
+
+  const timeSpan = document.createElement("span");
+  timeSpan.classList.add("timestamp");
+  timeSpan.textContent = time;
+
+  const dateSpan = document.createElement("span");
+  dateSpan.classList.add("timestamp");
+  dateSpan.textContent = date;
+
+  leftSide.appendChild(timeSpan);
+  leftSide.appendChild(dateSpan);
+
+  const rightSide = document.createElement("div");
+  rightSide.classList.add("right-side");
+
+  const authorDiv = document.createElement("div");
+  authorDiv.classList.add("msg-author");
+
+  const avatarImg = document.createElement("img");
+  avatarImg.classList.add("msg-avatar");
+  if (sender == "antivienas.lt"){
+    avatarImg.src = "{% static 'assets/antivienas-logo.svg' %}";
+  }
+  else{
+    avatarImg.src = avatar;
+  }
+  avatarImg.alt = sender + "'s avatar";
+
+  const usernameWrapper = document.createElement("p");
+  usernameWrapper.classList.add("username-wrapper");
+
+  const usernameStrong = document.createElement("strong");
+  usernameStrong.classList.add("username");
+  usernameStrong.textContent = sender;
+
+  usernameWrapper.appendChild(usernameStrong);
+  authorDiv.appendChild(avatarImg);
+  authorDiv.appendChild(usernameWrapper);
+
+  const contentDiv = document.createElement("div");
+  contentDiv.classList.add("msg-content");
+
+  const messageParagraph = document.createElement("p");
+  messageParagraph.textContent = message;
+
+  contentDiv.appendChild(messageParagraph);
+
+  rightSide.appendChild(authorDiv);
+  rightSide.appendChild(contentDiv);
+
+  messageEl.appendChild(leftSide);
+  messageEl.appendChild(rightSide);
+
+  chatContainer.appendChild(messageEl);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+const socket = new WebSocket(
+  `ws://127.0.0.1:8000/ws/chat/${meetingId}/`
+);
+
+socket.onmessage = function(e) {
+  const data = JSON.parse(e.data);
+
+  //console.log(data.sender);
+  let avatar;
+  if (data.sender == meetingClientUsername){
+    avatar = meetingClientImageUrl;
+  }
+  else{
+    avatar = meetingFriendImageUrl;
+  }
+
+  addMessage({
+    sender: data.sender,
+    message: data.message,
+    timestamp: data.timestamp,
+    avatar: avatar,
+  });
+};
+
+function sendMessage() {
+  const message = chatMessageInput.value;
+
+  if (!message.trim()) return;
+
+  socket.send(JSON.stringify({
+    message: message
+  }));
+
+  chatMessageInput.value = "";
+}
+
+// focus 'chatMessageInput' when user opens the page
+chatMessageInput.focus();
+
+// submit if the user presses the enter key
+chatMessageInput.onkeyup = function(e) {
+    if (e.keyCode === 13) {  // enter key
+        chatSendBtn.click();
+    }
+};
+</script>
+{% endif %}
+</body>
+{% endblock content %}

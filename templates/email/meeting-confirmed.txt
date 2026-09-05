@@ -1,0 +1,20 @@
+Pasiūlymas susitikti priimtas!
+
+Draugas sėkmingai patvirtino pasiūlymą susitikti.
+
+Patvirtinimo kodas: {{ confirmation_code }}
+
+Pradžioje susitikimo pateik patvirtinimo kodą ir nepamiršk susimokėti.
+
+💬 Kad susitikimas būtų sklandesnis, dabar gali bendrauti su draugu.
+Šią funkciją rasi prie susitikimo kortelės.
+
+Peržiūrėti susitikimus:
+{{ meeting_manager_link }}
+
+Jeigu turi klausimų: {{ support_email }}
+
+---
+
+© 2026 antivienas.lt
+Šis laiškas išsiųstas automatiškai. Prašome į jį neatsakyti.

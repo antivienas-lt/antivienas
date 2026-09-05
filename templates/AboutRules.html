@@ -1,0 +1,25 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>Taisyklės</title>
+<meta name="robots" content="index, nofollow">
+<meta property="og:title" content="Taisyklės | antivienas.lt">
+<meta property="og:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<meta property="og:url" content="https://antivienas.lt{% url 'rules' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Taisyklės | antivienas.lt">
+<meta name="twitter:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<link rel="canonical" href="https://antivienas.lt{% url 'rules' %}">
+{% endblock meta %}
+
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="rules-container">{{ rules_html }}</div>
+  </div>
+  {% include "components/footer.html" %}
+</body>
+{% endblock content %}

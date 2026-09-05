@@ -1,0 +1,338 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Susitikti</title>
+<meta name="robots" content="noindex, nofollow" />
+
+<link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
+<script src="{% static 'leaflet/leaflet.js' %}"></script>
+{% endblock meta %}
+
+{% block content %}
+<body>
+  {% include "components/nav.html"%}
+
+ <div class="profile-edit-container">
+    <h1>Naujas susitikimas</h1>
+    {% if form.errors %}
+      {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+          <p class="error-message">{{ error }}</p>
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+    <form action="" class="profile-edit-form" method="POST">
+      {% csrf_token %}
+      <div class="form-field-input">
+        <label for="friend">Draugas</label>
+        <input class="create-meeting-username" type="text" name="friend" id="CreateMeetingFriend" value="{% if friend %}{{friend.username}}{% endif %}" disabled>
+        <img class="create-meeting-avatar" src="{{friend.avatar_url}}" alt="">
+      </div>
+      <input type="hidden" name="lat" id="id_latitude" value="{{form.lat.value}}">
+      <input type="hidden" name="lng" id="id_longitude" value="{{form.lng.value}}">
+      <input type="hidden" name="final_price", id="id_finalPrice" value="0">
+
+      <div class="form-field-input">
+        <label for="meeting_date">Susitikimo diena</label>
+        <input id="selectedDate" readonly name="meeting_date" placeholder="Pasirinkite dieną" value={{form.meeting_date.value}}>
+        <svg class="meeting-calendar-icon" id="meetingCalendarIcon" version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><path fill-rule="evenodd" d="m128 0c4.7 0 6 0.4 9.4 3.2 2.2 1.8 4.5 4.8 5.3 6.5 0.8 2.2 1.3 7.9 1.3 30.3h224v-13.5c0-8.9 0.5-14.6 1.3-16.8 0.8-1.7 3.1-4.7 5.3-6.5 3.4-2.8 4.7-3.2 9.4-3.2 4.7 0 6 0.4 9.4 3.2 2.2 1.8 4.5 4.8 5.3 6.5 0.8 2.2 1.3 7.9 1.3 30.3l29.3 0.3c29.1 0.3 29.2 0.3 37.2 3.1 4.4 1.5 10.7 4.4 14 6.4 3.3 2 8.7 6.4 12 9.7 3.4 3.3 7.8 8.9 9.9 12.5 2.1 3.6 5 9.9 9.1 21.5v365l-2.6 7.5c-1.5 4.1-4.4 10.4-6.5 14-2.1 3.6-6.5 9.2-9.9 12.5-3.3 3.3-8.7 7.7-12 9.7-3.3 2-10.2 5.1-24.5 9.8h-400l-8.8-2.9c-4.8-1.6-11.6-4.6-15.2-6.7-3.6-2.1-9.2-6.5-12.5-9.9-3.3-3.3-7.7-8.7-9.7-12-2-3.3-4.9-9.6-9.3-22v-365l2.8-8c1.6-4.4 4.5-10.7 6.5-14 2-3.3 6.4-8.7 9.7-12 3.3-3.4 8.9-7.8 12.5-9.9 3.6-2.1 9.9-5 14-6.4 7.3-2.6 8.1-2.7 66-3.2v-13.5c0-8.9 0.5-14.6 1.3-16.8 0.8-1.7 3.1-4.7 5.3-6.5 3.4-2.8 4.7-3.2 9.4-3.2zm-95.8 316.8l0.3 137.7c4 8.5 7.2 12.9 9.6 15.3 2.4 2.4 6.9 5.6 9.9 7l5.5 2.7h397c8.5-4.1 12.9-7.3 15.3-9.7 2.4-2.4 5.6-6.8 7-9.8l2.7-5.5c0.5-259.1 0.3-275.7-1-277-1.3-1.3-27.4-1.5-222.4-1.5-200.3 0-221.1 0.1-222.6 1.6-1.5 1.4-1.6 12.1-1.3 139.2z"/></svg>
+
+        <div id="calendar" class="calendar hidden">
+          <div class="cal-header">
+            <button type="button" id="prevMonth">‹</button>
+            <span id="monthLabel"></span>
+            <button type="button" id="nextMonth">›</button>
+        </div>
+
+          <div class="cal-grid cal-weekdays">
+            <div>Pirm</div><div>Antr</div><div>Treč</div>
+            <div>Ketv</div><div>Penkt</div><div>Šešt</div><div>Sekm</div>
+          </div>
+
+          <div id="calDays" class="cal-grid"></div>
+        </div>
+      </div>
+
+      <div class="create-meeting-time" id="meetingTimes">
+        <div class="form-field-input">
+          <label for="time_from">Susitikimo pradžia</label>
+          <select name="time_from" id="meetingTimeFrom" {% if form.time_from.value %}data-prev="{{ form.time_from.value }}"{% endif %}>
+          </select>
+        </div>
+        <div class="form-field-input">
+          <label for="time_to">Susitikimo pabaiga</label>
+          <select name="time_to" id="meetingTimeTo" {% if form.time_to.value %}data-prev="{{ form.time_to.value }}"{% endif %}>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-field-input">
+        <p class="section-descriptor"><strong>Susitikimo vieta</strong></p>
+        <div id="map"></div>
+      </div>
+
+      <div class="form-field-input">
+        <label for="meeting_description">Susitikimo aprašymas (iki 250 simbolių)</label>
+        <textarea name="meeting_description" id="meetingDescription" maxlength="1000" placeholder="Kur ir ką norite veikti susitikimo metu.">{{form.meeting_description.value}}</textarea>
+      </div>
+
+
+
+      <div class="form-field-input">
+        <div class="create-meeting-pricing-statement">
+                <strong>Galutinė kaina:</strong>
+                <strong id="finalPriceDisplay">-</strong>
+        </div>
+      </div>
+      <button type="submit" class="save-edit-btn">Siųsti užklausą</button>
+    </form>
+  </div>
+  {% include "components/footer.html" %}
+
+  {% if request.user != friend %}
+  <script>
+    // city_cords: float? = [lat, lng]
+    const map = L.map("map").setView({{friend.city_coords}}, 15);
+
+    // Add tile layer
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
+        .addTo(map);
+
+    const marker = L.marker({{friend.city_coords}}, { draggable: true }).addTo(map);
+
+    marker.on("dragend", function () {
+        const latlng = marker.getLatLng();
+        console.log(latlng.lat, latlng.lng);
+        document.getElementById("id_latitude").value = e.latlng.lat;
+        document.getElementById("id_longitude").value = e.latlng.lng;
+    });
+
+    // Click to move marker
+    map.on("click", function (e) {
+        marker.setLatLng(e.latlng);
+        //console.log("Clicked location:", e.latlng);
+        //console.log(`https://www.google.com/maps/place/${e.latlng.lat},${e.latlng.lng}`)
+        document.getElementById("id_latitude").value = e.latlng.lat;
+        document.getElementById("id_longitude").value = e.latlng.lng;
+    });
+</script>
+
+<script>
+/* -------------------------------
+   Safe passing of meeting_times
+--------------------------------*/
+const allowedDays = []; //0 - bool, 1 - str (from), 2 - str (to) 
+{% for day in meeting_times %} 
+  {% if day.0 %} 
+    allowedDays.push([{{forloop.counter0}}, "{{day.1}}", "{{day.2}}"]); 
+  {% endif %} 
+{% endfor %}
+
+/* Helper: JS Sunday=0..Saturday=6 → Django Monday=0..Sunday=6 */
+function normalize(jsDay) {
+    return (jsDay + 6) % 7;
+}
+
+/* -------------------------------
+   DOM Elements
+--------------------------------*/
+const input = document.getElementById("selectedDate");
+const calIcon = document.getElementById("meetingCalendarIcon");
+const cal = document.getElementById("calendar");
+const calDays = document.getElementById("calDays");
+const monthLabel = document.getElementById("monthLabel");
+
+const timeFrom = document.getElementById("meetingTimeFrom");
+const timeTo = document.getElementById("meetingTimeTo");
+
+const profitPerHour = document.getElementById("profitPerHour");
+const finalPriceInput = document.getElementById("id_finalPrice");
+const finalPriceDisplay = document.getElementById("finalPriceDisplay");
+
+let current = new Date();
+
+/* -------------------------------
+   Event Listeners
+--------------------------------*/
+timeFrom.addEventListener("change", () => validateRow(timeFrom, timeTo));
+timeTo.addEventListener("change", () => validateRow(timeFrom, timeTo));
+
+input.addEventListener("click", () => {
+    cal.classList.toggle("hidden");
+    renderCalendar();
+});
+calIcon.addEventListener("click", () => {
+    cal.classList.toggle("hidden");
+    renderCalendar();
+});
+
+document.getElementById("prevMonth").onclick = () => {
+    current.setMonth(current.getMonth() - 1);
+    renderCalendar();
+};
+document.getElementById("nextMonth").onclick = () => {
+    current.setMonth(current.getMonth() + 1);
+    renderCalendar();
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (input.value) { // meeting_date exists
+      const date = new Date(input.value);
+      const djangoDay = normalize(date.getDay());
+
+      const match = allowedDays.find(day => day[0] === djangoDay);
+      if (!match) return;
+
+      const fromHour = parseInt(match[1], 10);
+      const toHour = parseInt(match[2], 10);
+
+      const prevFrom = parseInt(timeFrom.dataset.prev, 10) || null;
+      const prevTo = parseInt(timeTo.dataset.prev, 10) || null;
+
+      for (let h = fromHour; h < toHour; h++) {
+          const option = document.createElement("option");
+          option.value = h;
+          option.textContent = String(h).padStart(2, "0") + ":00";
+          if (prevFrom === h) option.selected = true;
+          timeFrom.appendChild(option);
+      }
+
+      for (let h = fromHour + 1; h <= toHour; h++) {
+          const option = document.createElement("option");
+          option.value = h;
+          option.textContent = String(h).padStart(2, "0") + ":00";
+          if (prevTo === h) option.selected = true;
+          timeTo.appendChild(option);
+      }
+
+      validateRow(timeFrom, timeTo)
+    }
+  });
+
+/* -------------------------------
+   Validation & Price
+--------------------------------*/
+function validateRow(fromSelect, toSelect) {
+    const fromVal = parseInt(fromSelect.value, 10);
+    const toVal = parseInt(toSelect.value, 10);
+
+    fromSelect.classList.remove("time-error");
+    toSelect.classList.remove("time-error");
+
+    if (isNaN(fromVal) || isNaN(toVal)) return;
+
+    if (fromVal >= toVal) {
+        fromSelect.classList.add("time-error");
+        toSelect.classList.add("time-error");
+    }
+
+    updateFinalPrice(fromVal, toVal);
+}
+
+function updateFinalPrice(fromVal, toVal) {
+    const price_per_hour = {{ friend.revenue_per_hour }};
+    const multiplier = toVal - fromVal;
+
+    const total_price = price_per_hour * multiplier;
+
+    if (total_price < 1) {
+        finalPriceDisplay.innerHTML = "-";
+        finalPriceInput.value = 0;
+        return;
+    }
+
+    finalPriceInput.value = total_price;
+    finalPriceDisplay.innerHTML = total_price + " €";
+}
+
+/* -------------------------------
+   Populate Time Fields
+--------------------------------*/
+function updateTimeFields(djangoDay) {
+
+    timeFrom.innerHTML = '';
+    timeTo.innerHTML = '';
+
+    const match = allowedDays.find(day => day[0] === djangoDay);
+    if (!match) return;
+
+    const fromHour = parseInt(match[1], 10);
+    const toHour = parseInt(match[2], 10);
+
+    for (let h = fromHour; h < toHour; h++) {
+        const option = document.createElement("option");
+        option.value = h;
+        option.textContent = String(h).padStart(2, "0") + ":00";
+        timeFrom.appendChild(option);
+    }
+
+    for (let h = fromHour + 1; h <= toHour; h++) {
+        const option = document.createElement("option");
+        option.value = h;
+        option.textContent = String(h).padStart(2, "0") + ":00";
+        timeTo.appendChild(option);
+    }
+
+    validateRow(timeFrom, timeTo);
+}
+
+/* -------------------------------
+   Render Calendar
+--------------------------------*/
+function renderCalendar() {
+    calDays.innerHTML = "";
+    const y = current.getFullYear();
+    const m = current.getMonth();
+    const firstDay = new Date(y, m, 1).getDay();
+    const daysInMonth = new Date(y, m + 1, 0).getDate();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    monthLabel.textContent = current.toLocaleString("lt", { month: "long", year: "numeric" });
+
+    const offset = (firstDay === 0 ? 6 : firstDay - 1);
+
+    for (let i = 0; i < offset; i++) calDays.innerHTML += `<div></div>`;
+
+    for (let d = 1; d <= daysInMonth; d++) {
+        const date = new Date(y, m, d);
+        const djangoDay = normalize(date.getDay());
+
+        const isAllowedWeekday = allowedDays.some(day => day[0] === djangoDay);
+        const isFutureOrTomorrow = date >= tomorrow;
+        const isAllowed = isAllowedWeekday && isFutureOrTomorrow;
+        const isToday = (new Date().toDateString() === date.toDateString());
+
+        const classes = [
+            "cal-day",
+            isAllowed ? "allowed" : "disabled",
+            isToday ? "today" : ""
+        ].join(" ");
+
+        const dayDiv = document.createElement("div");
+        dayDiv.textContent = d;
+        dayDiv.className = classes;
+
+        if (isAllowed) {
+            dayDiv.addEventListener("click", () => {
+                const y = date.getFullYear();
+                const m = String(date.getMonth() + 1).padStart(2, "0");
+                const d = String(date.getDate()).padStart(2, "0");
+                input.value = `${y}-${m}-${d}`;
+                cal.classList.add("hidden");
+                updateTimeFields(djangoDay);
+            });
+        }
+
+        calDays.appendChild(dayDiv);
+    }
+}
+</script>
+{% endif %}
+
+</body>
+{% endblock content %}
