@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.http import JsonResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.db.models import Prefetch, Q, Count, Case, When
 from django.core.paginator import Paginator
-from django.core.cache import cache
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
@@ -15,11 +14,11 @@ from django.utils import timezone
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
-from db.models import UserProfilePicture, FriendMeetingTime, Meeting, Review, Message, UserEmailLog, MeetingEmailLog
+from db.models import UserProfilePicture, Meeting, Review, Message, UserEmailLog, MeetingEmailLog
 from db.constants import Cities, Genders, Months, DAYS, YEARS, MeetingStatusEnum, BanReasonEnum
 from db.services import complete_meeting
 
-from app.forms import UserProfilePictureForm, FriendSettingsTimeForm, FriendSettingsForm, CreateMeetingForm, ReviewForm, RegisterForm
+from app.forms import UserProfilePictureForm, FriendSettingsForm, CreateMeetingForm, ReviewForm, RegisterForm
 from app.rate_limit import ip_key
 from app.tasks import send_activation_emails, send_password_reset_emails
 
@@ -63,13 +62,15 @@ def FriendPage(request):
     paginator = Paginator(friends, 20)
     page_obj = paginator.get_page(page_number)
 
+    clear_params_flag = bool(city or gender or page_number > 1)
 
     response = render(request, "Friends.html", {
         "friends": page_obj,
         "page_obj": page_obj,
         "friend_count": friends.count(),
         "cities": Cities,
-        "genders": Genders
+        "genders": Genders,
+        "clear_flag": clear_params_flag,
     })
 
     return response
@@ -136,13 +137,12 @@ def ProfilePage(request, username):
     user = get_object_or_404(
         User.objects.prefetch_related(
             Prefetch("userprofilepicture_set", queryset=UserProfilePicture.objects.filter(is_avatar=True), to_attr="avatar")), username=username)
-    meeting_times = FriendMeetingTime.objects.filter(user=user).first()
     pics = UserProfilePicture.objects.filter(user=user)
     reviews = Review.objects.filter(friend=user)
 
     meeting_data = []
-    if meeting_times:
-        weekdays = meeting_times.schedule_data
+    if user.is_accepting_meetings:
+        weekdays = user.schedule_data
         labels = ["Pr", "An", "Tr", "Kt", "Pn", "Št", "Sk"]
         for i, day in enumerate(weekdays):
             if day[0]:
@@ -261,29 +261,25 @@ def ActivateUserFunc(request, uidb64, token):
 @login_required
 def FriendSettingsPage(request):
     user = request.user
-    instance, _ = FriendMeetingTime.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
-        data = request.POST.copy()
-        time_form = FriendSettingsTimeForm(data, instance=instance)
-        user_form = FriendSettingsForm(data, instance=user)
+        form = FriendSettingsForm(request.POST, instance=user)
 
-        if time_form.is_valid() and user_form.is_valid():
-            time_form.save()
+        if form.is_valid():
+            settings = form.save(commit=False)
 
-            if not instance.is_available:
-                settings = user_form.save(commit=False)
+            if not settings.is_available:
                 settings.is_accepting_meetings = False
 
-            user_form.save()
+            settings.save()
+
             messages.success(request, "Išsaugota!")
             return redirect("friend-settings")
-            
-    else:
-        user_form = FriendSettingsForm(instance=user)
-        time_form = FriendSettingsTimeForm(instance=instance)
 
-    return render(request, "FriendSettings.html", {"time_form": time_form, "user_form": user_form})
+    else:
+        form = FriendSettingsForm(instance=user)
+
+    return render(request,"FriendSettings.html",{"form": form},)
 
 @login_required
 def CreateMeetingPage(request, username):
@@ -305,8 +301,6 @@ def CreateMeetingPage(request, username):
         messages.error(request, "Per daug sukurtų susitikimų su šiuo draugu. Palaukite kol draugas juos peržiūrės.")
         return redirect("index")
 
-    meeting_times = FriendMeetingTime.objects.get(user=friend)
-
     if request.method == "POST":
         create_meeting_form = CreateMeetingForm(request.POST, user=request.user, friend=friend)
         if create_meeting_form.is_valid():
@@ -316,10 +310,10 @@ def CreateMeetingPage(request, username):
             return redirect("meetings-manager")
         else:
             return render(request, "CreateMeeting.html",
-                {"friend": friend,"meeting_times": meeting_times.schedule_data, "form": create_meeting_form})
+                {"friend": friend,"meeting_times": friend.schedule_data, "form": create_meeting_form})
 
     # GET request or first render
-    return render(request, "CreateMeeting.html", {"friend": friend, "meeting_times": meeting_times.schedule_data})
+    return render(request, "CreateMeeting.html", {"friend": friend, "meeting_times": friend.schedule_data})
 
 @login_required
 def MeetingManagerPage(request):

@@ -37,7 +37,7 @@ textarea {
   align-items: center;
   padding: 10px;
   gap: 30px;
-  box-shadow: 0px 0px 1px 1px gray;
+  box-shadow: 0px 0px 1px 0px gray;
 }
 .nav-link-container{
   flex-grow: 1;
@@ -141,7 +141,7 @@ textarea {
 }
 .friend-filter-container{
   display: flex;
-  gap: 15px;
+  gap: 10px;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -165,13 +165,14 @@ textarea {
 }
 .friend-card{
   display: flex;
+  flex-direction: column;
   gap: 15px;
   margin: 10px;
   box-shadow: 0px 0px 1px 0px gray;
   border-radius: 15px;
   background-color: white;
   padding: 10px;
-  max-width: 1000px;
+  max-width: 900px;
   position: relative;
   margin: 0 15px;
   min-height: 150px;
@@ -258,7 +259,9 @@ textarea {
 }
 
 .profile-card .full-name, .meeting-card .full-name{
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  color: var(--pink);
+  font-weight: 500;
 }
 
 .profile-card .likes-part{
@@ -758,32 +761,41 @@ input[type=number] {
 
 .meeting-card img{
   border-radius: 50%;
-  max-width: 150px;
+  max-width: 100px;
+  margin: 0 auto 7px auto;
+  display: block;
 }
 
 .meeting-card{
-  display: flex;
-  align-items: flex-start;
+  display: grid;
   gap: 25px;
-  align-items:start;
+  grid-template-columns: 1fr 1fr;
 }
 
-.meeting-card .info-block span{
+.meeting-card .info-block .block-title{
   font-size: 0.9rem;
   color: gray;
 }
 
-.meeting-card .status-block{
-  margin-top: 20px;
+.meeting-card .meeting-conf-code{
+  color: black;
+  font-size: 1.2rem;
+}
+
+.meeting-card .price-part{
+  font-size: 1.2rem;
+  color: black;
+  
 }
 
 .google-maps-link{
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px;
   font-size: 0.9rem;
   padding: 5px;
   width: fit-content;
+  margin: 5px 0px;
 }
 
 .google-maps-link svg{
@@ -792,25 +804,9 @@ input[type=number] {
   fill: var(--pink);
 }
 
-.meeting-card .info-table {
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-column-gap: 10px;
-  width: 300px;
-  margin-bottom: 20px;
-}
-
-.meeting-card .info-table .info-block span{
-  text-align: right;
-}
-
-.meeting-card .price-part{
-  font-size: 1.2rem;
-}
-
-.meeting-card .table-shell{
+.meeting-card .info-stuff{
   display: flex;
-  gap: 15px;
+  gap: 25px;
 }
 
 .meeting-card .description{
@@ -818,7 +814,7 @@ input[type=number] {
 }
 
 .meeting-card .action-block{
-  margin-top: 15px;
+  margin: 15px 0px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
@@ -851,7 +847,6 @@ input[type=number] {
 
 .meeting-avatar-container .btn-link{
   width: fit-content;
-  margin: 15px auto;
 }
 
 .selected-avatar{
@@ -1149,49 +1144,279 @@ input[type=number] {
   fill: var(--pink);
 }
 
-.privacy-policy-container, .faq-container, .rules-container, .about-us-container{
+/* ---------- Shared container ---------- */
+.privacy-policy-container,
+.faq-container,
+.rules-container,
+.about-us-container {
   max-width: 1000px;
-  margin: auto;
-  background: white;
-  padding: 15px;
-  margin-top: 15px;
+  margin: 30px auto 15px;          /* auto on both sides, vertical rhythm */
+  padding: 30px 35px;              /* more breathing room */
+  background: #fff;
   border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);  /* subtle lift */
+  line-height: 1.6;
+  color: #333;
 }
 
-.about-us-container h1, 
-.rules-container h1, 
-.faq-container h1, 
-.privacy-policy-container h1{
+/* ---------- Headings ---------- */
+.about-us-container h1,
+.rules-container h1,
+.faq-container h1,
+.privacy-policy-container h1 {
   text-align: center;
+  margin-bottom: 25px;
+  font-size: 2rem;
+  color: var(--pink);
 }
 
-.faq-container summary{
-  cursor: pointer;
+/* ---------- Paragraph / heading spacing ---------- */
+.privacy-policy-container :is(p, h2, h3),
+.faq-container :is(p, h2, h3),
+.rules-container :is(p, h2, h3),
+.about-us-container :is(p, h2, h3) {
+  margin-top: 12px;
+  margin-bottom: 0;
 }
-.faq-container details{
+
+/* ---------- FAQ details / summary ---------- */
+.faq-container details {
   margin-top: 15px;
+  border: 1px solid #f0e6ec;        /* soft card feel */
+  border-radius: 10px;
+  padding: 12px 18px;
+  background: #fdfafc;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.faq-container h2{
+.faq-container details[open] {
+  background: #fff;
+  border-color: var(--pink);
+}
+
+.faq-container summary {
+  cursor: pointer;
+  color: var(--pink);
+  list-style: none;                 /* hide default arrow */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.faq-container summary::-webkit-details-marker {
+  display: none;                    /* hide WebKit arrow */
+}
+
+/* Custom chevron */
+.faq-container summary::before {
+  content: "▸";
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 0.9em;
+}
+
+.faq-container details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.faq-container summary:hover {
+  opacity: 0.8;
+}
+
+.faq-container h2 {
   color: var(--pink);
   font-weight: 400;
   display: inline;
   font-size: 1.2rem;
+  margin: 0;                        /* summary handles spacing */
 }
 
-.faq-container summary{
-  color: var(--pink);
-}
-
-.rules-container ol{
-  line-height: 2rem;
-}
-
-.privacy-policy-container :is(p, h2, h3), 
-.faq-container :is(p, h2, h3),
-.rules-container :is(p, h2, h3),
-.about-us-container :is(p, h2, h3){
+/* Question content */
+.faq-container details p {
   margin-top: 10px;
+  color: #444;
+}
+
+.faq-container details ul {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+.faq-container details ul li {
+  margin-bottom: 4px;
+}
+
+/* ---------- Rules list ---------- */
+.rules-container ol {
+  line-height: 1.8;
+  padding-left: 22px;
+}
+
+.rules-container ol li {
+  margin-bottom: 8px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .privacy-policy-container,
+  .faq-container,
+  .rules-container,
+  .about-us-container {
+    padding: 20px 18px;
+    margin-top: 15px;
+    border-radius: 12px;
+  }
+
+  .faq-container h1,
+  .rules-container h1,
+  .about-us-container h1,
+  .privacy-policy-container h1 {
+    font-size: 1.5rem;
+  }
+}
+
+.faq-container summary:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.map-preview-button {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 220px;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    background: #eee;
+    cursor: pointer;
+    text-align: left;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.map-preview-label {
+    position: absolute;
+    z-index: 500;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: calc(100% - 24px);
+    padding: 9px 14px;
+    border-radius: 8px;
+    background: white;
+    color: #222;
+    box-shadow: 0 2px 8px #0002;
+    pointer-events: none;
+    font-size: 14px;
+}
+
+/* Full-screen modal */
+.map-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: white;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    height: 100dvh;
+}
+
+.map-modal.open {
+    display: flex;
+}
+
+.map-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 20px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.map-modal-header h2 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.map-modal-close {
+    border: none;
+    background: transparent;
+    font-size: 32px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+#modalMap {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+}
+
+.map-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 20px;
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    border-top: 1px solid #ddd;
+    background: white;
+}
+
+.map-modal-footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.map-modal-footer button {
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#confirmMapSelection {
+    background: #222;
+    color: white;
+}
+
+body.map-modal-open {
+    overflow: hidden;
+}
+
+@media (max-width: 600px) {
+    .map-preview-button {
+        height: 180px;
+    }
+
+    .map-modal-header {
+        padding: 12px;
+    }
+
+    .map-modal-footer {
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    .map-modal-footer p {
+        flex-basis: 100%;
+    }
+
+    .map-modal-footer button {
+        flex: 1;
+    }
 }
 
 @media screen and (max-width: 1000px){
@@ -1215,12 +1440,11 @@ input[type=number] {
     left: 0;
     display: none;
     background: white;
-    border-radius: 8px;
     margin-top: 5px;
     padding: 10px;
     gap: 8px;
     text-align: center;
-    box-shadow: 0px 3px 1px 0px var(--pink);
+    box-shadow: 0px 1px 1px 0px gainsboro;
     width: 100%;
   }
   .nav-link-container .nav-link{
@@ -1240,11 +1464,12 @@ input[type=number] {
     display: block;
   }
   .meeting-card{
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
   .meeting-card img{
-    margin: auto;
-    display: block;
+    max-width: 80px;
   }
   .meeting-card .table-shell{
     display: block;
@@ -1253,10 +1478,6 @@ input[type=number] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-  }
-  .meeting-card img{
-    max-width: 120px;
-    margin-bottom: 10px;
   }
 
   .meeting-card .complete-action-block{

@@ -1,5 +1,5 @@
 from django import forms
-from db.models import UserProfilePicture, FriendMeetingTime, User, Meeting, Review
+from db.models import UserProfilePicture, User, Meeting, Review
 from db.constants import Hours
 from django.utils import timezone
 from datetime import datetime, timedelta, time
@@ -105,15 +105,7 @@ class FriendSettingsForm(forms.ModelForm):
         model = User
         fields = [
             "is_accepting_meetings",
-            "profit_per_hour"
-        ]
-
-    
-class FriendSettingsTimeForm(forms.ModelForm):
-
-    class Meta:
-        model = FriendMeetingTime
-        fields = [
+            "profit_per_hour",
             "mon_day", "mon_from", "mon_to",
             "tue_day", "tue_from", "tue_to",
             "wed_day", "wed_from", "wed_to",
@@ -124,15 +116,15 @@ class FriendSettingsTimeForm(forms.ModelForm):
         ]
 
     WEEKDAYS = {
-        "mon": "Pirmadienis",
-        "tue": "Antradienis",
-        "wed": "Trečiadienis",
-        "thu": "Ketvirtadienis",
-        "fri": "Penktadienis",
-        "sat": "Šeštadienis",
-        "sun": "Sekmadienis",
-    }
-
+            "mon": "Pirmadienis",
+            "tue": "Antradienis",
+            "wed": "Trečiadienis",
+            "thu": "Ketvirtadienis",
+            "fri": "Penktadienis",
+            "sat": "Šeštadienis",
+            "sun": "Sekmadienis",
+        }
+        
     def clean(self):
         cleaned = super().clean()
 

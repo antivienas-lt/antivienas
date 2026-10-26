@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from dotenv import load_dotenv
 import os
 from pathlib import Path
+import mimetypes
 
 load_dotenv() # .env file
 
@@ -27,12 +28,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("DJKEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-if os.getenv("DEBUG") == "False":
-    DEBUG = False
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "antivienas.lt",
+    "www.antivienas.lt",
+    "192.168.1.40",
+    "localhost",
+    "127.0.0.1",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://antivienas.lt",
+    "https://www.antivienas.lt",
+]
 FRONTEND_DOMAIN = "https://antivienas.lt"
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
@@ -40,7 +48,9 @@ if DEBUG:
     FRONTEND_DOMAIN = "127.0.0.1:8000"
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-#FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880 #5mb
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10485760 #10mb
+
+mimetypes.add_type("text/javascript", ".mjs")
 
 
 # Application definition
@@ -105,11 +115,11 @@ AUTH_USER_MODEL = "db.User"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("NAME"),
-        "USER": os.getenv("USER"),
-        "PASSWORD": os.getenv("PASSWORD"),
-        "HOST": os.getenv("HOST"),
-        "PORT": os.getenv("PORT")
+        "NAME": os.getenv("DB_NAME"),
+        "USER": os.getenv("DB_USER"),
+        "PASSWORD": os.getenv("DB_PASSWORD"),
+        "HOST": os.getenv("DB_HOST"),
+        "PORT": os.getenv("DB_PORT")
     }
 }
 
@@ -155,7 +165,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # SET THIS FOR PRODUCTION (ABSOLUTE PATH TO STATIC FILES)
 # STATIC_ROOT = ''
@@ -164,7 +174,9 @@ STATICFILES_DIRS = [
     BASE_DIR / "static"
 ]
 
-MEDIA_URL = 'media/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 LOGIN_URL = "/login/"
@@ -232,3 +244,11 @@ EMAIL_TIMEOUT = 10
 # lets django know it is behind proxy
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = not DEBUG
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True

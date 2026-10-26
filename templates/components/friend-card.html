@@ -26,7 +26,6 @@
   </div>
   <div class="likes-desc-container">
     {% if friend.interests %}
-      <p class="likes-fax">Pomėgiai:</p>
       <div class="likes-list">
         {% for interest in friend.interests|slice:":3" %}
         <span class="like-item">{{interest}}</span>

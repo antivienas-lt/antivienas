@@ -1,4 +1,6 @@
-# antivienas.lt Privatumo politika (2026-03-18)
+# Privatumo politika
+
+*Paskutinį kartą koreguota: 2026-03-18*
 
 Tvarkydami Jūsų asmens duomenis, laikomės **Europos Parlamento ir Tarybos Reglamento (ES) 2016/679 (Bendrojo duomenų apsaugos reglamento, toliau - BDAR)**, Lietuvos Respublikos asmens duomenų teisinės apsaugos įstatymo, Elektroninių ryšių įstatymo bei kitų taikomų teisės aktų.
 
@@ -535,10 +537,9 @@ Svetainė: **https://vdai.lrv.lt/**
 
 ## 16. Nepilnamečiai
 
-Platforma **skirta tik pilnamečiams asmenims (18+)**, nebent aiškiai nurodyta kitaip Taisyklėse ir įdiegtos atitinkamos apsaugos priemonės.
+Platforma **skirta tik asmenims nuo 16 metų**, nebent aiškiai nurodyta kitaip Taisyklėse ir įdiegtos atitinkamos apsaugos priemonės.
 
-Mes sąmoningai nerenkame nepilnamečių duomenų. Jei sužinotume, kad paskyrą sukūrė nepilnametis, galime paskyrą sustabdyti arba ištrinti ir pašalinti susijusius duomenis.
-
+Mes sąmoningai nerenkame jaunesnių, nei 16 metų asmenų, duomenų. Jei sužinotume, kad paskyrą sukūrė jaunesnis asmuo, galime paskyrą sustabdyti arba ištrinti ir pašalinti susijusius duomenis.
 
 ## 17. Platformos saugumo ir elgesio taisyklių vykdymas
 

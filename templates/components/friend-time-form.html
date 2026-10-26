@@ -9,13 +9,13 @@
     </tr>
     <!-- Pirmadienis -->
     <tr>
-      <td><input type="checkbox" name="mon_day" {% if time_form.instance.mon_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="mon_day" {% if form.instance.mon_day %}checked{% endif %}></td>
       <td>Pirmadienis</td>
       <td>
         <div class="table-field-input">
           <select name="mon_from" class="time-from">
-            {% for val, label in time_form.fields.mon_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.mon_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.mon_from.choices %}
+              <option value="{{ val }}" {% if form.instance.mon_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -23,8 +23,8 @@
       <td>
         <div class="table-field-input">
           <select name="mon_to" class="time-to">
-            {% for val, label in time_form.fields.mon_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.mon_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.mon_to.choices %}
+              <option value="{{ val }}" {% if form.instance.mon_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -32,13 +32,13 @@
     </tr>
     <!-- Antradienis -->
     <tr>
-      <td><input type="checkbox" name="tue_day" {% if time_form.instance.tue_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="tue_day" {% if form.instance.tue_day %}checked{% endif %}></td>
       <td>Antradienis</td>
       <td>
         <div class="table-field-input">
           <select name="tue_from" class="time-from">
-            {% for val, label in time_form.fields.tue_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.tue_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.tue_from.choices %}
+              <option value="{{ val }}" {% if form.instance.tue_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -46,8 +46,8 @@
       <td>
         <div class="table-field-input">
           <select name="tue_to" class="time-to">
-            {% for val, label in time_form.fields.tue_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.tue_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.tue_to.choices %}
+              <option value="{{ val }}" {% if form.instance.tue_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -55,13 +55,13 @@
     </tr>
     <!-- Trečiadienis -->
     <tr>
-      <td><input type="checkbox" name="wed_day" {% if time_form.instance.wed_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="wed_day" {% if form.instance.wed_day %}checked{% endif %}></td>
       <td>Trečiadienis</td>
       <td>
         <div class="table-field-input">
           <select name="wed_from" class="time-from">
-            {% for val, label in time_form.fields.wed_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.wed_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.wed_from.choices %}
+              <option value="{{ val }}" {% if form.instance.wed_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -69,8 +69,8 @@
       <td>
         <div class="table-field-input">
           <select name="wed_to" class="time-to">
-            {% for val, label in time_form.fields.wed_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.wed_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.wed_to.choices %}
+              <option value="{{ val }}" {% if form.instance.wed_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -78,13 +78,13 @@
     </tr>
     <!-- Ketvirtadienis -->
     <tr>
-      <td><input type="checkbox" name="thu_day" {% if time_form.instance.thu_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="thu_day" {% if form.instance.thu_day %}checked{% endif %}></td>
       <td>Ketvirtadienis</td>
       <td>
         <div class="table-field-input">
           <select name="thu_from" class="time-from">
-            {% for val, label in time_form.fields.thu_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.thu_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.thu_from.choices %}
+              <option value="{{ val }}" {% if form.instance.thu_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -92,8 +92,8 @@
       <td>
         <div class="table-field-input">
           <select name="thu_to" class="time-to">
-            {% for val, label in time_form.fields.thu_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.thu_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.thu_to.choices %}
+              <option value="{{ val }}" {% if form.instance.thu_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -101,13 +101,13 @@
     </tr>
     <!-- Penktadienis -->
     <tr>
-      <td><input type="checkbox" name="fri_day" {% if time_form.instance.fri_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="fri_day" {% if form.instance.fri_day %}checked{% endif %}></td>
       <td>Penktadienis</td>
       <td>
         <div class="table-field-input">
           <select name="fri_from" class="time-from">
-            {% for val, label in time_form.fields.fri_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.fri_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.fri_from.choices %}
+              <option value="{{ val }}" {% if form.instance.fri_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -115,8 +115,8 @@
       <td>
         <div class="table-field-input">
           <select name="fri_to" class="time-to">
-            {% for val, label in time_form.fields.fri_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.fri_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.fri_to.choices %}
+              <option value="{{ val }}" {% if form.instance.fri_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -124,13 +124,13 @@
     </tr>
     <!-- Šeštadienis -->
     <tr>
-      <td><input type="checkbox" name="sat_day" {% if time_form.instance.sat_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="sat_day" {% if form.instance.sat_day %}checked{% endif %}></td>
       <td>Šeštadienis</td>
       <td>
         <div class="table-field-input">
           <select name="sat_from" class="time-from">
-            {% for val, label in time_form.fields.sat_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.sat_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.sat_from.choices %}
+              <option value="{{ val }}" {% if form.instance.sat_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -138,8 +138,8 @@
       <td>
         <div class="table-field-input">
           <select name="sat_to" class="time-to">
-            {% for val, label in time_form.fields.sat_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.sat_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.sat_to.choices %}
+              <option value="{{ val }}" {% if form.instance.sat_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -147,13 +147,13 @@
     </tr>
     <!-- Sekmadienis -->
     <tr>
-      <td><input type="checkbox" name="sun_day" {% if time_form.instance.sun_day %}checked{% endif %}></td>
+      <td><input type="checkbox" name="sun_day" {% if form.instance.sun_day %}checked{% endif %}></td>
       <td>Sekmadienis</td>
       <td>
         <div class="table-field-input">
           <select name="sun_from" class="time-from">
-            {% for val, label in time_form.fields.sun_from.choices %}
-              <option value="{{ val }}" {% if time_form.instance.sun_from == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.sun_from.choices %}
+              <option value="{{ val }}" {% if form.instance.sun_from == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>
@@ -161,8 +161,8 @@
       <td>
         <div class="table-field-input">
           <select name="sun_to" class="time-to">
-            {% for val, label in time_form.fields.sun_to.choices %}
-              <option value="{{ val }}" {% if time_form.instance.sun_to == val %}selected{% endif %}>{{ label }}</option>
+            {% for val, label in form.fields.sun_to.choices %}
+              <option value="{{ val }}" {% if form.instance.sun_to == val %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
         </div>

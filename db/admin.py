@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
-from db.models import User, UserProfilePicture, FriendMeetingTime, Meeting, Payment, Review, Message, UserEmailLog, MeetingEmailLog
+from db.models import User, UserProfilePicture, Meeting, Payment, Review, Message, UserEmailLog, MeetingEmailLog
 from db.constants import MeetingStatusEnum
 from db.services import complete_meeting
 
@@ -14,10 +14,6 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(UserProfilePicture)
 class UserProfilePictureAdmin(admin.ModelAdmin):
   list_display=['user', 'image', 'is_avatar', 'uploaded_at']
-
-@admin.register(FriendMeetingTime)
-class FriendMeetingTimeAdmin(admin.ModelAdmin):
-   list_display= ['user']
 
 @admin.register(Meeting)
 class MeetingAdmin(admin.ModelAdmin):

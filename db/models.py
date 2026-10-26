@@ -9,6 +9,7 @@ import random
 from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
+from db.constants import PLATFORM_FEE_RATE
 
 
 DEFAULT_USER_IMG = settings.STATIC_URL + "assets/default_avatar.webp"
@@ -39,7 +40,6 @@ class User(AbstractUser):
 
     about_description = models.TextField(blank=True, default="")
 
-    #friend stuff
     is_accepting_meetings = models.BooleanField(default=False)
     
     profit_per_hour = models.PositiveIntegerField(default=5, validators=[MinValueValidator(5)])
@@ -48,6 +48,34 @@ class User(AbstractUser):
 
     bank_recipient = models.CharField(max_length=100, blank=True, default="")
     bank_account_number = models.CharField(max_length=34, blank=True, default="")
+
+    mon_day = models.BooleanField(default=True, verbose_name="Available Monday")
+    mon_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    mon_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    tue_day = models.BooleanField(default=True, verbose_name="Available Tuesday")
+    tue_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    tue_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    wed_day = models.BooleanField(default=True, verbose_name="Available Wednesday")
+    wed_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    wed_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    thu_day = models.BooleanField(default=True, verbose_name="Available Thursday")
+    thu_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    thu_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    fri_day = models.BooleanField(default=True, verbose_name="Available Friday")
+    fri_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    fri_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    sat_day = models.BooleanField(default=True, verbose_name="Available Saturday")
+    sat_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    sat_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    sun_day = models.BooleanField(default=True, verbose_name="Available Sunday")
+    sun_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
+    sun_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
 
 
     def __str__(self):
@@ -74,7 +102,7 @@ class User(AbstractUser):
     @property
     def revenue_per_hour(self):
         # 20% of profit
-        return int(self.profit_per_hour * 1.20 + 0.9999)
+        return int(self.profit_per_hour * PLATFORM_FEE_RATE + 0.9999)
     
 
     @property
@@ -96,6 +124,25 @@ class User(AbstractUser):
     def city_coords(self):
         lat,lng = CITY_COORDINATES[self.city]
         return [lat, lng]
+
+    @property
+    def schedule_data(self):
+        return [
+            [self.mon_day, self.mon_from, self.mon_to],
+            [self.tue_day, self.tue_from, self.tue_to],
+            [self.wed_day, self.wed_from, self.wed_to],
+            [self.thu_day, self.thu_from, self.thu_to],
+            [self.fri_day, self.fri_from, self.fri_to],
+            [self.sat_day, self.sat_from, self.sat_to],
+            [self.sun_day, self.sun_from, self.sun_to],
+        ]
+    
+    @property
+    def is_available(self):
+        if self.mon_day or self.tue_day or self.wed_day or self.thu_day or self.fri_day or self.sat_day or self.sun_day:
+            return True
+        else:
+            return False
 
 
 class UserProfilePicture(models.Model):
@@ -158,60 +205,6 @@ class UserProfilePicture(models.Model):
 
             img.save(self.image.path, quality=95, optimize=True)
             self.rebalance_avatar()
-
-
-class FriendMeetingTime(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    mon_day = models.BooleanField(default=True, verbose_name="Available Monday")
-    mon_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    mon_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    tue_day = models.BooleanField(default=True, verbose_name="Available Tuesday")
-    tue_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    tue_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    wed_day = models.BooleanField(default=True, verbose_name="Available Wednesday")
-    wed_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    wed_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    thu_day = models.BooleanField(default=True, verbose_name="Available Thursday")
-    thu_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    thu_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    fri_day = models.BooleanField(default=True, verbose_name="Available Friday")
-    fri_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    fri_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    sat_day = models.BooleanField(default=True, verbose_name="Available Saturday")
-    sat_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    sat_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    sun_day = models.BooleanField(default=True, verbose_name="Available Sunday")
-    sun_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
-    sun_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
-
-    def __str__(self):
-        return f"{self.user.username}'s Meeting Availability"
-    
-    @property
-    def schedule_data(self):
-        return [
-            [self.mon_day, self.mon_from, self.mon_to],
-            [self.tue_day, self.tue_from, self.tue_to],
-            [self.wed_day, self.wed_from, self.wed_to],
-            [self.thu_day, self.thu_from, self.thu_to],
-            [self.fri_day, self.fri_from, self.fri_to],
-            [self.sat_day, self.sat_from, self.sat_to],
-            [self.sun_day, self.sun_from, self.sun_to],
-        ]
-    
-    @property
-    def is_available(self):
-        if self.mon_day or self.tue_day or self.wed_day or self.thu_day or self.fri_day or self.sat_day or self.sun_day:
-            return True
-        else:
-            return False
         
 class Meeting(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="client")

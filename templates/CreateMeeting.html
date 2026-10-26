@@ -5,8 +5,8 @@
 <title>Susitikti</title>
 <meta name="robots" content="noindex, nofollow" />
 
-<link rel="stylesheet" href="{% static 'leaflet/leaflet.css' %}" />
-<script src="{% static 'leaflet/leaflet.js' %}"></script>
+<link rel="stylesheet" href="{% static 'js/leaflet/leaflet.css' %}" />
+<link rel="stylesheet" href="{% static 'js/maplibre-gl/maplibre-gl.css' %}" />
 {% endblock meta %}
 
 {% block content %}
@@ -68,9 +68,60 @@
       </div>
 
       <div class="form-field-input">
-        <p class="section-descriptor"><strong>Susitikimo vieta</strong></p>
+    <p class="section-descriptor">
+        <strong>Susitikimo vieta</strong>
+    </p>
+
+    <!-- Clickable map preview -->
+    <button
+        type="button"
+        id="openMapModal"
+        class="map-preview-button"
+        aria-label="Choose meeting location on map"
+    >
         <div id="map"></div>
-      </div>
+        <span class="map-preview-label">
+            Paspauskite, kad pasirinktumėte vietą
+        </span>
+    </button>
+
+    <!-- Full-screen modal -->
+    <div
+        id="mapModal"
+        class="map-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="mapModalTitle"
+        aria-hidden="true"
+    >
+        <div class="map-modal-header">
+            <h2 id="mapModalTitle">Pasirinkite susitikimo vietą</h2>
+
+            <button
+                type="button"
+                id="closeMapModal"
+                class="map-modal-close"
+                aria-label="Close map"
+            >
+                &times;
+            </button>
+        </div>
+
+        <div id="modalMap"></div>
+
+        <div class="map-modal-footer">
+            <p>Paspauskite žemėlapį arba perkelkite žymeklį.</p>
+
+            <button type="button" id="cancelMapSelection">
+                Atšaukti
+            </button>
+
+            <button type="button" id="confirmMapSelection">
+                Patvirtinti vietą
+            </button>
+        </div>
+    </div>
+</div>
 
       <div class="form-field-input">
         <label for="meeting_description">Susitikimo aprašymas (iki 250 simbolių)</label>
@@ -90,32 +141,153 @@
   </div>
   {% include "components/footer.html" %}
 
-  {% if request.user != friend %}
-  <script>
-    // city_cords: float? = [lat, lng]
-    const map = L.map("map").setView({{friend.city_coords}}, 15);
+  <script type="importmap">
+    {
+    "imports": {
+        "leaflet": "{% static 'js/leaflet/leaflet-src.esm.js' %}",
+        "maplibre-gl": "{% static 'js/maplibre-gl/maplibre-gl.mjs' %}",
+        "leaflet-maplibre-gl": "{% static 'js/maplibre-gl/leaflet-maplibre-gl.mjs' %}"
+        }
+    }
+  </script>
+  <script type="module">
+ import * as L from "leaflet";
+import { maplibreGL } from "leaflet-maplibre-gl";
 
-    // Add tile layer
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png")
-        .addTo(map);
+// Existing form fields
+const latInput = document.getElementById("id_latitude");
+const lngInput = document.getElementById("id_longitude");
 
-    const marker = L.marker({{friend.city_coords}}, { draggable: true }).addTo(map);
+// Modal elements
+const modal = document.getElementById("mapModal");
+const openButton = document.getElementById("openMapModal");
+const closeButton = document.getElementById("closeMapModal");
+const cancelButton = document.getElementById("cancelMapSelection");
+const confirmButton = document.getElementById("confirmMapSelection");
 
-    marker.on("dragend", function () {
-        const latlng = marker.getLatLng();
-        console.log(latlng.lat, latlng.lng);
-        document.getElementById("id_latitude").value = e.latlng.lat;
-        document.getElementById("id_longitude").value = e.latlng.lng;
+// Initial location supplied by Django
+const defaultCoords = {{ friend.city_coords|safe }};
+
+function readSavedCoords() {
+    const lat = parseFloat(latInput.value);
+    const lng = parseFloat(lngInput.value);
+
+    if (Number.isFinite(lat) && Number.isFinite(lng)) {
+        return [lat, lng];
+    }
+
+    return defaultCoords;
+}
+
+// Coordinates currently saved in the form
+let selectedCoords = readSavedCoords();
+
+// Temporary coordinates while the modal is open
+let draftCoords = [...selectedCoords];
+
+const tileOptions = {
+    style: "https://tiles.openfreemap.org/styles/liberty"
+};
+
+// Small preview map
+const previewMap = L.map("map", {
+    scrollWheelZoom: false,
+    dragging: false,
+    doubleClickZoom: false,
+    zoomControl: false,
+    attributionControl: false
+}).setView(selectedCoords, 15);
+
+maplibreGL(tileOptions).addTo(previewMap);
+
+const previewMarker = L.marker(selectedCoords, {
+    interactive: false
+}).addTo(previewMap);
+
+// Full-screen selection map
+const modalMap = L.map("modalMap").setView(selectedCoords, 15);
+
+maplibreGL(tileOptions).addTo(modalMap);
+
+const modalMarker = L.marker(selectedCoords, {
+    draggable: true
+}).addTo(modalMap);
+
+// Update temporary coordinates, not the form yet
+function updateDraft(coords) {
+    draftCoords = [coords.lat, coords.lng];
+    modalMarker.setLatLng(coords);
+}
+
+// Clicking the preview opens the modal
+function openModal() {
+    draftCoords = [...selectedCoords];
+
+    modalMarker.setLatLng(draftCoords);
+    modalMap.setView(draftCoords, 15);
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("map-modal-open");
+
+    // Wait for the modal to become visible before resizing Leaflet
+    requestAnimationFrame(() => {
+        modalMap.invalidateSize();
+        modalMap.setView(draftCoords, 15);
+        closeButton.focus();
     });
+}
 
-    // Click to move marker
-    map.on("click", function (e) {
-        marker.setLatLng(e.latlng);
-        //console.log("Clicked location:", e.latlng);
-        //console.log(`https://www.google.com/maps/place/${e.latlng.lat},${e.latlng.lng}`)
-        document.getElementById("id_latitude").value = e.latlng.lat;
-        document.getElementById("id_longitude").value = e.latlng.lng;
-    });
+function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("map-modal-open");
+
+    // Discard any unconfirmed changes
+    draftCoords = [...selectedCoords];
+    modalMarker.setLatLng(selectedCoords);
+
+    openButton.focus();
+}
+
+openButton.addEventListener("click", openModal);
+
+// Also handle clicks directly on the preview map
+previewMap.on("click", openModal);
+
+// Select a location by clicking the large map
+modalMap.on("click", (event) => {
+    updateDraft(event.latlng);
+});
+
+// Or drag the marker
+modalMarker.on("dragend", () => {
+    updateDraft(modalMarker.getLatLng());
+});
+
+// Save only after explicit confirmation
+confirmButton.addEventListener("click", () => {
+    selectedCoords = [...draftCoords];
+
+    latInput.value = selectedCoords[0];
+    lngInput.value = selectedCoords[1];
+
+    previewMarker.setLatLng(selectedCoords);
+    previewMap.setView(selectedCoords, 15);
+
+    closeModal();
+});
+
+// Cancel and close without saving
+closeButton.addEventListener("click", closeModal);
+cancelButton.addEventListener("click", closeModal);
+
+// Escape closes the modal
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+        closeModal();
+    }
+});
 </script>
 
 <script>
@@ -332,7 +504,5 @@ function renderCalendar() {
     }
 }
 </script>
-{% endif %}
-
 </body>
 {% endblock content %}

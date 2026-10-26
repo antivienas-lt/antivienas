@@ -188,3 +188,6 @@ class BanReasonEnum(models.IntegerChoices):
    UNPAID_MEETING = 1, "Unpaid meeting"
    BAD_BEHAVIOR = 2, "Bad behavior"
    BAD_PROFILE = 3, "Bad profile"
+
+
+PLATFORM_FEE_RATE = 1.20

@@ -22,9 +22,6 @@
 <body>
   {% include "components/nav.html"%}
 <div class="friend-search-component">
-        {% if friend_count > 0 %}
-        <p class="friend-filter-result">Rodoma draugų: {{ friend_count }}</p>
-      {% endif %}
       <form action="{% url "index" %}" method="get" class="friend-search-form">
         <div class="friend-filter-container">
           <p>Filtruoti:</p>
@@ -42,6 +39,9 @@
               <option value="{{ c.value }}" {% if request.GET.gender == c.value %}selected{% endif %}>{{ c.label }}</option>
             {% endfor %}
           </select>
+        {% if clear_flag %}
+          <a href="{% url 'index' %}">Nuimti filtrus</a>
+        {% endif %}
         </div>
       </form>
 </div>
