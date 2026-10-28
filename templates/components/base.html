@@ -7,6 +7,15 @@
   <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'style.css' %}">
   {% block meta %}{% endblock %}
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7864L1D27K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7864L1D27K');
+  </script>
 </head>
 {% block content %}{% endblock %}
 </html>
