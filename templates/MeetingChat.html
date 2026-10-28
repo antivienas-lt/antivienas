@@ -6,9 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 {% endblock meta %}
 
-
 {% block content %}
-<body>
   {% include "components/nav.html"%}
   <div class="content">
     <div class="chat-container" id="chat-messages">
@@ -202,5 +200,4 @@ chatMessageInput.onkeyup = function(e) {
 };
 </script>
 {% endif %}
-</body>
 {% endblock content %}

@@ -18,7 +18,6 @@
 <link rel="canonical" href="https://antivienas.lt{% url 'profile' profile.username %}">
 {% endblock meta %} 
 {% block content %}
-<body>
   {% include "components/nav.html"%}
   <div class="content">
     <div class="profile-card">
@@ -147,5 +146,4 @@
     </div>
   </div>
   {% include "components/footer.html" %}
-</body>
 {% endblock content %}

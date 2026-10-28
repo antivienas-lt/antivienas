@@ -10,7 +10,6 @@
 {% endblock meta %}
 
 {% block content %}
-<body>
   {% include "components/nav.html"%}
 
  <div class="profile-edit-container">
@@ -151,7 +150,7 @@
     }
   </script>
   <script type="module">
- import * as L from "leaflet";
+import * as L from "leaflet";
 import { maplibreGL } from "leaflet-maplibre-gl";
 
 // Existing form fields
@@ -504,5 +503,4 @@ function renderCalendar() {
     }
 }
 </script>
-</body>
 {% endblock content %}

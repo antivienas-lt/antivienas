@@ -19,7 +19,6 @@
 
 
 {% block content %}
-<body>
   {% include "components/nav.html"%}
 <div class="friend-search-component">
       <form action="{% url "index" %}" method="get" class="friend-search-form">
@@ -69,5 +68,4 @@
     {% endif %}
   </div>
   {% include "components/footer.html" %}
-</body>
 {% endblock content %}
