@@ -39,6 +39,11 @@ body {
     color: #ffffff;
 }
 
+a {
+    word-break: break-all;
+    color: #f20085;
+}
+
 .brand {
     color: #f20085;
 }
@@ -58,9 +63,9 @@ body {
     margin: 30px 0;
 }
 
-.button {
+.button-wrapper a {
     background-color: #f20085;
-    color: #ffffff;
+    color: #ffffff !important;
     text-decoration: none;
     padding: 14px 32px;
     border-radius: 6px;
@@ -70,11 +75,6 @@ body {
 
 .button:hover {
     background-color: #d10072;
-}
-
-.link {
-    word-break: break-all;
-    color: #f20085;
 }
 .email{
     color: #f20085;
@@ -123,42 +123,42 @@ body {
 	</g>
 </svg>
             <h1>
-                <span class="brand">ANTI-VIENAS<br></span> samdomų draugų platforma
+                <span class="brand">antivienas.lt<br></span> samdomų draugų platforma
             </h1>
         </div>
 
         <div class="content">
             <p>
-                Sveikinu prisijungus 🎉
+                Sveikiname prisijungus 🎉
             </p>
 
             <p>
-                Kad galėtum pradėti visomis platformos galimybėmis, patvirtink savo paskyrą:
+                Aktyvuokite savo paskyrą:
             </p>
 
             <div class="button-wrapper">
-                <a href="{{activation_link}}" class="button">
+                <a href="{{activation_link}}" id="button">
                     Aktyvuoti paskyrą
                 </a>
             </div>
 
             <p>
-                Mygtukas neveikia? nukopijuok šią nuorodą į savo naršyklę:
+                Mygtukas neveikia? Spauskite šią nuorodą arba nukopijuokite į savo naršyklę:
             </p>
 
             <p class="link">
-                {{activation_link}}
+                <a href="{{activation_link}}">{{activation_link}}</a>
             </p>
 
             <p>
-                Jeigu turėsi klausimų, kreipkis: <span class="email">{{ support_email }}</span>
+                Jeigu turėsite klausimų, kreipkitės el. paštu: <span class="email">{{ support_email }}</span>
             </p>
 
             <p>
-                Jeigu nesiregistravai antivienas.lt platformoje - gali ignoruoti šį laišką.
+                Jeigu nesiregistravote antivienas.lt platformoje - gali ignoruoti šį laišką.
             </p>
 
-            <p class="note">Neaktyvuotos paskyros yra ištrinamos po 24 valandų, po registracijos.</p>
+            <p class="note">Neaktyvuotos paskyros yra ištrinamos po 24 valandų.</p>
         </div>
 
         <div class="divider"></div>

@@ -1,11 +1,11 @@
 Valio! 🥳
 
-Gavai naują pasiūlymą susitikti. Peržiūrėk pasiūlymo detales ir nuspręsk - ar atmesti, ar priimti.
+Gavote naują pasiūlymą susitikti. Peržiūrėkite ir nuspręskite - ar atmesti, ar priimti.
 
 Peržiūrėti pasiūlymą:
 {{ meeting_manager_link }}
 
-Jeigu turi klausimų, parašyk: {{ support_email }}
+Jeigu turite klausimų, parašyk: {{ support_email }}
 
 ---
 

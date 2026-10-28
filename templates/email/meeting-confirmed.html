@@ -58,7 +58,12 @@ body {
     margin: 30px 0;
 }
 
-.button {
+a{
+    word-break: break-all;
+    color: #f20085;
+}
+
+.button-wrapper a {
     background-color: #f20085;
     color: #ffffff;
     text-decoration: none;
@@ -70,11 +75,6 @@ body {
 
 .button:hover {
     background-color: #d10072;
-}
-
-.link {
-    word-break: break-all;
-    color: #f20085;
 }
 
 .code{
@@ -145,9 +145,9 @@ body {
 
             <p class="code"><strong>Patvirtinimo kodas: {{ confirmation_code }}</strong></p>
 
-            <p>Pradžioje susitikimo, pateik patvirtinimo kodą, ir nepamiršk susimokėti.</p>
+            <p>Pradžioje susitikimo, pateikite patvirtinimo kodą.</p>
             
-            <p>💬 Kad susitikimas būtų sklandesnis, dabar gali bendrauti su draugu. Šią fukciją rasi prie susitikimo kortelės.</p>
+            <p>💬 Kad susitikimas būtų sklandesnis, dabar gali bendrauti su draugu. Šią fukciją rasite prie susitikimo kortelės.</p>
 
             <div class="button-wrapper">
                 <a href="{{meeting_manager_link}}" class="button">
@@ -156,7 +156,7 @@ body {
             </div>
 
             <p>
-                Jeigu turi klausimų: <span class="email">{{ support_email }}</span>
+                Jeigu turite klausimų: <span class="email">{{ support_email }}</span>
             </p>
 
         </div>

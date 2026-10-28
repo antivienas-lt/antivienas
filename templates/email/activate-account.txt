@@ -1,19 +1,18 @@
-Sveikinu prisijungus 🎉
+Sveikiname prisijungus 🎉
 
-Kad galėtum pradėti visomis platformos galimybėmis, patvirtink savo paskyrą:
+Patvirtinkite savo paskyrą:
 
 Nuoroda aktyvuoti paskyrą:
 {{ activation_link }}
 
-Jeigu turėsi klausimų, kreipkis: {{ support_email }}
+Jeigu turėsite klausimų, kreipkistės el. paštu: {{ support_email }}
 
-Jeigu nesiregistravai antivienas.lt platformoje - gali ignoruoti šį laišką.
+Jeigu nesiregistravote antivienas.lt platformoje - galite ignoruoti šį laišką.
 
-Neaktyvuotos paskyros yra ištrinamos po 24 valandų po registracijos.
+Neaktyvuotos paskyros bus ištrinamos po 24 valandų.
 
 ---
 
-ANTI-VIENAS - samdomų draugų platforma
-© 2026 antivienas.lt
+antivienas.lt - samdomų draugų platforma © 2026
 
 Šis laiškas išsiųstas automatiškai. Prašome į jį neatsakyti.

@@ -48,7 +48,7 @@ body {
     color: #1c1e21;
     font-size: 16px;
     line-height: 1.6;
-    width: fit-content;
+    width: 100%;
     margin: auto;
     max-width: 600px;
 }
@@ -58,7 +58,12 @@ body {
     margin: 30px 0;
 }
 
-.button {
+a{
+    word-break: break-all;
+    color: #f20085;
+}
+
+.button-wrapper a {
     background-color: #f20085;
     color: #ffffff;
     text-decoration: none;
@@ -72,9 +77,8 @@ body {
     background-color: #d10072;
 }
 
-.link {
-    word-break: break-all;
-    color: #f20085;
+.code{
+    font-size: 20px;
 }
 
 .email {
@@ -137,10 +141,8 @@ body {
 
         <div class="content">
 
-            <p>Valio! 🥳</p>
-
             <p>
-                Gavai naują pasiūlymą susitikti. Peržiūrėk pasiūlymo detales ir nuspręsk - ar atmesti, ar priimti.
+                Gavote naują pasiūlymą susitikti. Peržiūrėkite ir nuspręskite - ar atmesti, ar priimti.
             </p>
 
             <div class="button-wrapper">
@@ -150,15 +152,15 @@ body {
             </div>
 
             <p>
-                Mygtukas neveikia? Nukopijuok šią nuorodą į savo naršyklę:
+                Mygtukas neveikia? Nukopijuokite šią nuorodą į savo naršyklę:
             </p>
 
             <p class="link">
-                {{meeting_manager_link}}
+                <a href="{{meeting_manager_link}}">{{meeting_manager_link}}</a>
             </p>
 
             <p>
-                Jeigu turi klausimų, parašyk: <span class="email">{{support_email}}</span>
+                Jeigu turite klausimų, parašykite: <span class="email">{{support_email}}</span>
             </p>
 
         </div>

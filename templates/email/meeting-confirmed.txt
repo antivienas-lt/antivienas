@@ -4,15 +4,15 @@ Draugas sėkmingai patvirtino pasiūlymą susitikti.
 
 Patvirtinimo kodas: {{ confirmation_code }}
 
-Pradžioje susitikimo pateik patvirtinimo kodą ir nepamiršk susimokėti.
+Pradžioje susitikimo pateikite patvirtinimo kodą.
 
-💬 Kad susitikimas būtų sklandesnis, dabar gali bendrauti su draugu.
-Šią funkciją rasi prie susitikimo kortelės.
+💬 Kad susitikimas būtų sklandesnis, dabar galite bendrauti su draugu.
+Šią funkciją rasite prie susitikimo kortelės.
 
 Peržiūrėti susitikimus:
 {{ meeting_manager_link }}
 
-Jeigu turi klausimų: {{ support_email }}
+Jeigu turite klausimų: {{ support_email }}
 
 ---
 

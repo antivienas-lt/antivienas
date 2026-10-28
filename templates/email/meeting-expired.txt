@@ -5,7 +5,7 @@ Nieko daryti nereikia.
 Peržiūrėti susitikimus:
 {{meeting_manager_link}}
 
-Jeigu turi klausimų: {{support_email}}
+Jeigu turite klausimų: {{support_email}}
 
 ---
 

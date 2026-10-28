@@ -58,7 +58,12 @@ body {
     margin: 30px 0;
 }
 
-.button {
+a{
+    word-break: break-all;
+    color: #f20085;
+}
+
+.button-wrapper a {
     background-color: #f20085;
     color: #ffffff;
     text-decoration: none;
@@ -70,11 +75,6 @@ body {
 
 .button:hover {
     background-color: #d10072;
-}
-
-.link {
-    word-break: break-all;
-    color: #f20085;
 }
 
 .code{
@@ -141,9 +141,9 @@ body {
 
         <div class="content">
 
-            <p>Skirk vieną minutę ir palik atsiliepimą apie savo patirtį.</p>
+            <p>Skirkite vieną minutę ir palikite atsiliepimą apie savo patirtį.</p>
             <br>
-            <p>Ačiū kad prisidedi prie saugesnės ir kokybiškesnės bendruomenės :)</p>
+            <p>Ačiū kad prisidedate prie saugesnės ir kokybiškesnės aplinkos.</p>
             
             <div class="button-wrapper">
                 <a href="{{review_link}}" class="button">
@@ -152,7 +152,15 @@ body {
             </div>
 
             <p>
-                Jeigu turi klausimų: <span class="email">{{ support_email }}</span>
+                Mygtukas neveikia? Nukopijuokite šią nuorodą į savo naršyklę:
+            </p>
+
+            <p class="link">
+                <a href="{{review_link}}">{{review_link}}</a>
+            </p>
+
+            <p>
+                Jeigu turite klausimų: <span class="email">{{ support_email }}</span>
             </p>
 
         </div>

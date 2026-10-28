@@ -1,13 +1,13 @@
 Kaip sekėsi susitikime?
 
-Skirk minutę ir palik atsiliepimą apie savo patirtį.
+Skirkite minutę ir palikite atsiliepimą apie savo patirtį.
 
-Ačiū, kad padedi mums kurti saugesnę ir kokybiškesnę bendruomenę. :)
+Ačiū, kad padedate mums kurti saugesnę ir kokybiškesnę aplinką. :)
 
 Nuoroda atsiliepimui palikti:
 {{ review_link }}
 
-Jeigu turi klausimų: {{ support_email }}
+Jeigu turite klausimų: {{ support_email }}
 
 ---
 

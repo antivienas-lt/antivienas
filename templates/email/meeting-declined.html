@@ -58,7 +58,12 @@ body {
     margin: 30px 0;
 }
 
-.button {
+a{
+    word-break: break-all;
+    color: #f20085;
+}
+
+.button-wrapper a {
     background-color: #f20085;
     color: #ffffff;
     text-decoration: none;
@@ -72,9 +77,8 @@ body {
     background-color: #d10072;
 }
 
-.link {
-    word-break: break-all;
-    color: #f20085;
+.code{
+    font-size: 20px;
 }
 
 .email {
@@ -148,15 +152,15 @@ body {
             </div>
 
             <p>
-                Mygtukas neveikia? Nukopijuok šią nuorodą į savo naršyklę:
+                Mygtukas neveikia? Nukopijuokite šią nuorodą į savo naršyklę:
             </p>
 
             <p class="link">
-                {{meeting_manager_link}}
+                <a href="{{meeting_manager_link}}">{{meeting_manager_link}}</a>
             </p>
 
             <p>
-                Jeigu turi klausimų: <span class="email">{{support_email}}</span>
+                Jeigu turite klausimų: <span class="email">{{support_email}}</span>
             </p>
 
         </div>
