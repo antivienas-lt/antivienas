@@ -6,26 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'style.css' %}">
-
-  <!-- Google tag (gtag.js) — must load early, with consent defaulted to denied -->
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-
-    // Default consent: denied until the visitor explicitly accepts.
-    // wait_for_update lets GA wait briefly for localStorage consent to be applied.
-    gtag('consent', 'default', {
-      analytics_storage: 'denied',
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      wait_for_update: 500
-    });
-
-    gtag('js', new Date());
-    gtag('config', 'G-7864L1D27K');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+          'ad_storage': 'denied',
+          'ad_user_data': 'denied',
+          'ad_personalization': 'denied',
+          'analytics_storage': 'denied',
+          'wait_for_update': 500
+      });
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7864L1D27K"></script>
+  <script>
+      gtag('js', new Date());
+      gtag('config', 'G-7864L1D27K');
+  </script>
 
   {% block meta %}{% endblock %}
 </head>
@@ -106,142 +102,88 @@
     }
   </style>
 
-  <script>
-    (function () {
-      'use strict';
-
-      const CONSENT_KEY = 'cookie_consent_choice';
-
-      // gtag and dataLayer are defined in <head>. If they aren't (e.g. page cached
-      // before the head change), define a safe fallback so update calls don't break.
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = window.gtag || function () {
-        window.dataLayer.push(arguments);
-      };
-
-      function getBanner() {
-        return document.getElementById('cookie-banner');
-      }
-
-      function showBanner() {
-        const banner = getBanner();
-        if (banner) banner.style.display = 'flex';
-      }
-
-      function hideBanner() {
-        const banner = getBanner();
-        if (banner) banner.style.display = 'none';
-      }
-
-      function saveConsent(value) {
-        try {
-          localStorage.setItem(CONSENT_KEY, value);
-        } catch (error) {
-          // Storage may be unavailable; the banner still works for this page.
+   <script>
+        // --- Cookie Helper Functions ---
+        function setCookie(name, value, days) {
+            const d = new Date();
+            d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = name + "=" + value + ";" + expires + ";path=/;SameSite=Lax";
         }
-      }
 
-      function getConsent() {
-        try {
-          return localStorage.getItem(CONSENT_KEY);
-        } catch (error) {
-          return null;
+        function getCookie(name) {
+            const cname = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const ca = decodedCookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(cname) === 0) {
+                    return c.substring(cname.length, c.length);
+                }
+            }
+            return "";
         }
-      }
 
-      function deleteCookie(name) {
-        const hostname = window.location.hostname;
-        document.cookie = name + '=; Max-Age=0; path=/; SameSite=Lax';
+        // --- Consent Logic ---
+        const banner = document.getElementById('cookie-banner');
+        const acceptBtn = document.getElementById('cookie-accept');
+        const denyBtn = document.getElementById('cookie-deny');
 
-        const isLocalhost = hostname === 'localhost' ||
-          hostname === '127.0.0.1' ||
-          hostname === '::1';
-        const isIPv4 = /^\d{1,3}(\.\d{1,3}){3}$/.test(hostname);
+        function updateConsent(choice) {
+            if (choice === 'granted') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted',
+                    'analytics_storage': 'granted'
+                });
+                setCookie('cookie_consent_status', 'granted', 180);
+            } else {
+                gtag('consent', 'update', {
+                    'ad_storage': 'denied',
+                    'ad_user_data': 'denied',
+                    'ad_personalization': 'denied',
+                    'analytics_storage': 'denied'
+                });
+                setCookie('cookie_consent_status', 'denied', 180);
+            }
 
-        if (isLocalhost || isIPv4 || hostname.indexOf('.') === -1) return;
-
-        document.cookie = name + '=; Max-Age=0; path=/; domain=' + hostname + '; SameSite=Lax';
-
-        // This covers a common www/subdomain setup (e.g. www.example.com).
-        const parts = hostname.split('.');
-        if (parts.length >= 3) {
-          const parentDomain = '.' + parts.slice(-2).join('.');
-          document.cookie = name + '=; Max-Age=0; path=/; domain=' + parentDomain + '; SameSite=Lax';
+            // Hide banner, show floating settings button
+            banner.style.display = 'none';
         }
-      }
 
-      function deleteGoogleAnalyticsCookies() {
-        const cookies = document.cookie ? document.cookie.split(';') : [];
-        const names = new Set(['_ga', '_gid']);
+        function showBanner() {
+            banner.style.display = 'block';
+        }
 
-        cookies.forEach(function (cookie) {
-          const name = cookie.split('=')[0].trim();
-          if (name === '_ga' || name === '_gid' || name.indexOf('_ga_') === 0) {
-            names.add(name);
-          }
-        });
+        // --- Check existing consent on load ---
+        const currentConsent = getCookie('cookie_consent_status');
 
-        names.forEach(deleteCookie);
-      }
-
-      function grantAnalytics() {
-        window.gtag('consent', 'update', {
-          analytics_storage: 'granted',
-          ad_storage: 'denied',
-          ad_user_data: 'denied',
-          ad_personalization: 'denied'
-        });
-      }
-
-      function denyAnalytics() {
-        window.gtag('consent', 'update', {
-          analytics_storage: 'denied',
-          ad_storage: 'denied',
-          ad_user_data: 'denied',
-          ad_personalization: 'denied'
-        });
-        deleteGoogleAnalyticsCookies();
-      }
-
-      function initCookieBanner() {
-        const acceptButton = document.getElementById('cookie-accept');
-        const denyButton = document.getElementById('cookie-deny');
-        const existingConsent = getConsent();
-
-        if (existingConsent === 'accepted') {
-          grantAnalytics();
-        } else if (existingConsent === 'denied') {
-          denyAnalytics();
+        if (currentConsent === 'granted' || currentConsent === 'denied') {
+            if (currentConsent === 'granted') {
+                gtag('consent', 'update', {
+                    'ad_storage': 'granted',
+                    'ad_user_data': 'granted',
+                    'ad_personalization': 'granted',
+                    'analytics_storage': 'granted'
+                });
+            }
+            banner.style.display = 'none';
         } else {
-          showBanner();
+            showBanner();
         }
 
-        if (acceptButton) {
-          acceptButton.addEventListener('click', function () {
-            saveConsent('accepted');
-            grantAnalytics();
-            hideBanner();
-          });
-        }
+        // --- Event Listeners ---
+        acceptBtn.addEventListener('click', function() {
+            updateConsent('granted');
+        });
 
-        if (denyButton) {
-          denyButton.addEventListener('click', function () {
-            saveConsent('denied');
-            denyAnalytics();
-            hideBanner();
-          });
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initCookieBanner);
-      } else {
-        initCookieBanner();
-      }
-
-      // Can be called by a "Cookie settings" link/button elsewhere on the site.
-      window.openCookieSettings = showBanner;
-    })();
-  </script>
+        denyBtn.addEventListener('click', function() {
+            updateConsent('denied');
+        });
+    </script>
 </body>
 </html>
