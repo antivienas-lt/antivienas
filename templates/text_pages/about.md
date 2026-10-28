@@ -12,7 +12,7 @@ Jeigu turite bet kokių klausimų ar pasiūlymų, kaip galėtume tapti geresni, 
 
 Samdomi draugai - tai žmonės, kuriems mokama už bendravimą, draugiją ar kartu leidžiamą laiką. Šis reiškinys tarptautiniu mastu vadinamas *Rent-a-Friend*. Tokia paslauga leidžia žmogui susirasti kompanioną konkrečiai veiklai ar pokalbiui, net jei tuo metu jis neturi su kuo praleisti laisvalaikio.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/gxe26Gpkn6o?si=0nDYI-jgIuF5F9yL&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe id="youtubeVideo" src="https://www.youtube.com/embed/gxe26Gpkn6o?si=0nDYI-jgIuF5F9yL&amp;start=10" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Yra keletas priežasčių, kodėl ši paslauga gali būti patraukli:
 
