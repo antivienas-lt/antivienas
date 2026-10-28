@@ -6,6 +6,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{% static 'icons/favicon.ico' %}" type="image/x-icon">
   <link rel="stylesheet" href="{% static 'style.css' %}">
+
+  <!-- Google tag (gtag.js) — must load early, with consent defaulted to denied -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Default consent: denied until the visitor explicitly accepts.
+    // wait_for_update lets GA wait briefly for localStorage consent to be applied.
+    gtag('consent', 'default', {
+      analytics_storage: 'denied',
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      wait_for_update: 500
+    });
+
+    gtag('js', new Date());
+    gtag('config', 'G-7864L1D27K');
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7864L1D27K"></script>
+
   {% block meta %}{% endblock %}
 </head>
 <body>
@@ -90,21 +111,13 @@
       'use strict';
 
       const CONSENT_KEY = 'cookie_consent_choice';
-      const GA_ID = 'G-7864L1D27K';
-      let gaLoaded = false;
 
+      // gtag and dataLayer are defined in <head>. If they aren't (e.g. page cached
+      // before the head change), define a safe fallback so update calls don't break.
       window.dataLayer = window.dataLayer || [];
       window.gtag = window.gtag || function () {
         window.dataLayer.push(arguments);
       };
-
-      // Deny optional storage until the visitor explicitly grants consent.
-      window.gtag('consent', 'default', {
-        analytics_storage: 'denied',
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied'
-      });
 
       function getBanner() {
         return document.getElementById('cookie-banner');
@@ -150,7 +163,6 @@
         document.cookie = name + '=; Max-Age=0; path=/; domain=' + hostname + '; SameSite=Lax';
 
         // This covers a common www/subdomain setup (e.g. www.example.com).
-        // Public-suffix handling cannot be safely inferred from hostname alone.
         const parts = hostname.split('.');
         if (parts.length >= 3) {
           const parentDomain = '.' + parts.slice(-2).join('.');
@@ -172,31 +184,6 @@
         names.forEach(deleteCookie);
       }
 
-      function loadGoogleAnalytics() {
-        if (!GA_ID || gaLoaded) return;
-        gaLoaded = true;
-
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
-
-        script.onload = function () {
-          window.gtag('js', new Date());
-          window.gtag('config', GA_ID, {
-            cookie_expires: 395 * 24 * 60 * 60
-          });
-          console.info('GA4 initialized:', GA_ID);
-        };
-
-        script.onerror = function () {
-          // Permit a later retry if the request failed.
-          gaLoaded = false;
-          console.error('Google Analytics failed to load.');
-        };
-
-        document.head.appendChild(script);
-      }
-
       function grantAnalytics() {
         window.gtag('consent', 'update', {
           analytics_storage: 'granted',
@@ -204,7 +191,6 @@
           ad_user_data: 'denied',
           ad_personalization: 'denied'
         });
-        loadGoogleAnalytics();
       }
 
       function denyAnalytics() {
