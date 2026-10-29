@@ -14,6 +14,10 @@
     <form action="" class="profile-edit-form" method="POST">
       {% csrf_token %}
       <div class="form-field-input">
+        <label for="username">Slapyvardis</label>
+        <input type="text" name="username" id="" value="{{ request.user.username }}">
+      </div>
+      <div class="form-field-input">
         <label for="city">Miestas</label>
         <select name="city" id="">
               {% for city in cities %}

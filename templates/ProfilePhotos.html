@@ -13,6 +13,11 @@
   {% include "components/nav.html"%}
   <div class="profile-edit-container">
     <h1>Profilio nuotraukos</h1>
+    <span class="img-edit-legend">Paaiškinimai:</span>
+    <ul class="edit-img-ul">
+      <li>⭐ - padaryti nuotrauką kaip pagrindinę.</li>
+      <li>❌ - ištrinti nuotrauką.</li>
+    </ul>
     {% for field in form %}
       {% for error in field.errors %}
         <p class="error">{{ error }}</p>
@@ -48,21 +53,43 @@
     <p>Neturite įkeltų nuotraukų.</p>
     {% endif %}
 
-    {% if images.count < 6 %}
-    <form id="upload-form" action="" enctype="multipart/form-data" class="profile-edit-form" method="POST">
-      {% csrf_token %}
-      <div>
-        <input type="hidden" name="action" value="upload">
-        <input id="img-uploader" type="file" hidden name="image" accept="image/*">
-      </div>
-      <button id="upload-btn" type="button" class="save-edit-btn">Įkelti nuotrauką</button>
-    </form>
-    <script src='{% static "js/upload-photo.js" %}'></script>
-    {% endif %}
-    <span class="img-edit-legend">Paaiškinimai:</span>
-    <ul class="edit-img-ul">
-      <li>⭐ - padaryti nuotrauką kaip pagrindinę.</li>
-      <li>❌ - ištrinti nuotrauką.</li>
-    </ul>
+
+{% if images.count < 6 %}
+<form id="upload-form" action="" enctype="multipart/form-data"
+      class="profile-edit-form" method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="upload">
+  <input id="img-uploader" type="file" hidden
+         name="image" accept="image/*">
+  <button id="upload-btn" type="button" class="save-edit-btn">
+    Įkelti nuotrauką
+  </button>
+</form>
+
+<!-- Crop modal -->
+<div id="crop-modal" class="crop-modal" hidden>
+  <div class="crop-modal-content">
+    <button type="button" id="crop-close" class="crop-close"
+            aria-label="Close">&times;</button>
+
+    <h2>Apkirpti nuotrauką</h2>
+    <p>Pasirinkite, kuri nuotraukos dalis bus matoma.</p>
+
+    <div class="crop-image-container">
+      <img id="crop-image" alt="Nuotraukos apkirpimo peržiūra">
+    </div>
+
+    <div class="crop-actions">
+      <button type="button" id="crop-upload" class="save-edit-btn">
+        Apkirpti ir įkelti
+      </button>
+    </div>
   </div>
+</div>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js"></script>
+<script src="{% static 'js/upload-photo.js' %}"></script>
+{% endif %}
 {% endblock content %}

@@ -207,7 +207,7 @@ def AutoSaveProfileFunc(request):
         value = data.get('value')
         user = request.user
 
-        allowed_fields = ['city', 'gender', 'interest1', 'interest2', 'interest3', 'interest4','about_description', 'birthdate']
+        allowed_fields = ['username', 'city', 'gender', 'interest1', 'interest2', 'interest3', 'interest4','about_description', 'birthdate']
 
         if field not in allowed_fields:
             return JsonResponse({'error': f'Invalid field: {field}'}, status=400)
@@ -230,7 +230,7 @@ def AutoSaveProfileFunc(request):
 
         # Run model validation (only for changed field)
         try:
-            user.full_clean(validate_unique=False)  # skip unique check if not needed
+            user.full_clean(validate_unique=True)
             user.save(update_fields=[field] if field != 'birthdate' else ['birthdate'])
             return JsonResponse({'status': 'ok', 'saved_field': field})
         except ValidationError as e:
