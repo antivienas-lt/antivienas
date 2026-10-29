@@ -162,12 +162,11 @@ textarea {
   flex-direction: column;
   gap: 15px;
   align-items: center;
+  padding: 0px 10px
 }
 .friend-card{
   display: flex;
-  flex-direction: column;
   gap: 15px;
-  margin: 10px;
   box-shadow: 0px 0px 1px 0px gray;
   border-radius: 15px;
   background-color: white;
@@ -175,8 +174,8 @@ textarea {
   max-width: 900px;
   width: 100%;
   position: relative;
-  margin: 0 15px;
   min-height: 150px;
+  align-items: center;
 }
 .friend-card .avatar-part{
   align-content: center;
@@ -185,7 +184,6 @@ textarea {
   gap: 15px;
 }
 .friend-card .info-part{
-  flex-grow: 1;
   min-width: 180px;
 }
 .friend-card .full-name{
@@ -1437,6 +1435,9 @@ body.map-modal-open {
   .friend-card{
     display: block;
   }
+  .friend-card .info-part{
+  min-width: auto;
+}
   .friend-card .likes-desc-container{
     margin-top: 15px;
   }
