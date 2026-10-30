@@ -17,21 +17,23 @@
 {% block content %}
   {% include "components/nav.html" %}
 
-  <div class="login-container">
-    <h1>Prisijungimas</h1>
-    <form action="" method="post">
-      {% csrf_token %}
-      <div class="form-field-input">
-        <label for="email">El. paštas</label>
-        <input type="email" name="email" id="" value="{{email}}">
-      </div>
-      <div class="form-field-input">
-        <label for="password">Slaptažodis</label>
-        <input type="password" name="password" id="">
-        <p class="note">Pamiršote slaptažodį? <a href="{% url 'reset-password-link' %}" class="login-link">Spauskite čia</a></p>
-      </div>
-      <button type="submit" class="login-btn">Prisijungti</button>
-      <p class="note">Norite registruotis? <a href="{% url 'register' %}" class="login-link">Spauskite čia</a></p>
-    </form>
+  <div class="login-shell">
+    <div class="login-container">
+      <h1>Prisijungimas</h1>
+      <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-field-input">
+          <label for="email">El. paštas</label>
+          <input type="email" name="email" id="" value="{{email}}">
+        </div>
+        <div class="form-field-input">
+          <label for="password">Slaptažodis</label>
+          <input type="password" name="password" id="">
+          <p class="note">Pamiršote slaptažodį? <a href="{% url 'reset-password-link' %}" class="login-link">Spauskite čia</a></p>
+        </div>
+        <button type="submit" class="login-btn">Prisijungti</button>
+        <p class="note">Norite registruotis? <a href="{% url 'register' %}" class="login-link">Spauskite čia</a></p>
+      </form>
+    </div>
   </div>
 {% endblock %}

@@ -20,24 +20,22 @@
 {% block content %}
   {% include "components/nav.html"%}
   <div class="content">
+    {% if profile == request.user %}
+    <div class="profile-nav-shell">
+      <div id="avatarDropdown">
+        <div>
+          <a href="{% url 'edit-profile' %}" class="btn-link">Redaguoti profilį</a>
+        </div>
+        <div>
+          <a href="{% url 'manage-photos' %}" class="btn-link">Įkelti nuotraukas</a>
+        </div>
+        <div>
+          <a href="{% url 'friend-settings' %}" class="btn-link">Draugų nustatymai</a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     <div class="profile-card">
-          {% if profile == request.user %}
-          <div class="profile-menu">
-            <button id="avatarMenuButton">⚬⚬⚬</button>
-            <div id="avatarDropdown">
-              <div>
-                <a href="{% url 'edit-profile' %}" class="btn-link">Redaguoti profilį</a>
-              </div>
-              <div>
-                <a href="{% url 'manage-photos' %}" class="btn-link">Įkelti nuotraukas</a>
-              </div>
-              <div>
-                <a href="{% url 'friend-settings' %}" class="btn-link">Draugų nustatymai</a>
-              </div>
-            </div>
-          </div>
-          <script src="{% static 'js/user-profile-dropdown.js' %}"></script>
-          {% endif %}
       <div class="upper-part">
         <div class="avatar-part">
           <img class="user-avatar" src="{{ profile.avatar_url }}" alt="user avatar">

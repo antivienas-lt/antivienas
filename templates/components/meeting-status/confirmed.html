@@ -1,13 +1,13 @@
 <div class="user-actions">
   {% if request.user == meeting.user %}
   <div class="info-block">
-    <span class="block-title">Statusas: </span><strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
+    <strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
     <p><span class="block-title">Susitikimas patvirtintas. Nepamirškite, pradžioje susitikimo, pasakyti draugui susitikimo kodą ir susimokėti.</span></p>
     <div class="meeting-conf-code-shell"><br><span class="block-title">Patvirtinimo kodas: <strong class="meeting-conf-code">{{meeting.confirmation_code}}</strong></span></div>
   </div>
   {% elif request.user == meeting.friend %}
   <div class="info-block">
-    <span class="block-title">Statusas: </span><strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
+    <strong class="meeting-status" style="background-color: lightgreen;">PATVIRTINTAS</strong>
     <p><span class="block-title">Susitikimas patvirtintas. Pradžioje, paprašykite kliento patvirtinimo kodo, ir mokesčio už jūsų paslaugas.</span></p>
   </div>
   <div class="complete-action-block">

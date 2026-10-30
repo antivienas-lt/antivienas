@@ -7,6 +7,9 @@ media/
 # C extensions
 *.so
 
+# Docker
+docker-compose.yml
+
 # Distribution / packaging
 .Python
 build/

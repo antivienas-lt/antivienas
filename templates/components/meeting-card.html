@@ -18,7 +18,7 @@
       <div class="table-shell">
       <div class="info-block">
             <span class="block-title">Susitikimo laikas:</span>
-            <p>{{ meeting.day_month_str }} {{ meeting.meeting_date_from.year}}<br>{{ meeting.time_range_str }}</p>
+            <p>{{ meeting.time_range_str }}<br>{{ meeting.day_month_str }} {{ meeting.meeting_date_from.year}}</p>
       </div>
       <div class="info-block">
         {% if request.user == meeting.user %}
