@@ -202,7 +202,7 @@ class CreateMeetingForm(forms.ModelForm):
         lat = cleaned.get("lat")
         lng = cleaned.get("lng")
 
-        print("latlng:", lat, lng)
+        #print("latlng:", lat, lng)
         if lng is None or lat is None:
             self.add_error(None, "Nenurodėte susitikimo vietos žemėlapyje.")
 

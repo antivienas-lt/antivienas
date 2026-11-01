@@ -49,7 +49,7 @@
               <div id="calDays" class="cal-grid"></div>
             </div>
           </div>
-          <div class="create-meeting-time" id="meetingTimes">
+          <div class="create-meeting-time" id="meetingTimes" style="display:none;">
             <div class="form-field-input">
               <label for="time_from">Susitikimo pradžia</label>
               <select name="time_from" id="meetingTimeFrom" {% if form.time_from.value %}data-prev="{{ form.time_from.value }}"{% endif %}>
@@ -293,6 +293,7 @@ function normalize(jsDay) {
    DOM Elements
 --------------------------------*/
 const input = document.getElementById("selectedDate");
+const MeetingTimesContainer = document.getElementById("meetingTimes");
 const calIcon = document.getElementById("meetingCalendarIcon");
 const cal = document.getElementById("calendar");
 const calDays = document.getElementById("calDays");
@@ -333,6 +334,7 @@ document.getElementById("nextMonth").onclick = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
     if (input.value) { // meeting_date exists
+      MeetingTimesContainer.style.display = "flex";
       const date = new Date(input.value);
       const djangoDay = normalize(date.getDay());
 
@@ -412,6 +414,7 @@ function updateTimeFields(djangoDay) {
     const match = allowedDays.find(day => day[0] === djangoDay);
     if (!match) return;
 
+    MeetingTimesContainer.style.display = "flex";
     const fromHour = parseInt(match[1], 10);
     const toHour = parseInt(match[2], 10);
 
