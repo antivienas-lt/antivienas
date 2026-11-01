@@ -152,8 +152,9 @@ function addMessage({ sender, message, timestamp, avatar }) {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
-const socket = new WebSocket(
-  `ws://127.0.0.1:8000/ws/chat/${meetingId}/`
+const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+const chatSocket = new WebSocket(
+    `${protocol}//${window.location.host}/ws/chat/${meetingId}/`
 );
 
 socket.onmessage = function(e) {
