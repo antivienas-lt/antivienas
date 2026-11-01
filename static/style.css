@@ -157,10 +157,10 @@ textarea {
   border: none;
   height: 30px; 
   border-radius: 10px;
-  box-shadow: 0px 0px 1px 0px gray;
+  border: 1px solid gray;
   padding-left: 10px;
   cursor: pointer;
-  color: black;
+  color: var(--pink);
 }
 .friend-select-search-field:hover{
   box-shadow: 0px 0px 3px 0px gray;
@@ -476,6 +476,8 @@ footer p{
 .create-meeting-time .form-field-input{
   margin-bottom: 0;
   margin-top: 0;
+  box-shadow: 0px 0px 1px 1px gray;
+  border-radius: 8px;
 }
 .birthdate-fields .form-field-input,
 .create-meeting-time .form-field-input{
@@ -511,6 +513,7 @@ footer p{
   top: -10px;
   background: white;
   padding: 0px 3px;
+  z-index: 1;
 }
 .form-field-input input,
 .form-field-input select,
@@ -521,7 +524,7 @@ footer p{
   width: 100%;
   border: none;
   border-radius: 10px;
-  box-shadow: 0px 0px 1px 1px gray;
+  border: 1px solid gray;
   background-color: white;
 }
 
@@ -552,7 +555,7 @@ footer p{
 .meetup-time-table th,
 .meetup-time-table td {
   border-top: 1px solid gray;
-  padding: 10px;
+  padding: 5px;
 }
 
 .meetup-time-table tr:first-child th,
@@ -1196,6 +1199,7 @@ input[type=number] {
 }
 .info-container svg{
   max-width: 80px;
+  max-height: 80px;
   height: fit-content;
   width: 100%;
   fill: var(--pink);
@@ -1224,7 +1228,7 @@ input[type=number] {
   text-align: center;
   margin-bottom: 25px;
   font-size: 2rem;
-  color: var(--pink);
+  color: black;
 }
 
 /* ---------- Paragraph / heading spacing ---------- */
