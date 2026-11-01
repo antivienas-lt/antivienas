@@ -10,6 +10,7 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta
 from db.constants import PLATFORM_FEE_RATE
+from django.db.models.functions import Lower
 
 
 DEFAULT_USER_IMG = settings.STATIC_URL + "assets/default_avatar.webp"
@@ -26,6 +27,15 @@ def generate_confirmation_code():
 
 
 class User(AbstractUser):
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                Lower("username"),
+                name="unique_username_ci"
+            )
+        ]
+
     email = models.EmailField(unique=True)
 
     # profile stuff

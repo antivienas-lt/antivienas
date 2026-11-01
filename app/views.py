@@ -136,7 +136,7 @@ def ProfilePage(request, username):
     
     user = get_object_or_404(
         User.objects.prefetch_related(
-            Prefetch("userprofilepicture_set", queryset=UserProfilePicture.objects.filter(is_avatar=True), to_attr="avatar")), username=username)
+            Prefetch("userprofilepicture_set", queryset=UserProfilePicture.objects.filter(is_avatar=True), to_attr="avatar")), username__iexact=username)
     pics = UserProfilePicture.objects.filter(user=user)
     reviews = Review.objects.filter(friend=user)
 
