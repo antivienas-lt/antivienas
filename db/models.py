@@ -126,7 +126,7 @@ class User(AbstractUser):
             lat,lng = CITY_COORDINATES[self.city]
         except:
             lat,lng = CITY_COORDINATES['vilnius']
-            return [lat, lng]
+        return [lat, lng]
 
     @property
     def schedule_data(self):

@@ -34,7 +34,6 @@
               {% endfor %}
         </select>
       </div>
-      <div class="birthdate-shell">
         <p class="section-descriptor"><strong>Gimimo data</strong></p>
         <div class="birthdate-fields">
           <div class="form-field-input">
@@ -73,29 +72,29 @@
             {% endfor %}
           </select>
         </div>
+      </div>
+      <p class="section-descriptor"><strong>Pomėgiai</strong></p>
+      <div class="interest-field-shell">
+        <div class="form-field-input">
+          <label for="interest1">Nr. 1</label>
+          <input type="text" name="interest1" id="" value="{{ request.user.interest1 }}">
+        </div>
+        <div class="form-field-input">
+          <label for="interest2">Nr. 2</label>
+          <input type="text" name="interest2" id="" value="{{ request.user.interest2 }}">
+        </div>
+        <div class="form-field-input">
+          <label for="interest3">Nr. 3</label>
+          <input type="text" name="interest3" id="" value="{{ request.user.interest3 }}">
+        </div>
+        <div class="form-field-input">
+          <label for="interest4">Nr. 4</label>
+          <input type="text" name="interest4" id="" value="{{ request.user.interest4 }}">
         </div>
       </div>
       <div class="form-field-input">
-        <p class="section-descriptor"><strong>Pomėgiai</strong></p>
-        <label for="interest1">Nr. 1</label>
-        <input type="text" name="interest1" id="" value="{{ request.user.interest1 }}">
-      </div>
-      <div class="form-field-input">
-        <label for="interest2">Nr. 2</label>
-        <input type="text" name="interest2" id="" value="{{ request.user.interest2 }}">
-      </div>
-      <div class="form-field-input">
-        <label for="interest3">Nr. 3</label>
-        <input type="text" name="interest3" id="" value="{{ request.user.interest3 }}">
-      </div>
-      <div class="form-field-input">
-        <label for="interest4">Nr. 4</label>
-        <input type="text" name="interest4" id="" value="{{ request.user.interest4 }}">
-      </div>
-      <div class="form-field-input">
-        <p class="section-descriptor"><strong>Apie mane</strong></p>
-        <label for="about_description">Trumpas aprašymas (iki 1000 simbolių)</label>
-        <textarea name="about_description" id="" maxlength="1000">{{request.user.about_description}}</textarea>
+        <label for="about_description">Aprašymas</label>
+        <textarea name="about_description" id="" placeholder="Trumpai apie mane (iki 1000 simbolių)" maxlength="1000">{{request.user.about_description}}</textarea>
       </div>
       <button type="submit" class="save-edit-btn">Išsaugoti pakeitimus</button>
     </form>

@@ -253,6 +253,7 @@ confirmButton.addEventListener("click", () => {
 
     latInput.value = selectedCoords[0];
     lngInput.value = selectedCoords[1];
+    console.log(selectedCoords);
 
     previewMarker.setLatLng(selectedCoords);
     previewMap.setView(selectedCoords, 15);
