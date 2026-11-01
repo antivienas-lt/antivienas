@@ -157,7 +157,7 @@ const chatSocket = new WebSocket(
     `${protocol}//${window.location.host}/ws/chat/${meetingId}/`
 );
 
-socket.onmessage = function(e) {
+chatSocket.onmessage = function(e) {
   const data = JSON.parse(e.data);
 
   //console.log(data.sender);
@@ -182,7 +182,7 @@ function sendMessage() {
 
   if (!message.trim()) return;
 
-  socket.send(JSON.stringify({
+  chatSocket.send(JSON.stringify({
     message: message
   }));
 
