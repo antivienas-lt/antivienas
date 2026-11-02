@@ -253,6 +253,11 @@ textarea {
   display: block;
 }
 
+.btn-link{
+  border: 1px solid (var(--pink));
+  padding: 5px 10px;
+}
+
 .friend-card .price-part, .profile-card .price-part{
   display: flex;
   align-items: center;
@@ -1190,7 +1195,10 @@ input[type=number] {
   text-align: center;
   background: white;
   width: 130px;
-  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 110px;
 }
 
 .info-container .link-item:hover{
@@ -1283,12 +1291,36 @@ input[type=number] {
   opacity: 0.8;
 }
 
-.faq-container h2 {
+.faq-container details h2 {
   color: var(--pink);
   font-weight: 400;
   display: inline;
   font-size: 1.2rem;
   margin: 0;                        /* summary handles spacing */
+}
+
+.faq-container img {
+  width: 100%;
+  margin: 10px auto;
+  display: block;
+  border: 2px solid gray;
+  border-radius: 8px;
+}
+.faq-container .wide-img{
+  max-width: 600px;
+}
+
+.faq-container .phone-img{
+  max-width: 250px;
+}
+
+.faq-container video{
+  max-width: 250px;
+  display: block;
+  margin: 10px auto;
+  border: 2px solid gray;
+  border-radius: 8px;
+  width: 100%;
 }
 
 /* Question content */

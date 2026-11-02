@@ -494,17 +494,12 @@ def PrivacyPolicyPage(request):
         "privacy_policy_html": mark_safe(html),
     })
 
-def FAQPage(request):
-    md_path = Path(settings.BASE_DIR) /"templates/text_pages/faq.md"
+def HowToPage(request):
+    return render(request, "AboutHowTo.html")
 
-    with open(md_path, "r", encoding="utf-8") as f:
-        md_text = f.read()
+def BecomeFriendPage(request):
+    return render(request, "AboutBecomeFriend.html")
 
-    html = markdown.markdown(md_text, extensions=["extra", "nl2br"])
-    
-    return render(request, "AboutFAQ.html", {
-        "faq_html": mark_safe(html),
-    })
 
 def RulesPage(request):
     md_path = Path(settings.BASE_DIR) / "templates/text_pages/rules.md"

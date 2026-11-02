@@ -1,0 +1,64 @@
+{% extends "components/base.html"%}
+{% load static %}
+
+{% block meta %}
+<title>Tapk draugu</title>
+<meta name="description" content="Tapk samdomu draugu ir uždirbk iš bendravimo ir susitikimų.">
+<meta name="robots" content="index, nofollow">
+<meta property="og:title" content="Tapk draugu | antivienas.lt">
+<meta property="og:description" content="Tapk samdomu draugu ir uždirbk iš bendravimo ir susitikimų.">
+<meta property="og:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<meta property="og:url" content="https://antivienas.lt{% url 'become-friend' %}">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tapk draugu | antivienas.lt">
+<meta name="twitter:description" content="Tapk samdomu draugu ir uždirbk iš bendravimo ir susitikimų.">
+<meta name="twitter:image" content="https://antivienas.lt/static/assets/av_thumb_generic.png">
+<link rel="canonical" href="https://antivienas.lt{% url 'become-friend' %}">
+{% endblock meta %}
+
+
+{% block content %}
+  {% include "components/nav.html"%}
+  <div class="content">
+    <div class="faq-container">
+      <h1>Tapk draugu</h1>
+      <p>Samdomi draugai uždirba pinigus iš bendravimo ir susitikimų. Štai kaip juo tapti:</p>
+      <details open>
+      <summary><h2>1. Draugų nustatymai</h2></summary>
+      <p>Norėdami tapti draugu, savo profilyje, nueikite į "Draugų nustatymai".</p>
+      <img src="{% static '/assets/friend_training.png' %}" class="how-to-img phone-img" alt="">
+      <p>Pažymėkite "Tapti draugu".</p>
+      <p>Dabar jūsų profilis bus viešai matomas pagrindiniame puslapyje, ir žmonės galės jus kviesti susitikti.</p>
+      </details>
+
+      <details open>
+      <summary><h2>2. Gavus pakvietimą susitikti</h2></summary>
+      <p>Peržiūrėkite pakvietimą. Galite jį priimti arba atšaukti.</p>
+      <img src="{% static '/assets/friend_training_two.png' %}" class="how-to-img phone-img" alt="">
+      <p>Po patvirtinimo, galite susirašyti ir susipažinti su užsakovu, paspaudę mygtuką "Bendrauti" (susitikimo kortelėje, po užsakovo nuotrauka).</p>
+      </details>
+
+      <details open>
+      <summary><h2>3. Susitikimo metu</h2></summary>
+      <p>Susitikimo vietą ir laiką galite peržiūrėti susitikimo kortelėje.</p>
+      <p>Susitikimo pradžioje:</p>
+      <ul>
+        <li>Paimate užmokestį iš užsakovo</li>
+        <li>Paprašote patvirtinimo kodo</li>
+      </ul>
+      <p>Norėdami už paslaugą gauti pinigus pavedimu, prieš tai galite susitarti su užsakovu.</p>
+      </details>
+      <details open>
+      <summary><h2>4. Po susitikimo</h2></summary>
+      <p>Platformos administracija jums atsiųs platformos mokesčio sąskaitą, kurią reikės apmokėti.</p>
+      <p>Už nepavykusius susitikimus, mokėti nieko nereikia.</p>
+      </details>
+    </div>
+  </div>
+  <div id="modal" class="img-edit-modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage" />
+  </div>
+  <script src="{% static 'js/img-view-modal.js' %}"></script>
+{% endblock content %}
