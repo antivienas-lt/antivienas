@@ -338,12 +338,12 @@ def MeetingManagerPage(request):
             if meeting.status != MeetingStatusEnum.CREATED:
                 return HttpResponseBadRequest("Susitikimo statusas buvo atnaujintas automatiškai.")
             
-            #decline_text = request.POST.get("decline-text", "").strip()         
-            #if len(decline_text) > 200:
-            #    decline_text = decline_text[:200]
+            decline_text = request.POST.get("decline_reason", "").strip()         
+            if len(decline_text) > 300:
+                decline_text = decline_text[:300]
 
             meeting.status = MeetingStatusEnum.DECLINED
-            #meeting.declined_reason = decline_text
+            meeting.declined_reason = decline_text
             meeting.save()
             MeetingEmailLog.objects.get_or_create(meeting=meeting,email_type="meeting_declined")
         elif action == "complete":

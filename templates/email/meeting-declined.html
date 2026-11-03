@@ -141,7 +141,11 @@ a{
 
         <div class="content">
 
+            {% if reason %}
+            <p>Priežąstis: {{reason}}</p>
+            {% else %}
             <p>Draugas negali šiuo metu susitikti su jumis, todėl atšaukė pasiūlymą susitikti.</p>
+            {% endif %}
 
             <p>Nieko daryti nereikia.</p>
 

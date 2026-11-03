@@ -1,4 +1,8 @@
+{% if reason %}
+Priežąstis: {{reason}}
+{% else %}
 Draugas negali šiuo metu susitikti su jumis, todėl atšaukė pasiūlymą susitikti.
+{% endif %}
 
 Nieko daryti nereikia.
 

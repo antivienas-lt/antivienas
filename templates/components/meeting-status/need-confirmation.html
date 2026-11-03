@@ -5,13 +5,13 @@
     <p><span class="block-title">Gavote naują pasiūlymą susitikti. Patvirtinti savo dalyvavimą šiame susitikime galite iki {{meeting.time_left_to_confirm}} val.</span></p>
   </div>
   <div class="action-block">
-    <form action="" method="post" class="meeting-manager-form">
+    <form action="" method="post" class="meeting-manager-form-confirm">
       {% csrf_token %}
       <input type="hidden" name="action" value="confirm">
       <input type="hidden" name="meeting-id" value="{{meeting.pk}}">
       <button type="submit" class="btn-link">✅ PATVIRTINTI</button>
     </form>
-    <form action="" method="post" class="meeting-manager-form">
+    <form action="" method="post" class="meeting-manager-form-confirm">
       {% csrf_token %}
       <input type="hidden" name="action" value="decline">
       <input type="hidden" name="meeting-id" value="{{meeting.pk}}">

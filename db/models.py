@@ -233,7 +233,7 @@ class Meeting(models.Model):
 
     status = models.IntegerField(choices=MeetingStatusEnum, default=MeetingStatusEnum.CREATED)
 
-    declined_reason = models.CharField(max_length=200, blank=True, default="")
+    declined_reason = models.CharField(max_length=300, blank=True, default="")
     confirmation_code = models.CharField(max_length=5,default=generate_confirmation_code)
 
     created = models.DateTimeField(auto_now_add=True)

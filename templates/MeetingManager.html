@@ -13,9 +13,146 @@
         <p>Šiuo metu neturite aktyvių susitikimų.</p>
       {% endif %}
     </div>
-    <div class="meetings-container">
+    <div id="meetingConfirmModal" class="meeting-modal">
+        <div class="meeting-modal-content">
+            <span class="meeting-modal-close">&times;</span>
+
+            <h2 id="meetingModalTitle">Ar tikrai norite tęsti?</h2>
+
+            <p id="meetingModalMessage"></p>
+
+            <div id="declineReasonWrapper" style="display: none;">
+
+                <textarea
+                    id="declineReason"
+                    name="decline_reason"
+                    placeholder=""
+                    rows="6"
+                ></textarea>
+            </div>
+
+            <div class="meeting-modal-actions">
+                <button type="button" id="cancelModal" class="btn-secondary">
+                    Grįžti
+                </button>
+
+                <button type="button" id="confirmModal" class="btn-primary">
+                    Patvirtinti
+                </button>
+            </div>
+        </div>
+    </div>
       {% for meeting in meetings %}
         {% include "components/meeting-card.html" %}
       {% endfor %}
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+
+      const modal = document.getElementById("meetingConfirmModal");
+
+      const modalTitle = document.getElementById("meetingModalTitle");
+      const modalMessage = document.getElementById("meetingModalMessage");
+
+      const declineReasonWrapper = document.getElementById("declineReasonWrapper");
+      const declineReason = document.getElementById("declineReason");
+
+      const confirmModal = document.getElementById("confirmModal");
+      const cancelModal = document.getElementById("cancelModal");
+
+      const closeModal = document.querySelector(".meeting-modal-close");
+
+      let activeForm = null;
+      let activeAction = null;
+
+      // Intercept all meeting forms
+      document.querySelectorAll(".meeting-manager-form-confirm").forEach(form => {
+
+          form.addEventListener("submit", function (e) {
+              e.preventDefault();
+
+              activeForm = form;
+
+              activeAction = form.querySelector('input[name="action"]').value;
+
+              declineReason.value = "";
+
+              if (activeAction === "confirm") {
+
+                  modalTitle.textContent = "Patvirtinti susitikimą?";
+                  modalMessage.textContent =
+                      "Ar tikrai norite patvirtinti savo dalyvavimą šiame susitikime?";
+
+                  declineReasonWrapper.style.display = "none";
+
+                  confirmModal.textContent = "Taip, patvirtinti";
+
+              } else if (activeAction === "decline") {
+
+                  modalTitle.textContent = "Atšaukti susitikimą?";
+                  modalMessage.textContent =
+                      "Parašykite priežąstį (neprivaloma)";
+
+                  declineReasonWrapper.style.display = "block";
+
+                  confirmModal.textContent = "Taip, atšaukti";
+              }
+
+              modal.classList.add("modal-active");
+          });
+
+      });
+
+      // Confirm action
+      confirmModal.addEventListener("click", function () {
+
+          if (!activeForm) return;
+
+          if (activeAction === "decline") {
+
+              // Add optional reason to the original form
+              let reasonInput = activeForm.querySelector(
+                  'input[name="decline_reason"]'
+              );
+
+              if (!reasonInput) {
+                  reasonInput = document.createElement("input");
+                  reasonInput.type = "hidden";
+                  reasonInput.name = "decline_reason";
+                  activeForm.appendChild(reasonInput);
+              }
+
+              reasonInput.value = declineReason.value.trim();
+          }
+
+          // Actually submit the original Django form
+          activeForm.submit();
+
+      });
+
+      // Close modal
+      function closeMeetingModal() {
+          modal.classList.remove("modal-active");
+          activeForm = null;
+          activeAction = null;
+      }
+
+      cancelModal.addEventListener("click", closeMeetingModal);
+      closeModal.addEventListener("click", closeMeetingModal);
+
+      // Close when clicking outside
+      modal.addEventListener("click", function (e) {
+          if (e.target === modal) {
+              closeMeetingModal();
+          }
+      });
+
+      document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && modal.classList.contains("modal-active")) {
+          closeMeetingModal();
+      }
+    });
+
+  });
+    </script>
 {% endblock content %}

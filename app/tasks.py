@@ -201,13 +201,13 @@ def send_meeting_declined_emails(connection):
     if not logs:
         return
 
-    context = {"meeting_manager_link": meeting_manager_link,"support_email": settings.DEFAULT_SUPPORT_EMAIL}
-
     subject = "Draugas atmetė pasiūlymą susitikti"
-    text_content = render_to_string("email/meeting-declined.txt",context)
-    html_content = render_to_string("email/meeting-declined.html",context)
+    context = {"meeting_manager_link": meeting_manager_link,"support_email": settings.DEFAULT_SUPPORT_EMAIL, "reason": ""}
 
     for log in logs:
+        context["reason"] = log.meeting.declined_reason
+        text_content = render_to_string("email/meeting-declined.txt",context)
+        html_content = render_to_string("email/meeting-declined.html",context)
         try:
             email = EmailMultiAlternatives(subject=subject,body=text_content,
                 from_email=settings.DEFAULT_FROM_EMAIL,to=[log.meeting.user.email], connection=connection)
