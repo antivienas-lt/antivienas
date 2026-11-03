@@ -34,6 +34,7 @@ ALLOWED_HOSTS = [
     "antivienas.lt",
     "www.antivienas.lt",
     "192.168.1.40",
+    "212.52.53.219",
     "localhost",
     "127.0.0.1",
 ]

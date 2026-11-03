@@ -1,7 +1,7 @@
 const modal = document.getElementById("modal");
 const closeBtn = document.querySelector(".close");
 const modalImage = document.getElementById("modalImage");
-const miniatures = Array.from(document.querySelectorAll(".miniature-img"));
+const miniatures = Array.from(document.querySelectorAll(".miniature-img, .how-to-img"));
 
 let currentIndex = 0;
 
