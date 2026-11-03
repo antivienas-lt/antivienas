@@ -132,9 +132,20 @@
         }
     }
   </script>
+  <script>
+    window.leafletMarkerIcon = "{% static 'js/leaflet/images/marker-icon.png' %}";
+    window.leafletMarkerIconRetina = "{% static 'js/leaflet/images/marker-icon-2x.png' %}";
+    window.leafletMarkerShadow = "{% static 'js/leaflet/images/marker-shadow.png' %}";
+    </script>
   <script type="module">
 import * as L from "leaflet";
 import { maplibreGL } from "leaflet-maplibre-gl";
+
+L.Icon.Default.mergeOptions({
+    iconUrl: window.leafletMarkerIcon,
+    iconRetinaUrl: window.leafletMarkerIconRetina,
+    shadowUrl: window.leafletMarkerShadow,
+});
 
 // Existing form fields
 const latInput = document.getElementById("id_latitude");
