@@ -11,6 +11,7 @@ from django.utils import timezone
 from datetime import timedelta
 from db.constants import PLATFORM_FEE_RATE
 from django.db.models.functions import Lower
+from datetime import date
 
 
 DEFAULT_USER_IMG = settings.STATIC_URL + "assets/default_avatar.webp"
@@ -39,9 +40,9 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     # profile stuff
-    gender = models.CharField(max_length=20,choices=Genders.choices,blank=True,default="")
-    city = models.CharField(max_length=50,choices=Cities.choices,blank=True,default="")
-    birthdate = models.DateField(blank=True,null=True)
+    gender = models.CharField(max_length=20,choices=Genders.choices,blank=True,default=Genders.MOTERIS)
+    city = models.CharField(max_length=50,choices=Cities.choices,blank=True,default=Cities.VILNIUS)
+    birthdate = models.DateField(blank=True,null=True, default=date(2008, 11, 4))
 
     interest1 = models.CharField(max_length=25, blank=True, default="")
     interest2 = models.CharField(max_length=25, blank=True, default="")
@@ -52,7 +53,7 @@ class User(AbstractUser):
 
     is_accepting_meetings = models.BooleanField(default=False)
     
-    profit_per_hour = models.PositiveIntegerField(default=5, validators=[MinValueValidator(5)])
+    profit_per_hour = models.PositiveIntegerField(default=10, validators=[MinValueValidator(5)])
 
     banned = models.IntegerField(blank=True, null=True, choices=BanReasonEnum.choices)
 
@@ -86,6 +87,10 @@ class User(AbstractUser):
     sun_day = models.BooleanField(default=True, verbose_name="Available Sunday")
     sun_from = models.IntegerField(choices=Hours.choices, default=Hours.H00)
     sun_to = models.IntegerField(choices=Hours.choices, default=Hours.H24)
+
+    id_is_verified = models.BooleanField(default=False)
+    id_full_name = models.CharField(max_length=100, blank=True, default="")
+    id_personal_code = models.CharField(max_length=20, blank=True, default="")
 
 
     def __str__(self):
