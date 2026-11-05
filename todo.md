@@ -1,6 +1,10 @@
 
 TODO:
-NONE
+verify id form
+verify id admin notification (discord)
+invoice payment notification (discord)
+verify id email log
+
 
 PAYMENTS:
   check manually via admin. Send payment invoices via email.

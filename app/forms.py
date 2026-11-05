@@ -282,3 +282,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ["comment", "liked_meeting"]
+
+class UploadIDForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ["birthdate", "id_image"]

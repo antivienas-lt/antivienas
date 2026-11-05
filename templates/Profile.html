@@ -32,6 +32,11 @@
         <div>
           <a href="{% url 'friend-settings' %}" class="btn-link">Draugų nustatymai</a>
         </div>
+        {% if not request.user.id_image and not request.user.id_is_verified%}
+        <div>
+          <a href="{% url 'verify-id' %}" class="btn-link">Tapatybės patvirtinimas</a>
+        </div>
+        {% endif %}
       </div>
     </div>
     {% endif %}
@@ -46,6 +51,7 @@
               <span>{{ profile.gender|slice:"3"|add:". "}}</span>
             {% endif %}
             {{ profile.get_city_display }}</span>
+          {% include "components/verification-badge.html" with id_is_verified=profile.id_is_verified %}
           <h2 class="full-name">{{profile.username}}</h2>
           {% if profile.is_accepting_meetings %}
           <div class="price-part">

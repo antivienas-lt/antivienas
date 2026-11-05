@@ -191,7 +191,7 @@ textarea {
   gap: 15px;
 }
 .friend-card .info-part{
-  min-width: 180px;
+  min-width: 190px;
 }
 .friend-card .full-name{
   font-size: 1.2rem;
@@ -199,6 +199,8 @@ textarea {
 
 .friend-card .full-name, .profile-card .full-name{
   font-weight: 500;
+  position: relative;
+  width: max-content;
 }
 .friend-card .description{
   text-align: justify;
@@ -225,6 +227,7 @@ textarea {
 }
 .friend-card .description, .profile-card .description, .profile-card .meetup-time-description{
   font-size: 0.9rem;
+  word-break: break-word;
 }
 
 .meetup-btn{
@@ -1167,6 +1170,45 @@ input[type=number] {
     }
 }
 
+.id-verification-container{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.9rem;
+}
+
+.verification-status{
+  border-radius: 100%;
+  max-width: 40px;
+  height: 15px;
+  width: 15px;
+  display: flex;
+  padding: 2px;
+  justify-content: center;
+}
+
+.verification-status svg{
+  fill: white;
+  width: 10px;
+  height: 10px;
+}
+
+.is-id-verified {
+  background: var(--text-blue);
+}
+
+.is-id-verified-tooltip{
+  color: var(--text-blue);
+}
+
+.is-not-id-verified {
+  background: gray;
+}
+
+.is-not-id-verified-tooltip{
+  color: gray;
+}
+
 .confirmation-success-container{
   position: absolute;
   top: 50%;
@@ -1513,8 +1555,11 @@ input[type=number] {
   .crop-image-container {
     height: 45vh;
   }
-}
 
+  .birthdate-fields{
+    gap: 6px;
+  }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 640px) {

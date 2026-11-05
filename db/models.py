@@ -22,6 +22,12 @@ def user_avatar_upload_path(instance, filename):
     filename = f"{today}.{ext}"
     return os.path.join(instance.user.username, filename)
 
+def user_id_upload_path(instance, filename):
+    ext = filename.split('.')[-1].lower()
+    today = timezone.now().strftime("%Y%m%d%H%M%S%f")
+    filename = f"{today}.{ext}"
+    return os.path.join(instance.username, "5r4g8ga848a4v9ae4815r", filename)
+
 
 def generate_confirmation_code():
     return f"{random.randrange(100000):05d}"
@@ -90,7 +96,7 @@ class User(AbstractUser):
 
     id_is_verified = models.BooleanField(default=False)
     id_full_name = models.CharField(max_length=100, blank=True, default="")
-    id_personal_code = models.CharField(max_length=20, blank=True, default="")
+    id_image = models.ImageField(upload_to=user_id_upload_path, blank=True, null=True)
 
 
     def __str__(self):

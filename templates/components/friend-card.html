@@ -10,6 +10,7 @@
         <span>{{ friend.gender|slice:"3"|add:". "}}</span>
       {% endif %}
       {{ friend.get_city_display }}</span>
+      {% include "components/verification-badge.html" with id_is_verified=friend.id_is_verified %}
     <h2 class="full-name"><a href="{% url 'profile' friend.username %}">{{friend.username}}</a><span class="review-count-fax"> {% if friend.review_count > 0 %}({{ friend.review_count }}){% endif %}</span></h2>
       <div class="likes-part">
     </div>

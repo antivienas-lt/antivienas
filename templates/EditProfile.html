@@ -6,7 +6,6 @@
 <meta name="robots" content="noindex, nofollow">
 {% endblock meta %}
 
-
 {% block content %}
   {% include "components/nav.html"%}
   <div class="profile-edit-container">
@@ -38,7 +37,7 @@
         <div class="birthdate-fields">
           <div class="form-field-input">
             <label for="birth_day">Diena</label>
-            <select name="birth_day" id="birth_day">
+            <select name="birth_day" id="birth_day" {% if request.user.id_is_verified%}disabled style="cursor:not-allowed;"{% endif %}>
               <option value=""></option>
               {% for day in days %}
                 <option value="{{ day }}"
@@ -50,7 +49,7 @@
           </div>
         <div class="form-field-input">
           <label for="birth_month">Mėnuo</label>
-          <select name="birth_month" id="birth_month">
+          <select name="birth_month" id="birth_month" {% if request.user.id_is_verified%}disabled style="cursor:not-allowed;"{% endif %}>
             <option value=""></option>
             {% for month in months %}
               <option value="{{ month.value }}"
@@ -62,7 +61,7 @@
         </div>
         <div class="form-field-input">
           <label for="birth_year">Metai</label>
-          <select name="birth_year" id="birth_year">
+          <select name="birth_year" id="birth_year" {% if request.user.id_is_verified%}disabled style="cursor:not-allowed;"{% endif %}>
             <option value=""></option>
             {% for year in years %}
               <option value="{{ year }}"

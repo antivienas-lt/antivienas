@@ -18,13 +18,14 @@ from db.models import UserProfilePicture, Meeting, Review, Message, UserEmailLog
 from db.constants import Cities, Genders, Months, DAYS, YEARS, MeetingStatusEnum, BanReasonEnum
 from db.services import complete_meeting
 
-from app.forms import UserProfilePictureForm, FriendSettingsForm, CreateMeetingForm, ReviewForm, RegisterForm
+from app.forms import UserProfilePictureForm, FriendSettingsForm, CreateMeetingForm, ReviewForm, RegisterForm, UploadIDForm
 from app.rate_limit import ip_key
 from app.tasks import send_activation_emails, send_password_reset_emails
 
 import json
 from datetime import date
 from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 from pathlib import Path
 import markdown
 
@@ -212,7 +213,7 @@ def AutoSaveProfileFunc(request):
         if field not in allowed_fields:
             return JsonResponse({'error': f'Invalid field: {field}'}, status=400)
 
-        if field == 'birthdate':
+        if field == 'birthdate' and not user.id_is_verified:
             try:
                 day = int(value.get('day'))
                 month = int(value.get('month'))
@@ -523,4 +524,43 @@ def AboutUsPage(request):
     
     return render(request, "AboutUs.html", {
         "about_html": mark_safe(html),
+    })
+
+@login_required
+def VerifyIDPage(request):
+    if request.user.id_is_verified:
+        return redirect("profile", request.user.username)
+
+    if request.user.id_image:
+        messages.info(request,"Jūsų tapatybės patvirtinimo užklausa jau buvo išsiųsta.")
+        return redirect("profile", request.user.username)
+
+    if request.method == "POST":
+        data = request.POST.copy()
+        try:
+            day = int(request.POST.get("birth_day"))
+            month = int(request.POST.get("birth_month"))
+            year = int(request.POST.get("birth_year"))
+            birthdate = date(year, month, day)
+            if birthdate > date.today() - relativedelta(years=16):
+                messages.error(request, "Turite būti bent 16 metų amžiaus.")
+                return redirect("verify-id")
+            data["birthdate"] = birthdate
+        except:
+            messages.error(request,"Blogai suvesti gimimo datos duomenys, bandykite dar kartą.")
+            return redirect("verify-id")
+
+        form = UploadIDForm(request.POST,request.FILES,instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Dokumentas įkeltas sėkmingai! Patvirtinsime per 1-3 dienas.")
+            return redirect("profile", request.user.username)
+        
+        messages.error(request, "Blogas dokumento formatas arba nuotraukos dydis viršija 10MB. Bandykite dar kartą.")
+
+    return render(request, "VerifyID.html", {
+        "months": Months,
+        "days": DAYS,
+        "years": YEARS,
     })

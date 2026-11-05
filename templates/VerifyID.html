@@ -1,0 +1,102 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>Tapatybės patvirtinimas</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+  {% include "components/nav.html"%}
+  <div class="profile-edit-container">
+    <h1>Tapatybės patvirtinimas</h1>
+    <span>Vykdome neprivalomą tapatybės patvirtinimą saugumo tikslais. Patvirtinimas gali užtrukti 1-3 dienas. Vartotojai su patvirtinta tapatybe gauna unikalų žymeklį.</span>
+    <br><br>
+    <span>Prieš keldami asmens dokumentą, įsitikinkite, kad:</span>
+    <br><br>
+    <ul class="edit-img-ul">
+      <li>* Bent viena profilio nuotrauka yra jūsų veido.</li>
+      <li>* Dokumento tipas: pasas, tapatybės kortelė arba vairuotojo teisės.</li>
+      <li>* Dokumento formatas: JPEG, PNG, WEBP</li>
+    </ul>
+    <form id="upload-form" action="" enctype="multipart/form-data" class="profile-edit-form" method="POST">
+        {% csrf_token %}
+        <input id="img-uploader" type="file" hidden name="id_image" accept="image/*" accept="image/jpeg,image/png,image/webp">
+        <div>
+            <br>
+            <p class="section-descriptor"><strong>Gimimo data</strong></p>
+            <div class="birthdate-fields">
+                <div class="form-field-input">
+                    <label for="birth_day">Diena</label>
+                    <select name="birth_day" id="birth_day">
+                    <option value=""></option>
+                    {% for day in days %}
+                        <option value="{{ day }}"
+                        {% if request.user.birthdate and request.user.birthdate.day == day %}selected{% endif %}>
+                        {{ day }}
+                        </option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="form-field-input">
+                <label for="birth_month">Mėnuo</label>
+                <select name="birth_month" id="birth_month">
+                    <option value=""></option>
+                    {% for month in months %}
+                    <option value="{{ month.value }}"
+                        {% if request.user.birthdate and request.user.birthdate.month == month.value %}selected{% endif %}>
+                        {{ month.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="form-field-input">
+                <label for="birth_year">Metai</label>
+                <select name="birth_year" id="birth_year">
+                    <option value=""></option>
+                    {% for year in years %}
+                    <option value="{{ year }}"
+                        {% if request.user.birthdate and request.user.birthdate.year == year %}selected{% endif %}>
+                        {{ year }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+            <button id="upload-btn" type="button" class="save-edit-btn">
+                Įkelti asmens dokumentą
+            </button>
+        </form>
+    </div>
+    <script>
+        const uploadBtn = document.getElementById("upload-btn");
+        const imgUploader = document.getElementById("img-uploader");
+        const uploadForm = document.getElementById("upload-form");
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        // Open file picker
+        uploadBtn.addEventListener("click", () => {
+            imgUploader.click();
+        });
+
+        // Validate and submit
+        imgUploader.addEventListener("change", () => {
+            const file = imgUploader.files[0];
+
+            if (!file) return;
+
+            if (!allowedTypes.includes(file.type)) {
+                alert("Leidžiami tik JPG, PNG ir WEBP formatai.");
+                imgUploader.value = "";
+                return;
+            }
+
+            uploadForm.submit();
+        });
+    </script>
+{% endblock content %}

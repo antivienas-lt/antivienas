@@ -20,6 +20,7 @@ urlpatterns = [
     path("edit-profile/", views.EditProfilePage, name="edit-profile"),
     path("manage-photos/", views.ManageProfilePhotosPage, name="manage-photos"),
     path('friend-settings/', views.FriendSettingsPage, name='friend-settings'),
+    path('verify/id', views.VerifyIDPage, name="verify-id"),
 
     path('meeting/<str:username>/new/', views.CreateMeetingPage, name='new-meeting'),
     path('meeting/<int:meeting_id>/review/', views.ReviewMeetingPage, name='review-meeting'),
