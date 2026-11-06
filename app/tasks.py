@@ -10,6 +10,9 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.core.cache import cache
 
+from app.notifications import new_user_notification, send_invoice_notification
+from app.notifications import meeting_confirmed_notification, verify_id_request_notification
+
 from db.models import Meeting, User, MeetingEmailLog, UserEmailLog
 from db.constants import MeetingStatusEnum
 
@@ -476,3 +479,24 @@ def send_all_emails():
         connection.close()
     finally:
         cache.delete(lock_key)
+
+@shared_task 
+def notify_about_new_user(username):
+    user_count = User.objects.all().count()
+    message = f"{username} joined antivienas.lt Total users: {user_count}"
+    new_user_notification(message)
+
+@shared_task
+def notify_about_id_verification_request(username):
+    message = f"{username} requested id verification. Link: https://antivienas.lt/modtools/verify-id/{username}/"
+    verify_id_request_notification(message)
+
+@shared_task
+def notify_about_meeting_confirmed():
+    message = f"New meeting confirmed"
+    meeting_confirmed_notification(message)
+
+@shared_task
+def notify_about_invoice():
+    message = f"Meeting completed. Need to send platform fee invoice"
+    send_invoice_notification(message)

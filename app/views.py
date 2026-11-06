@@ -21,6 +21,7 @@ from db.services import complete_meeting
 from app.forms import UserProfilePictureForm, FriendSettingsForm, CreateMeetingForm, ReviewForm, RegisterForm, UploadIDForm
 from app.rate_limit import ip_key
 from app.tasks import send_activation_emails, send_password_reset_emails
+from app.tasks import notify_about_id_verification_request, notify_about_invoice, notify_about_meeting_confirmed, notify_about_new_user
 
 import json
 from datetime import date
@@ -251,6 +252,7 @@ def ActivateUserFunc(request, uidb64, token):
     if user and default_token_generator.check_token(user, token):
         user.is_active = True
         user.save(update_fields=["is_active"])
+        notify_about_new_user.delay_on_commit(user.username)
         login(request, user)
         messages.success(request, "Paskyra aktyvuota sėkmingai!")
         return redirect("edit-profile")
@@ -334,6 +336,7 @@ def MeetingManagerPage(request):
             
             meeting.status = MeetingStatusEnum.CONFIRMED
             meeting.save()
+            notify_about_meeting_confirmed.delay_on_commit()
             MeetingEmailLog.objects.get_or_create(meeting=meeting,email_type="meeting_confirmed")
         elif action == "decline":
             if meeting.status != MeetingStatusEnum.CREATED:
@@ -354,6 +357,7 @@ def MeetingManagerPage(request):
             confirmation_code = request.POST.get("confirmation-code", "").strip()
             if confirmation_code == meeting.confirmation_code:
                 complete_meeting(meeting)
+                notify_about_invoice.delay_on_commit()
                 MeetingEmailLog.objects.get_or_create(meeting=meeting,email_type="meeting_review")
                 return render(request, "MeetingSuccess.html")
             else:
@@ -546,6 +550,7 @@ def VerifyIDPage(request):
 
         if form.is_valid():
             form.save()
+            notify_about_id_verification_request.delay_on_commit(request.user.username)
             messages.success(request,"Dokumentas įkeltas sėkmingai! Patvirtinsime per 1-3 dienas.")
             return redirect("profile", request.user.username)
         
