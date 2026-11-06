@@ -64,6 +64,7 @@ Jūsų asmens duomenis galime gauti:
     - atliekate mokėjimą;
     - bendraujate su kitais naudotojais ar su mumis;
     - pateikiate atsiliepimus ar vertinimus.
+    - siunčiate tapatybės patvitinimo užklausą
 
 2. **Automatiškai**, kai naudojatės platforma:
     - IP adresas;
@@ -256,6 +257,7 @@ Galime tvarkyti:
 Kadangi platforma susijusi su realiais susitikimais, galime taikyti papildomas saugumo priemones:
 
 - telefono numerio patvirtinimą;
+- tapatybės dokumento patvirtinimą;
 - el. pašto patvirtinimą;
 - amžiaus patvirtinimą;
 - „raudonų vėliavų“ / sukčiavimo rizikos signalus;
@@ -454,6 +456,9 @@ Saugomi iki sutikimo atšaukimo, bet ne ilgiau kaip **2 metus nuo paskutinio akt
 _ga (Google analytics slapukas) ir csrftoken (formų autentiškumo slapukas) saugomi iki 13 mėn.
 
 _gid ir sessionid (sesijos slapukai) saugomi iki 24 valandų.
+
+### 10.8 Tapatybės dokumento nuotrauka
+Saugoma iki tapatybės patvirtinimo arba atšaukimo.
 
 ## 11. Kaip saugome Jūsų duomenis?
 

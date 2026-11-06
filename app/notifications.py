@@ -1,5 +1,5 @@
 import asyncio
-import app.notifications as notifications
+import discord
 import os
 
 NEW_USER_DC_ID = "1568228026301284442"
@@ -8,9 +8,9 @@ MEETING_CONFIRMED_DC_ID = "1568228105368244286"
 SEND_PAYMENT_DC_ID = "1568228143993720943"
 
 async def _send_message(channel_id, message):
-    intents = notifications.Intents.default()
+    intents = discord.Intents.default()
 
-    async with notifications.Client(intents=intents) as client:
+    async with discord.Client(intents=intents) as client:
         await client.login(os.environ["DISCORD_BOT_TOKEN"])
         channel = await client.fetch_channel(channel_id)
         await channel.send(message)
