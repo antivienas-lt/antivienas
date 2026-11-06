@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJKEY")
+SECRET_KEY = os.environ["DJKEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", "False").lower() == "true"
+DEBUG = os.environ["DEBUG"].lower() == "true"
 
 ALLOWED_HOSTS = [
     "antivienas.lt",
@@ -116,11 +116,11 @@ AUTH_USER_MODEL = "db.User"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST"),
-        "PORT": os.getenv("DB_PORT")
+        "NAME": os.environ["DB_NAME"],
+        "USER": os.environ["DB_USER"],
+        "PASSWORD": os.environ["DB_PASSWORD"],
+        "HOST": os.environ["DB_HOST"],
+        "PORT": os.environ["DB_PORT"]
     }
 }
 
@@ -241,11 +241,11 @@ CELERY_BEAT_SCHEDULE = {
 }
 
 
-EMAIL_HOST = os.getenv("SMTP_HOST")
+EMAIL_HOST = os.environ["SMTP_HOST"]
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("SMTP_USER")
-EMAIL_HOST_PASSWORD = os.getenv("SMTP_PASSWORD")
+EMAIL_HOST_USER = os.environ["SMTP_USER"]
+EMAIL_HOST_PASSWORD = os.environ["SMTP_PASSWORD"]
 
 DEFAULT_SUPPORT_EMAIL = "av@antivienas.lt"
 DEFAULT_FROM_EMAIL = "antivienas.lt <noreply@antivienas.lt>"

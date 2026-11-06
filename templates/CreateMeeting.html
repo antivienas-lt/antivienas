@@ -141,11 +141,15 @@
 import * as L from "leaflet";
 import { maplibreGL } from "leaflet-maplibre-gl";
 
+delete L.Icon.Default.prototype._getIconUrl;
+
 L.Icon.Default.mergeOptions({
     iconUrl: window.leafletMarkerIcon,
     iconRetinaUrl: window.leafletMarkerIconRetina,
     shadowUrl: window.leafletMarkerShadow,
 });
+
+console.log(window.leafletMarkerIcon, window.leafletMarkerIconRetina, window.leafletMarkerShadow)
 
 // Existing form fields
 const latInput = document.getElementById("id_latitude");

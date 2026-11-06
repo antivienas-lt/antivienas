@@ -1608,7 +1608,7 @@ input[type=number] {
 
 .map-preview-label {
     position: absolute;
-    z-index: 500;
+    z-index: 19;
     bottom: 12px;
     left: 50%;
     transform: translateX(-50%);

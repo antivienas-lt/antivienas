@@ -1,18 +1,17 @@
+import asyncio
+import app.notifications as notifications
+import os
+
 NEW_USER_DC_ID = "1568228026301284442"
 VERIFY_ID_DC_ID = "1568228066184921170"
 MEETING_CONFIRMED_DC_ID = "1568228105368244286"
 SEND_PAYMENT_DC_ID = "1568228143993720943"
 
-import asyncio
-import app.notifications as notifications
-
-TOKEN = "MTM5OTc2OTgxMTE5Nzg4NjY2NQ.Gl7ECP.bWz5136orE2d0BlAElYjtO0zSIwP3uHsvpYqnI"
-
 async def _send_message(channel_id, message):
     intents = notifications.Intents.default()
 
     async with notifications.Client(intents=intents) as client:
-        await client.login(TOKEN)
+        await client.login(os.environ["DISCORD_BOT_TOKEN"])
         channel = await client.fetch_channel(channel_id)
         await channel.send(message)
         await client.close()
