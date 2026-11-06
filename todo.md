@@ -1,9 +1,8 @@
 
 TODO:
 verify id admin notification (discord)
-invoice payment notification (discord)
-verify id email log
-
+new user notification (discord)
+meeting confirmed notification(discord)
 
 PAYMENTS:
   check manually via admin. Send payment invoices via email.
@@ -15,6 +14,8 @@ HOSTING:
 STACK:
   Django
   Nginx
+  Redis
+  PostgreSQL
   Brevo SMTP
 
 Deployment needs:
@@ -33,4 +34,4 @@ Prod checklist:
 4) makemigrations + migrate
 5) nginx
 6) celery worker daemon
-7) manage.py runserver
+7) daphne daemon
