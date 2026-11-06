@@ -1,0 +1,35 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>mod-id-verify-form</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+  {% include "components/nav.html"%}
+<div style="padding: 20px; max-width: 600px; margin: auto;">
+    <form action="" method="post" style="width: 100%;">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{user.username}}">
+        <input type="hidden" name="action" value="approve">
+        <div class="form-field-input" style="max-width: 300px;">
+            <input type="text" name="id_full_name" required>
+        </div>
+        <div class="form-field-input" style="max-width: 300px;">
+            <input type="date" name="birthdate" value="{{user.birthdate|date:'Y-m-d'}}" disabled>
+        </div>
+        <button type="submit" class="btn-link" style="width: 100%;padding: 10px;margin: 20px auto;">Patvirtinti</button>
+    </form>
+    <img style="width: 100%; max-width: 500px; display: block;" src="{{user.id_image.url}}" alt="">
+    {% for pic in user.pics %}
+        <img style="width: 100%; max-width: 500px; display: block; margin-top: 20px;" src="{{pic.image.url}}" alt="">
+    {% endfor %}
+    <form action="" method="post" style="width: 100%;">
+        {% csrf_token %}
+        <input type="hidden" name="username" value="{{user.username}}">
+        <input type="hidden" name="action" value="deny">
+        <button type="submit" class="btn-link" style="width: 100%;padding: 10px;margin: 20px auto;">Atšaukti</button>
+    </form>
+  </div>
+{% endblock content %}

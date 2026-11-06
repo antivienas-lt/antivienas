@@ -1,0 +1,18 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>antivienas.lt</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+{% block content %}
+  {% include "components/nav.html"%}
+  <div class="info-container">
+    <a class="link-item" href="{% url 'mod-verify-id' %}">
+        <p>Verify ID</p>
+    </a>
+    <a class="link-item" href="#">
+        <p>TODO: Meeting Chat Mod dash</p>
+    </a>
+  </div>
+{% endblock content %}

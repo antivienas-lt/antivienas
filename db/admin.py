@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.db.models.signals import post_delete
+from django.db.models.signals import post_delete, pre_save
 from django.dispatch import receiver
 
 from db.models import User, UserProfilePicture, Meeting, Payment, Review, Message, UserEmailLog, MeetingEmailLog
@@ -52,3 +52,19 @@ def delete_avatar_file(sender, instance, **kwargs):
     """Deletes avatar file from filesystem when UserProfilePicture object is deleted."""
     if instance.image:
         instance.image.delete(save=False)
+
+@receiver(pre_save, sender=User)
+def delete_old_id_image(sender, instance, **kwargs):
+    if not instance.pk:
+        return
+
+    try:
+        old_instance = sender.objects.get(pk=instance.pk)
+    except sender.DoesNotExist:
+        return
+
+    old_image = old_instance.id_image
+    new_image = instance.id_image
+
+    if old_image and old_image != new_image:
+        old_image.delete(save=False)

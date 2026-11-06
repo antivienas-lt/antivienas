@@ -1,7 +1,5 @@
 
 TODO:
-delete verify ID image after clean from admin
-mod tool to verify id quickly
 verify id admin notification (discord)
 invoice payment notification (discord)
 verify id email log

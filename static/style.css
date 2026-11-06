@@ -996,7 +996,8 @@ input[type=number] {
 
 .img-edit-modal .modal-content {
   display: block;
-  max-width: 100%;
+  width: 100%;
+  max-width: 800px;
 }
 
 .img-edit-modal .close {

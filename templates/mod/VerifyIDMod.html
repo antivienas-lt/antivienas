@@ -1,0 +1,17 @@
+{% extends "components/base.html"%}
+
+{% block meta %}
+<title>antivienas.lt</title>
+<meta name="robots" content="noindex, nofollow">
+{% endblock meta %}
+
+
+{% block content %}
+  {% include "components/nav.html"%}
+  <div style="padding: 0px 20px; display: block; margin: 0 auto; max-width: 600px; width: 100%;">
+    <h1>Verify ID</h1>
+    {% for user in users %}
+    <a href="{% url 'mod-verify-id-form' user.username %}" target="_blank" style="padding: 20px; border: 1px solid gray; width: 100%; display: block; margin: 20px auto;" class="link-item">{{user.username}}</a>
+    {% endfor %}
+  </div>
+{% endblock content %}

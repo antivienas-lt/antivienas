@@ -440,18 +440,6 @@ def ResetPasswordLinkPage(request):
         return redirect("login")
     return render(request, "ResetPasswordLink.html")
 
-@login_required
-def ModReviewChatPage(request, meeting_id):
-    if request.user.is_superuser:
-        meeting = Meeting.objects.filter(id=meeting_id).first()
-        if meeting:
-            chat = Message.objects.filter(meeting=meeting).select_related("sender")[:400]
-            avatar_map = {}
-            avatar_map[meeting.user.pk] = meeting.user.fetch_avatar_url
-            avatar_map[meeting.friend.pk] = meeting.friend.fetch_avatar_url
-            return render(request, "MeetingChatModerator.html", {"chat": chat, "avatar_map":avatar_map})
-
-
 def ResetPasswordFormPage(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
@@ -535,6 +523,10 @@ def VerifyIDPage(request):
         messages.info(request,"Jūsų tapatybės patvirtinimo užklausa jau buvo išsiųsta.")
         return redirect("profile", request.user.username)
 
+    if len(request.user.pics) < 1:
+        messages.error(request,"Kad patvirtinti jūsų tapatybę turite įsikelti bent vieną asmeninę nuotrauką.")
+        return redirect ("manage-photos")
+
     if request.method == "POST":
         data = request.POST.copy()
         try:
@@ -545,12 +537,12 @@ def VerifyIDPage(request):
             if birthdate > date.today() - relativedelta(years=16):
                 messages.error(request, "Turite būti bent 16 metų amžiaus.")
                 return redirect("verify-id")
-            data["birthdate"] = birthdate
+            data["birthdate"] = birthdate.isoformat()
         except:
             messages.error(request,"Blogai suvesti gimimo datos duomenys, bandykite dar kartą.")
             return redirect("verify-id")
 
-        form = UploadIDForm(request.POST,request.FILES,instance=request.user)
+        form = UploadIDForm(data, request.FILES,instance=request.user)
 
         if form.is_valid():
             form.save()
@@ -564,3 +556,45 @@ def VerifyIDPage(request):
         "days": DAYS,
         "years": YEARS,
     })
+
+@login_required
+def ModReviewChatPage(request, meeting_id):
+    if request.user.is_superuser:
+        meeting = Meeting.objects.filter(id=meeting_id).first()
+        if meeting:
+            chat = Message.objects.filter(meeting=meeting).select_related("sender")[:400]
+            avatar_map = {}
+            avatar_map[meeting.user.pk] = meeting.user.fetch_avatar_url
+            avatar_map[meeting.friend.pk] = meeting.friend.fetch_avatar_url
+            return render(request, "mod/MeetingChatMod.html", {"chat": chat, "avatar_map":avatar_map})
+
+@login_required
+def ModDashboardPage(request):
+    if request.user.is_superuser:
+        return render(request, "mod/DashboardMod.html")
+
+@login_required
+def ModVerifyIDPage(request):
+    if request.user.is_superuser:
+        users = User.objects.filter(id_is_verified=False, id_image__isnull=False).exclude(id_image="")
+        return render(request, "mod/VerifyIDMod.html", {"users": users,})
+
+@login_required
+def ModVerifyIDFormPage(request, username):
+    if request.user.is_superuser:
+        user = get_object_or_404(User, username=username)
+        if request.method == "POST":
+            action = request.POST.get("action", None)
+            if action == "deny":
+                user.id_image = None
+                user.save()
+                messages.success(request, "Tapatybė atmesta sekmingai")
+            elif action == "approve":
+                user.id_full_name = request.POST.get("id_full_name", None)
+                user.id_image = None
+                user.id_is_verified = True
+                user.save()
+                messages.success(request, "Tapatybė patvirtinta sekmingai")
+            return redirect("mod-verify-id")
+
+        return render(request, "mod/VerifyIDModForm.html", {"user": user,})

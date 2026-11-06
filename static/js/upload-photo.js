@@ -70,10 +70,18 @@ function closeCropModal() {
 
 cropCloseBtn.addEventListener("click", closeCropModal);
 
-cropModal.addEventListener("click", (event) => {
-  if (event.target === cropModal) {
+let backdropClicked = false;
+
+cropModal.addEventListener("mousedown", (event) => {
+  backdropClicked = event.target === cropModal;
+});
+
+cropModal.addEventListener("mouseup", (event) => {
+  if (backdropClicked && event.target === cropModal) {
     closeCropModal();
   }
+
+  backdropClicked = false;
 });
 
 cropUploadBtn.addEventListener("click", () => {
@@ -83,8 +91,8 @@ cropUploadBtn.addEventListener("click", () => {
   cropUploadBtn.textContent = "Įkeliama...";
 
   const canvas = cropper.getCroppedCanvas({
-    width: 512,
-    height: 512,
+    width: 1024,
+    height: 1024,
     imageSmoothingEnabled: true,
     imageSmoothingQuality: "high",
   });

@@ -3,6 +3,10 @@ from db.models import UserProfilePicture, User, Meeting, Review
 from db.constants import Hours
 from django.utils import timezone
 from datetime import datetime, timedelta, time
+from django.core.files.base import ContentFile
+from PIL import Image, ImageOps
+from io import BytesIO
+import os
 
 # forms.py
 
@@ -95,7 +99,7 @@ class UserProfilePictureForm(forms.ModelForm):
     def clean_image(self):
         image = self.cleaned_data.get('image')
         if image and image.size > 5 * 1024 * 1024:
-            raise forms.ValidationError("Klaida: failo dydis viršija 5MB limitą.")
+            raise forms.ValidationError("Klaida: failo dydis viršija 10MB limitą.")
         return image
     
 
@@ -287,3 +291,26 @@ class UploadIDForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["birthdate", "id_image"]
+
+    def clean_id_image(self):
+        image = self.cleaned_data.get("id_image")
+
+        if not image:
+            return image
+
+        img = Image.open(image)
+        img = ImageOps.exif_transpose(img)
+        img = img.convert("RGB")
+
+        buffer = BytesIO()
+
+        img.save(
+            buffer,
+            format="JPEG",
+            quality=85,
+            optimize=True
+        )
+
+        filename = os.path.splitext(os.path.basename(image.name))[0] + ".jpg"
+
+        return ContentFile(buffer.getvalue(), name=filename)

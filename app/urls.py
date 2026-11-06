@@ -32,6 +32,9 @@ urlpatterns = [
     path('password-reset/', views.ResetPasswordLinkPage, name="reset-password-link"),
     path('password/reset/<uidb64>/<token>/', views.ResetPasswordFormPage, name="reset-password-form"),
 
+    path('modtools/dashboard', views.ModDashboardPage, name="mod-dashboard"),
+    path('modtools/verify-id', views.ModVerifyIDPage, name="mod-verify-id"),
+    path('modtools/verify-id/<str:username>/', views.ModVerifyIDFormPage, name="mod-verify-id-form"),
     path('modtools/chat/<int:meeting_id>/', view=views.ModReviewChatPage),
     
     path("activate/<uidb64>/<token>/", views.ActivateUserFunc, name="activate_user"),

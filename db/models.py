@@ -3,7 +3,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
 from db.constants import Genders, Cities, Hours, CITY_COORDINATES, MeetingStatusEnum, BanReasonEnum
-from PIL import Image
+from PIL import Image, ImageOps
 import os
 import random
 from django.conf import settings
@@ -124,7 +124,10 @@ class User(AbstractUser):
     def revenue_per_hour(self):
         # 20% of profit
         return int(self.profit_per_hour * PLATFORM_FEE_RATE + 0.9999)
-    
+
+    @property
+    def pics(self):
+        return self.userprofilepicture_set.all()  
 
     @property
     def avatar_url(self):
@@ -135,8 +138,7 @@ class User(AbstractUser):
     
     @property
     def fetch_avatar_url(self):
-        # only use for singular instance rendering
-        avatar = UserProfilePicture.objects.filter(user=self, is_avatar=True).first()
+        avatar = self.pics.filter(is_avatar=True).first()
         if avatar:
             return avatar.image.url
         return DEFAULT_USER_IMG
@@ -213,21 +215,11 @@ class UserProfilePicture(models.Model):
         if self.image:
             img = Image.open(self.image.path)
 
+            img = ImageOps.exif_transpose(img)
             if img.mode not in ("RGB", "RGBA"):
                 img = img.convert("RGB")
 
-            # make square (center-crop)
-            width, height = img.size
-            min_dim = min(width, height)
-            left = (width - min_dim) // 2
-            top = (height - min_dim) // 2
-            right = (width + min_dim) // 2
-            bottom = (height + min_dim) // 2
-            img = img.crop((left, top, right, bottom))
-
-            img = img.resize((512, 512), Image.LANCZOS)
-
-            img.save(self.image.path, quality=95, optimize=True)
+            img.save(self.image.path, quality=85, optimize=True)
             self.rebalance_avatar()
         
 class Meeting(models.Model):
