@@ -657,10 +657,9 @@ input[type=number] {
 
 .login-container .login-btn, .save-edit-btn{
   margin: 10px auto;
-  border: none;
   background: none;
   font-size: 1.2rem;
-  box-shadow: 0px 0px 1px 0px var(--pink);
+  border: 1px solid var(--pink);
   padding: 10px;
   border-radius: 10px;
   width: 100%;
@@ -1399,6 +1398,7 @@ input[type=number] {
 }
 .section-splitter hr{
   flex-grow: 1;
+  color: whitesmoke;
 }
 
 .section-splitter span{
