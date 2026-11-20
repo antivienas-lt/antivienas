@@ -40,7 +40,11 @@ class User(AbstractUser):
             models.UniqueConstraint(
                 Lower("username"),
                 name="unique_username_ci"
-            )
+            ),
+            models.UniqueConstraint(
+            Lower("email"),
+            name="unique_email_ci"
+            ),
         ]
 
     email = models.EmailField(unique=True)
@@ -98,6 +102,11 @@ class User(AbstractUser):
     id_full_name = models.CharField(max_length=100, blank=True, default="")
     id_image = models.ImageField(upload_to=user_id_upload_path, blank=True, null=True)
 
+    def save(self, *args, **kwargs):
+        if self.email:
+            self.email = self.email.strip().lower()
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.username

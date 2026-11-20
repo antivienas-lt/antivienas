@@ -1391,6 +1391,24 @@ input[type=number] {
   margin-bottom: 8px;
 }
 
+.section-splitter{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+}
+.section-splitter hr{
+  flex-grow: 1;
+}
+
+.section-splitter span{
+  color: gray;
+  display: block;
+  font: 0.9rem;
+  text-align: center;
+  width: fit-content;
+}
+
 
 .crop-modal[hidden] {
   display: none !important;
