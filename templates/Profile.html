@@ -46,7 +46,7 @@
           <img class="user-avatar" src="{{ profile.avatar_url }}" alt="user avatar">
         </div>
         <div class="info-part">
-          <span class="quick-fax">{{profile.age|add:"m. "}}
+          <span class="quick-fax">{{profile.age}}
             {% if profile.gender %}
               <span>{{ profile.gender|slice:"3"|add:". "}}</span>
             {% endif %}

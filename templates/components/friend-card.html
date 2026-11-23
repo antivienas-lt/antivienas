@@ -5,7 +5,7 @@
     <img class="user-avatar" src="{% if friend.avatar %}{{ friend.avatar.0.image.url }}{% else %}{% static "assets/default_avatar.webp" %}{% endif %}" alt="user avatar">
     </a>
   <div class="info-part">
-    <span class="quick-fax">{{friend.age|add:"m. "}}
+    <span class="quick-fax">{{friend.age}}
       {% if friend.gender %}
         <span>{{ friend.gender|slice:"3"|add:". "}}</span>
       {% endif %}

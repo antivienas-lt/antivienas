@@ -209,7 +209,7 @@ def AutoSaveProfileFunc(request):
         value = data.get('value')
         user = request.user
 
-        allowed_fields = ['username', 'city', 'gender', 'interest1', 'interest2', 'interest3', 'interest4','about_description', 'birthdate']
+        allowed_fields = ['username', 'city', 'gender', 'interest1', 'interest2', 'interest3', 'interest4','about_description', 'birthdate', 'hide_birthdate']
 
         if field not in allowed_fields:
             return JsonResponse({'error': f'Invalid field: {field}'}, status=400)

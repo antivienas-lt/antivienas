@@ -72,6 +72,10 @@
           </select>
         </div>
       </div>
+      <div class="form-field-checkbox" style="margin-top: 0;">
+        <input type="checkbox" name="hide_birthdate" id="" {% if request.user.hide_birthdate %}checked{% endif %}>
+        <label for="hide_birthdate">Nerodyti mano amžiaus</label>
+      </div>
       <p class="section-descriptor"><strong>Pomėgiai</strong></p>
       <div class="interest-field-shell">
         <div class="form-field-input">
@@ -184,18 +188,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 500);
 
   // Attach listeners
-  form.querySelectorAll('input, textarea, select').forEach(el => {
-    const name = el.name;
+  // Attach listeners
+form.querySelectorAll('input, textarea, select').forEach(el => {
+  const name = el.name;
 
-    // Special handling for birthdate parts
-    if (['birth_day', 'birth_month', 'birth_year'].includes(name)) {
-      el.addEventListener('change', saveBirthdate);
-    } else if (['city', 'gender'].includes(name)){
-      el.addEventListener('change', e => saveField(name, e.target.value, el));
-    }
-    else {
-      el.addEventListener('input', e => saveField(name, e.target.value, el));
-    }
+  // Special handling for birthdate parts
+  if (['birth_day', 'birth_month', 'birth_year'].includes(name)) {
+    el.addEventListener('change', saveBirthdate);
+  }
+
+  // Checkbox handling (sends true OR false)
+  else if (el.type === 'checkbox') {
+    el.addEventListener('change', e => {
+      const value = e.target.checked ? 'True' : 'False';
+      saveField(name, value, el);
+    });
+  }
+
+  // Select handling
+  else if (['city', 'gender'].includes(name)) {
+    el.addEventListener('change', e => {
+      saveField(name, e.target.value, el);
+    });
+  }
+
+  // Text inputs and textareas
+  else {
+    el.addEventListener('input', e => {
+      saveField(name, e.target.value, el);
+    });
+    } 
   });
 });
 </script>

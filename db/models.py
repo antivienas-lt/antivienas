@@ -53,6 +53,7 @@ class User(AbstractUser):
     gender = models.CharField(max_length=20,choices=Genders.choices,blank=True,default=Genders.MOTERIS)
     city = models.CharField(max_length=50,choices=Cities.choices,blank=True,default=Cities.VILNIUS)
     birthdate = models.DateField(blank=True,null=True, default=date(2008, 11, 4))
+    hide_birthdate = models.BooleanField(default=False)
 
     interest1 = models.CharField(max_length=25, blank=True, default="")
     interest2 = models.CharField(max_length=25, blank=True, default="")
@@ -126,8 +127,9 @@ class User(AbstractUser):
     
     @property
     def age(self):
-        if self.birthdate:
-            return str(int((timezone.now().date() - self.birthdate).days / 365.25))
+        if self.birthdate and not self.hide_birthdate:
+            return str(int((timezone.now().date() - self.birthdate).days / 365.25)) + "m. "
+        return ""
     
     @property
     def revenue_per_hour(self):
