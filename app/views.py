@@ -98,7 +98,7 @@ def LoginPage(request):
         
         user = authenticate(request, email=email, password=password)
         if user is not None:
-            login(request, user)
+            login(request, user, "db.backends.EmailBackend")
             return redirect('index')
         messages.add_message(request, messages.ERROR, "Neteisingas el. paštas arba slaptažodis.")
 
@@ -253,7 +253,7 @@ def ActivateUserFunc(request, uidb64, token):
         user.is_active = True
         user.save(update_fields=["is_active"])
         notify_about_new_user.delay_on_commit(user.username)
-        login(request, user)
+        login(request, user, "db.backends.EmailBackend")
         messages.success(request, "Paskyra aktyvuota sėkmingai!")
         return redirect("edit-profile")
 
